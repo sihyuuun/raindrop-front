@@ -14,10 +14,11 @@ const authClient = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true,
 });
 
 export const userApi = {
-  // 로그인 (인증 없이 호출)
+  // 카카오 로그인 (인증 없이 호출)
   login: (
     loginData: KakaoLoginRequest,
   ): Promise<AxiosResponse<ApiResponse<KakaoAuthResponse>>> =>

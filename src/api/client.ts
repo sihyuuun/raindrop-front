@@ -5,14 +5,13 @@ import axios, {
 } from "axios";
 import { useAuthStore } from "../stores/authStore";
 
-const API_BASE_URL = "http://www.raindrop.my";
-
 // 클라이언트 인스턴스 생성
 const client: AxiosInstance = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: "http://www.raindrop.my",
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true,
 });
 
 // 요청 인터셉터
@@ -21,6 +20,7 @@ client.interceptors.request.use(
     const accessToken = useAuthStore.getState().accessToken;
 
     if (accessToken && config.headers) {
+      // Authorization 헤더에 Bearer 토큰 포함
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
 
