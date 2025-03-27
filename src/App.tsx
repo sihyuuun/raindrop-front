@@ -1,10 +1,10 @@
 import "./App.css";
-import FontTest from "@/components/fontTest.tsx";
+import Cloud from "./components/cloud";
 
 function App() {
   return (
     <>
-      <FontTest />
+      <Cloud />
     </>
   );
 }
