@@ -1,9 +1,9 @@
 import { AxiosResponse } from "axios";
 import client from "./client";
 import {
-  ApiResponseListMessageResponse,
-  ApiResponse,
-  ApiResponseVoid,
+  DirectResponseListMessageResponse,
+  DirectResponse,
+  DirectResponseVoid,
 } from "../types/api.types";
 import {
   MessageResponse,
@@ -13,18 +13,20 @@ import {
 
 export const messageApi = {
   // 메시지 목록 조회
-  getMessages: (): Promise<AxiosResponse<ApiResponseListMessageResponse>> =>
-    client.get<ApiResponseListMessageResponse>("/messages"),
+  getMessages: (): Promise<AxiosResponse<DirectResponseListMessageResponse>> =>
+    client.get<DirectResponseListMessageResponse>("/messages"),
 
   // 메시지 추가
   createMessage: (
     messageData: MessageRequest,
-  ): Promise<AxiosResponse<ApiResponse<MessageResponse>>> =>
-    client.post<ApiResponse<MessageResponse>>("/messages", messageData),
+  ): Promise<AxiosResponse<DirectResponse<MessageResponse>>> =>
+    client.post<DirectResponse<MessageResponse>>("/messages", messageData),
 
   // 메시지 삭제
-  deleteMessage: (messageId: number): Promise<AxiosResponse<ApiResponseVoid>> =>
-    client.delete<ApiResponseVoid>("/messages", {
+  deleteMessage: (
+    messageId: number,
+  ): Promise<AxiosResponse<DirectResponseVoid>> =>
+    client.delete<DirectResponseVoid>("/messages", {
       data: { messageId } as MessageDeleteRequest,
     }),
 };
