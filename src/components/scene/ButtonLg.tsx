@@ -6,7 +6,7 @@ const mockData = {
 
 export function ButtonLg() {
   return (
-    <Button className="bg-gray-50 font-jua rounded-2xl mb-[10%] h-[3rem] text-xl">
+    <Button className="bg-gray-50 font-jua rounded-2xl mb-[10%] h-[3rem] text-xl shadow-lg">
       {mockData.title}
     </Button>
   );
