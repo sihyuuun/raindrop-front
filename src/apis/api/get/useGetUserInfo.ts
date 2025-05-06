@@ -39,7 +39,7 @@ export const useGetUserInfo = () => {
         throw error;
       }
     },
-    enabled: isAuthenticated,
+    enabled: isAuthenticated, // isAuthenticated 가 ture일 때만 실행됨 -> 로그인 로직 완료 후 자동 실행
     staleTime: 5 * 60 * 1000, // 5분간 캐시 유지
     gcTime: 10 * 60 * 1000, // 10분 후 가비지 컬렉션
 
@@ -49,9 +49,9 @@ export const useGetUserInfo = () => {
         // 사용자 정보를 Zustand 스토어에 저장
         setUser(data);
 
-        // 신규 사용자인 경우 온보딩 페이지로 리다이렉트
+        // 신규 사용자
         if (data.newUser) {
-          navigate("/welcome");
+          navigate("/");
         }
       },
       onError: (error: Error) => {
