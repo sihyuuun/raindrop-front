@@ -8,7 +8,7 @@ import { SceneResponse } from "@/types/scene.types";
  * @param encryptedSceneIds - 암호화된 Scene ID
  */
 export const useGetEncryptedSceneIds = (encryptedSceneIds: string) => {
-  return useQuery({
+  return useQuery<SceneResponse, Error>({
     queryKey: ["sceneIds", encryptedSceneIds],
     queryFn: async () => {
       const { data } = await authClient.get(`/scenes/${encryptedSceneIds}`);
