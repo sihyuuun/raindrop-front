@@ -1,5 +1,6 @@
 // src/store/authStore.ts
 import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
 
 /**
  * 인증 관련 상태를 관리하는 Zustand 스토어 인터페이스
@@ -50,22 +51,33 @@ interface AuthState {
 
 /**
  * 인증 관련 Zustand 스토어
+ * persist 미들웨어를 사용하여 새로고침 시에도 상태가 유지되도록 구현
  * HTTP Only 쿠키 인증 방식에서는 UI 상태와 사용자 정보만 관리
  * 토큰 자체는 브라우저와 서버 간 통신에만 사용되므로 저장하지 않음
  */
-export const useAuthStore = create<AuthState>()((set) => ({
-  // 초기 상태
-  user: null,
-  isAuthenticated: false,
-
-  // 액션 구현
-  setUser: (user) => set({ user, isAuthenticated: !!user }),
-
-  setAuthenticated: (isAuthenticated) => set({ isAuthenticated }),
-
-  logout: () =>
-    set({
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
+      // 초기 상태
       user: null,
       isAuthenticated: false,
+
+      // 액션 구현
+      setUser: (user) => set({ user, isAuthenticated: !!user }),
+
+      setAuthenticated: (isAuthenticated) => set({ isAuthenticated }),
+
+      logout: () =>
+        set({
+          user: null,
+          isAuthenticated: false,
+        }),
     }),
-}));
+    {
+      name: "auth-storage", // localStorage에 저장될 키 이름
+      storage: createJSONStorage(() => localStorage), // localStorage 사용
+      // 선택적으로 저장할 상태만 지정 가능 (모든 상태를 저장하려면 생략)
+      // partialize: (state) => ({ user: state.user, isAuthenticated: state.isAuthenticated }),
+    },
+  ),
+);

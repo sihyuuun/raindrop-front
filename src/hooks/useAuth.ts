@@ -7,6 +7,7 @@ import { useAuthStore } from "@/store/authStore";
 import { usePostKakaoCode } from "@/apis/api/post/usePostKakaoCode";
 import { useUserInfo } from "@/apis/api/get/useUserInfo.ts";
 import { client } from "@/apis/client";
+import { useState } from "react";
 
 /**
  * 카카오 로그인/로그아웃 및 인증 상태를 관리하는 커스텀 훅
@@ -16,6 +17,7 @@ import { client } from "@/apis/client";
 export const useAuth = () => {
   const navigate = useNavigate();
   const { isAuthenticated, user, logout: clearAuthState } = useAuthStore();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   // 카카오 로그인 mutation
   const { mutate: loginWithKakao, isPending: isLoggingIn } = usePostKakaoCode();
@@ -48,6 +50,8 @@ response_type=code
    */
   const logout = async () => {
     try {
+      setIsLoggingOut(true);
+
       // 백엔드에 로그아웃 요청
       await client.post("/user/logout");
     } catch (error) {
@@ -56,7 +60,9 @@ response_type=code
       // 로컬 인증 상태 초기화
       clearAuthState();
       // 로그인 페이지로 이동
-      navigate("/login");
+      setIsLoggingOut(false);
+
+      navigate("/");
     }
   };
 
@@ -69,5 +75,6 @@ response_type=code
     initiateKakaoLogin,
     handleKakaoCode,
     logout,
+    isLoggingOut,
   };
 };
