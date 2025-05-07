@@ -11,8 +11,8 @@ import { useAuthStore } from "@/store/authStore";
 import { logout } from "@/utils/auth";
 
 /** API 엔드포인트 기본 URL */
-// const BE_URL = "https://raindrop-back.onrender.com/api";
-const BE_URL = "http://localhost:8080/api";
+const BE_URL = "https://raindrop-back.onrender.com/api";
+// const BE_URL = "http://localhost:8080/api";
 
 /**
  * 기본 클라이언트 인스턴스
