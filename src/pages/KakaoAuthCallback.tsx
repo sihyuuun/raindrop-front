@@ -1,53 +1,48 @@
-// src/pages/KakaoAuthCallback.tsx
+// KakaoAuthCallback.tsx 수정
 import { useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { usePostKakaoCode } from "@/apis/api/post/usePostKakaoCode";
-import { useGetUserInfo } from "@/apis/api/get/useGetUserInfo";
 import { useAuthStore } from "../store/authStore";
+import { useUserInfo } from "@/apis/api/get/useUserInfo.ts";
 
 export default function KakaoAuthCallback() {
   const [searchParams] = useSearchParams();
   const code = searchParams.get("code");
   const navigate = useNavigate();
 
-  // ① mutate만 구조분해 해서 안정적인 참조 확보
-  const { mutate: loginWithKakao, status, isSuccess } = usePostKakaoCode();
+  const { mutate: loginWithKakao, isSuccess } = usePostKakaoCode();
+  const { setAuthenticated, isAuthenticated } = useAuthStore();
 
-  const {
-    data: userInfo,
-    refetch: fetchUserInfo,
-    isFetching,
-  } = useGetUserInfo();
+  // useUserInfo 훅에 isAuthenticated를 enabled 옵션으로 전달
+  const { data: userInfo, isLoading } = useUserInfo({
+    enabled: isAuthenticated,
+  });
 
-  const { setAuthenticated } = useAuthStore();
-
-  // 1) 코드가 있으면 한 번만 호출
+  // 코드가 있으면 로그인 요청 (한 번만 실행)
   useEffect(() => {
     if (!code) {
       navigate("/login", { replace: true });
       return;
     }
-    // 'loginWithKakao'는 안정적인 함수 참조이므로
-    // 이 useEffect는 code가 바뀔 때(=마운트 시) 단 한 번만 실행됨
+
     loginWithKakao(code);
   }, [code, loginWithKakao, navigate]);
 
-  // 2) 로그인 성공 시
+  // 로그인 성공 시 인증 상태 업데이트
   useEffect(() => {
     if (isSuccess) {
       setAuthenticated(true);
-      fetchUserInfo();
     }
-  }, [isSuccess, setAuthenticated, fetchUserInfo]);
+  }, [isSuccess, setAuthenticated]);
 
-  // 3) 유저 정보 로드 끝나면 newUser 분기 리다이렉트
+  // 사용자 정보 로드 완료 시 리다이렉트
   useEffect(() => {
-    if (isSuccess && userInfo && !isFetching) {
+    if (userInfo && !isLoading) {
       const target = userInfo.newUser ? "/" : "/";
       navigate(target, { replace: true });
     }
-  }, [isSuccess, userInfo, isFetching, navigate]);
+  }, [userInfo, isLoading, navigate]);
 
-  if (status || isFetching) return <div>로딩 중...</div>;
+  if (isLoading) return <div>로딩 중...</div>;
   return null;
 }

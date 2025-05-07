@@ -5,7 +5,7 @@
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/store/authStore";
 import { usePostKakaoCode } from "@/apis/api/post/usePostKakaoCode";
-import { useGetUserInfo } from "@/apis/api/get/useGetUserInfo";
+import { useUserInfo } from "@/apis/api/get/useUserInfo.ts";
 import { client } from "@/apis/client";
 
 /**
@@ -22,11 +22,7 @@ export const useAuth = () => {
 
   // 사용자 정보 query
   const { isLoading: isLoadingUserInfo, isError: userInfoError } =
-    useGetUserInfo();
-
-  // 카카오 로그인 URL 생성
-  // const KAKAO_CLIENT_ID = import.meta.env.VITE_KAKAO_CLIENT_ID;
-  // const REDIRECT_URI = `${window.location.origin}/auth/callback`;
+    useUserInfo();
 
   /**
    * 카카오 로그인 페이지로 리다이렉트
@@ -35,8 +31,7 @@ export const useAuth = () => {
     window.location.href = `https://kauth.kakao.com/oauth/authorize?
 response_type=code
 &client_id=8162b95c200bcd82ce88d8c5468f41c5
-&redirect_uri=http://localhost:5173/auth/login/kakao
-`;
+&redirect_uri=http://localhost:5173/auth/login/kakao`;
   };
 
   /**
