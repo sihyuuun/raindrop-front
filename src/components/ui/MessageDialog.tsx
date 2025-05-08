@@ -16,12 +16,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
 import DropModel from "@/components/3d/DropModel";
@@ -57,46 +52,87 @@ import DropModel from "@/components/3d/DropModel";
 //     </mesh>
 //   );
 // };
-
+// 물방울 선택 컴포넌트
 // 물방울 선택 컴포넌트
 const WaterDropSelector = ({
   selectedDrop,
   setSelectedDrop,
 }: {
   selectedDrop: string;
-  setSelectedDrop: (dropType: string) => void; // 함수 타입 수정
+  setSelectedDrop: (dropType: string) => void;
 }) => {
-  // 물방울 타입 정의
+  // 물방울 타입 정의 - 더 선명하고 밝은 색상으로 변경
   const waterDropTypes = [
-    { id: "blue", color: "#8ecdf7", name: "푸른 물방울" },
-    { id: "pink", color: "#f7a8c9", name: "분홍 물방울" },
-    { id: "purple", color: "#c89bf4", name: "보라 물방울" },
-    { id: "green", color: "#a3e4a8", name: "초록 물방울" },
-    { id: "yellow", color: "#f9e076", name: "노란 물방울" },
-    { id: "clear", color: "#ffffff", name: "투명 물방울" },
+    { id: "blue", color: "#00a8ff", name: "푸른 물방울" },
+    { id: "pink", color: "#ff4d94", name: "분홍 물방울" },
+    { id: "purple", color: "#9c27b0", name: "보라 물방울" },
+    { id: "green", color: "#00e676", name: "초록 물방울" },
+    { id: "yellow", color: "#ffd600", name: "노란 물방울" },
+    { id: "clear", color: "#e3f2fd", name: "투명 물방울" },
   ];
 
   return (
     <div className="space-y-4">
       <Label>물방울 스타일 선택</Label>
-      <div className="grid grid-cols-3 gap-4 h-64">
+      <div className="grid grid-cols-3 gap-4">
         {waterDropTypes.map((drop) => (
           <Card
             key={drop.id}
-            className={`cursor-pointer overflow-hidden transition-all ${selectedDrop === drop.id ? "ring-2 ring-primary" : ""}`}
+            className={`cursor-pointer overflow-hidden transition-all h-40 ${
+              selectedDrop === drop.id ? "ring-2 ring-primary" : ""
+            }`}
             onClick={() => setSelectedDrop(drop.id)}
           >
-            <CardContent className="p-0 h-40">
-              <Canvas camera={{ position: [0, 0, 6], fov: 50 }}>
-                <ambientLight intensity={0.5} />
-                <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-                <DropModel url={`/models/drops/water.glb`} color={drop.color} />
-                <OrbitControls enableZoom={false} enablePan={false} />
-              </Canvas>
+            {/* ✅ 중요 변경: CardContent를 전체 높이로 설정하고 Canvas를 100% 크기로 */}
+            <CardContent className="p-0 h-full">
+              <div className="w-full h-full">
+                <Canvas
+                  className="w-full h-full"
+                  camera={{ position: [0, -0.8, 4], fov: 55 }} // ✅ 카메라 위치 수정: y 값을 낮춰서 위에서 아래로 보도록
+                  dpr={[1, 2]}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    display: "block",
+                  }}
+                >
+                  {/* 조명 설정 */}
+                  <ambientLight intensity={1.0} />
+                  <spotLight
+                    position={[5, 8, 5]} // ✅ 스포트라이트 위치 수정: 더 위에서 아래로 비추도록
+                    angle={0.5}
+                    penumbra={1}
+                    intensity={1.8} // ✅ 강도 약간 증가
+                    castShadow
+                  />
+                  <pointLight position={[-5, 0, -2]} intensity={1.0} />
+                  {/* 추가 조명 - 아래쪽에서 위로 비추는 조명 추가 */}
+                  <pointLight
+                    position={[2, -3, 1]}
+                    intensity={0.7}
+                    color="#ffffff"
+                  />
+
+                  {/* 물방울 모델 */}
+                  <DropModel
+                    url={`/models/drops/water.glb`}
+                    color={drop.color}
+                  />
+
+                  {/* ✅ 컨트롤 설정: autoRotate를 false로 변경하고 물방울 자체 회전만 유지 */}
+                  <OrbitControls
+                    enableZoom={false}
+                    enablePan={false}
+                    autoRotate={false} // ✅ 카메라 자동 회전 비활성화
+                    enableRotate={false} // ✅ 카메라 수동 회전도 비활성화하여 고정
+                  />
+                </Canvas>
+              </div>
             </CardContent>
-            <CardFooter className="p-2 text-center justify-center">
+            {/* CardFooter를 상대 위치로 설정하여 Canvas 위에 표시 */}
+            <div className="absolute bottom-0 left-0 right-0 p-2 text-center bg-white bg-opacity-70">
               <p className="text-sm font-medium">{drop.name}</p>
-            </CardFooter>
+            </div>
           </Card>
         ))}
       </div>
