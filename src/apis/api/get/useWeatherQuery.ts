@@ -26,6 +26,5 @@ export const useWeatherQuery = () => {
         description: weather.description,
       };
     },
-    staleTime: 1000 * 60 * 10,
   });
 };
