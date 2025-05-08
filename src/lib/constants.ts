@@ -1,3 +1,8 @@
+export const DEFAULT_USER_DATA = {
+  nickName: "사용자",
+  profileImage: "https://www.gravatar.com/avatar/?d=mp",
+};
+
 export const ENVIRONMENT_PRESETS = [
   "sunset",
   "dawn",
@@ -13,4 +18,4 @@ export const ENVIRONMENT_PRESETS = [
 
 export type EnvironmentPreset = (typeof ENVIRONMENT_PRESETS)[number];
 
-export const DEFAULT_ENVIRONMENT_PRESET: EnvironmentPreset = "dawn";
+export const DEFAULT_ENVIRONMENT_PRESET: EnvironmentPreset = "sunset";
