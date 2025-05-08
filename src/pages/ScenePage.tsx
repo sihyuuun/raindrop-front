@@ -9,6 +9,7 @@ import {
   ENVIRONMENT_PRESETS,
   DEFAULT_ENVIRONMENT_PRESET,
   EnvironmentPreset,
+  DEFAULT_USER_DATA,
 } from "@/lib/constants";
 
 export const ScenePage = () => {
@@ -16,7 +17,7 @@ export const ScenePage = () => {
   const { isSuccess, data } = useGetEncryptedSceneIds(encryptedSceneId ?? "");
   const { user, isAuthenticated } = useAuthStore();
 
-  const [userData, setUserData] = useState({ nickName: "", profileImage: "" });
+  const [userData, setUserData] = useState(DEFAULT_USER_DATA);
   const [isOwner, setIsOwner] = useState(false);
   const [backgroundPreset, setBackgroundPreset] = useState<EnvironmentPreset>(
     DEFAULT_ENVIRONMENT_PRESET

@@ -12,7 +12,7 @@ export function ProfileHeader({ userData }: { userData: UserData }) {
       <div className="inline-flex items-center justify-center gap-[0.5rem] p-0 font-jua h-max  text-xl">
         <Avatar>
           <AvatarImage src={userData.profileImage} alt="userProfile" />
-          <AvatarFallback>user</AvatarFallback>
+          <AvatarFallback>KO</AvatarFallback>
         </Avatar>
         <span>{userData.nickName}님의 버블</span>
       </div>
