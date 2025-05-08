@@ -11,6 +11,7 @@ import {
   EnvironmentPreset,
   DEFAULT_USER_DATA,
 } from "@/lib/constants";
+import { MessageDialog } from "@/components/ui/MessageDialog.tsx";
 
 export const ScenePage = () => {
   const { encryptedSceneId } = useParams<{ encryptedSceneId: string }>();
@@ -20,7 +21,7 @@ export const ScenePage = () => {
   const [userData, setUserData] = useState(DEFAULT_USER_DATA);
   const [isOwner, setIsOwner] = useState(false);
   const [backgroundPreset, setBackgroundPreset] = useState<EnvironmentPreset>(
-    DEFAULT_ENVIRONMENT_PRESET
+    DEFAULT_ENVIRONMENT_PRESET,
   );
 
   useEffect(() => {
@@ -34,7 +35,7 @@ export const ScenePage = () => {
         setIsOwner(true);
       }
     }
-  }, [isSuccess, data, isAuthenticated]);
+  }, [isSuccess, data, isAuthenticated, user]);
 
   return (
     <div className="relative w-screen h-screen overflow-hidden">
@@ -46,6 +47,7 @@ export const ScenePage = () => {
         <ProfileHeader userData={userData} />
         <ButtonLg isOwner={isOwner} />
 
+        {/* 배경 환경 설정 (소유자만) */}
         {isOwner && (
           <div className="flex flex-wrap gap-2 mt-6">
             {ENVIRONMENT_PRESETS.map((preset) => (
@@ -61,6 +63,13 @@ export const ScenePage = () => {
                 {preset}
               </button>
             ))}
+          </div>
+        )}
+
+        {/* 메시지 작성 버튼 (게스트만) */}
+        {isOwner && encryptedSceneId && (
+          <div className="flex justify-center mt-6">
+            <MessageDialog scene={encryptedSceneId} />
           </div>
         )}
       </div>
