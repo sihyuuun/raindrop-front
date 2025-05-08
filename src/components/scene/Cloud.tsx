@@ -1,12 +1,12 @@
 import { Canvas } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
-import { DEFAULT_ENVIRONMENT_PRESET } from "@/lib/constants";
+import { EnvironmentPreset } from "@/lib/constants";
 
-export default function Cloud() {
+export default function Cloud({ preset }: { preset: EnvironmentPreset }) {
   return (
     <div className="w-full h-full">
       <Canvas camera={{ fov: 75, position: [0, 0, 5] }}>
-        <Environment preset={DEFAULT_ENVIRONMENT_PRESET} background blur={1} />
+        <Environment preset={preset} background blur={1} />
       </Canvas>
     </div>
   );
