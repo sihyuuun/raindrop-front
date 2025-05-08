@@ -11,15 +11,18 @@ import {
   EnvironmentPreset,
   DEFAULT_USER_DATA,
 } from "@/lib/constants";
+
 export const ScenePage = () => {
   const { encryptedSceneId } = useParams<{ encryptedSceneId: string }>();
   const { isSuccess, data } = useGetEncryptedSceneIds(encryptedSceneId ?? "");
   const { user, isAuthenticated } = useAuthStore();
+
   const [userData, setUserData] = useState(DEFAULT_USER_DATA);
   const [isOwner, setIsOwner] = useState(false);
   const [backgroundPreset, setBackgroundPreset] = useState<EnvironmentPreset>(
     DEFAULT_ENVIRONMENT_PRESET
   );
+
   useEffect(() => {
     //UI용 데이터 정제
     if (isSuccess) {
@@ -32,14 +35,17 @@ export const ScenePage = () => {
       }
     }
   }, [isSuccess, data, isAuthenticated]);
+
   return (
     <div className="relative w-screen h-screen overflow-hidden">
       <div className="absolute inset-0 z-0">
         <Cloud preset={backgroundPreset} />
       </div>
+
       <div className="relative z-10 flex flex-col h-full justify-between px-[5%] py-[5%]">
         <ProfileHeader userData={userData} />
         <ButtonLg isOwner={isOwner} />
+
         {isOwner && (
           <div className="flex flex-wrap gap-2 mt-6">
             {ENVIRONMENT_PRESETS.map((preset) => (
