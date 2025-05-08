@@ -39,6 +39,16 @@ export const authClient: AxiosInstance = axios.create({
 });
 
 /**
+ * 외부 날씨 API 클라이언트 인스턴스
+ */
+export const weatherClient: AxiosInstance = axios.create({
+  baseURL: "https://api.openweathermap.org/data/2.5",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+/**
  * 요청 인터셉터
  * CSRF 토큰 등 추가 헤더가 필요한 경우 여기서 처리합니다.
  */
