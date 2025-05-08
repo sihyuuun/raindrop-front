@@ -13,4 +13,4 @@ export const ENVIRONMENT_PRESETS = [
 
 export type EnvironmentPreset = (typeof ENVIRONMENT_PRESETS)[number];
 
-export const DEFAULT_ENVIRONMENT_PRESET: EnvironmentPreset = "dawn";
+export const DEFAULT_ENVIRONMENT_PRESET: EnvironmentPreset = "sunset";
