@@ -1,12 +1,18 @@
 import { ButtonLg } from "@/components/scene/ButtonLg";
+import Cloud from "@/components/scene/Cloud";
 import { ProfileHeader } from "@/components/scene/ProfileHeader";
 
 export const ScenePage = () => {
   return (
-    <div className="bg-gray-600 h-screen flex flex-col px-[5%] py-[5%] justify-between">
-      <ProfileHeader />
+    <div className="relative w-screen h-screen overflow-hidden">
+      <div className="absolute inset-0 z-0">
+        <Cloud />
+      </div>
 
-      <ButtonLg />
+      <div className="relative z-10 flex flex-col h-full justify-between px-[5%] py-[5%]">
+        <ProfileHeader />
+        <ButtonLg />
+      </div>
     </div>
   );
 };
