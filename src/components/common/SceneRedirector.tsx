@@ -17,11 +17,10 @@ const SceneRedirector = () => {
 
     // 이미 경로가 scene id 형태라면 아무것도 하지 않음
     const currentPath = location.pathname;
-    const isScenePath = /^\/[a-zA-Z0-9_-]+$/.test(currentPath);
+    const isScenePath = /^\/[a-zA-Z0-9+/=_-]+$/.test(currentPath);
     if (isScenePath) {
       return;
     }
-    console.log(scenes);
     // scene 목록 받아왔을 때 첫 번째 encryptedSceneId로 이동
     if (isSuccess && scenes) {
       navigate(`/${scenes.data}`, { replace: true });
