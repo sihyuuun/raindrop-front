@@ -1,13 +1,24 @@
 import Lottie from "lottie-react";
 import clapAnimation from "@/assets/lottie/clap.json";
+import { useGetEncryptedSceneIds } from "@/apis/api/get/useGetEncryptedSceneIds";
 
 interface ModalShareIntroProps {
-  nickname: string;
   onClose: () => void;
   animateIn: boolean;
 }
 
-export const ModalShareIntro = ({ nickname, onClose, animateIn }: ModalShareIntroProps) => {
+export const ModalShareIntro = ({ onClose, animateIn }: ModalShareIntroProps) => {
+  const sceneId = localStorage.getItem("sceneId");
+  const { data, isLoading, error } = useGetEncryptedSceneIds(sceneId || "");
+
+  const nickname = data?.ownerNickname || "사용자";
+
+  if (isLoading || !sceneId) return null;
+  if (error) {
+    console.error("Scene 정보 조회 실패:", error);
+    return null;
+  }
+
   return (
     <div className="fixed inset-0 bg-black/40 z-50" onClick={onClose}>
       <div
