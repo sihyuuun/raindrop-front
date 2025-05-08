@@ -13,6 +13,6 @@ export const useGetScenes = () => {
       const { data } = await authClient.get("/scenes");
       return data;
     },
-    placeholderData: [], // 로딩 중에도 빈 배열로 초기값 제공
+    placeholderData: "",
   });
 };
