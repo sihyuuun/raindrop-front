@@ -2,7 +2,7 @@ import { Canvas } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
 import { EnvironmentPreset } from "@/lib/constants";
 import RainLayer from "./RainLayer";
-import { useWeatherQuery } from "@/hooks/useWeatherQuery";
+import { useWeatherQuery } from "@/apis/api/get/useWeatherQuery";
 import { isRainy } from "@/utils/weatherUtils";
 
 export default function Cloud({ preset }: { preset: EnvironmentPreset }) {
