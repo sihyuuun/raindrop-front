@@ -24,38 +24,39 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
+import DropModel from "@/components/3d/DropModel";
 
 // 물방울 3D 모델 컴포넌트
-const WaterDrop = ({
-  color = "#8ecdf7",
-  size = 1,
-  selected = false,
-  onClick = () => {},
-}: {
-  color?: string;
-  size?: number;
-  selected?: boolean;
-  onClick?: () => void;
-}) => {
-  return (
-    <mesh onClick={onClick} scale={selected ? [1.1, 1.1, 1.1] : [1, 1, 1]}>
-      <sphereGeometry args={[size, 32, 32]} />
-      <meshStandardMaterial
-        color={color}
-        transparent={true}
-        opacity={0.8}
-        roughness={0.2}
-        metalness={0.3}
-      />
-      {selected && (
-        <mesh position={[0, 0, size + 0.05]}>
-          <ringGeometry args={[size * 0.6, size * 0.7, 32]} />
-          <meshBasicMaterial color="white" />
-        </mesh>
-      )}
-    </mesh>
-  );
-};
+// const WaterDrop = ({
+//   color = "#8ecdf7",
+//   size = 1,
+//   selected = false,
+//   onClick = () => {},
+// }: {
+//   color?: string;
+//   size?: number;
+//   selected?: boolean;
+//   onClick?: () => void;
+// }) => {
+//   return (
+//     <mesh onClick={onClick} scale={selected ? [1.1, 1.1, 1.1] : [1, 1, 1]}>
+//       <sphereGeometry args={[size, 32, 32]} />
+//       <meshStandardMaterial
+//         color={color}
+//         transparent={true}
+//         opacity={0.8}
+//         roughness={0.2}
+//         metalness={0.3}
+//       />
+//       {selected && (
+//         <mesh position={[0, 0, size + 0.05]}>
+//           <ringGeometry args={[size * 0.6, size * 0.7, 32]} />
+//           <meshBasicMaterial color="white" />
+//         </mesh>
+//       )}
+//     </mesh>
+//   );
+// };
 
 // 물방울 선택 컴포넌트
 const WaterDropSelector = ({
@@ -86,13 +87,10 @@ const WaterDropSelector = ({
             onClick={() => setSelectedDrop(drop.id)}
           >
             <CardContent className="p-0 h-40">
-              <Canvas camera={{ position: [0, 0, 3] }}>
+              <Canvas camera={{ position: [0, 0, 6], fov: 50 }}>
                 <ambientLight intensity={0.5} />
                 <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-                <WaterDrop
-                  color={drop.color}
-                  selected={selectedDrop === drop.id}
-                />
+                <DropModel url={`/models/drops/water.glb`} color={drop.color} />
                 <OrbitControls enableZoom={false} enablePan={false} />
               </Canvas>
             </CardContent>
