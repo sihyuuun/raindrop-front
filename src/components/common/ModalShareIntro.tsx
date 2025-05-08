@@ -1,6 +1,8 @@
 import Lottie from "lottie-react";
 import clapAnimation from "@/assets/lottie/clap.json";
 import { useGetEncryptedSceneIds } from "@/apis/api/get/useGetEncryptedSceneIds";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 interface ModalShareIntroProps {
   onClose: () => void;
@@ -8,16 +10,14 @@ interface ModalShareIntroProps {
 }
 
 export const ModalShareIntro = ({ onClose, animateIn }: ModalShareIntroProps) => {
-  const sceneId = localStorage.getItem("sceneId");
-  const { data, isLoading, error } = useGetEncryptedSceneIds(sceneId || "");
-
-  const nickname = data?.ownerNickname || "사용자";
-
-  if (isLoading || !sceneId) return null;
-  if (error) {
-    console.error("Scene 정보 조회 실패:", error);
-    return null;
-  }
+  const { encryptedSceneId } = useParams<{ encryptedSceneId: string }>();
+  const { data, isSuccess } = useGetEncryptedSceneIds(encryptedSceneId || "");
+  const [nickName, setNickName] = useState("사용자");
+  useEffect(() => {
+    if (isSuccess) {
+      setNickName(data.data.ownerNickname);
+    }
+  }, [isSuccess]);
 
   return (
     <div className="fixed inset-0 bg-black/40 z-50" onClick={onClose}>
@@ -32,7 +32,7 @@ export const ModalShareIntro = ({ onClose, animateIn }: ModalShareIntroProps) =>
           <div className="flex items-center justify-center gap-4">
             <Lottie animationData={clapAnimation} style={{ width: 80, height: 80 }} />
             <div className="text-left">
-              <p className="text-[#575757] text-sm mb-2">‘{nickname}’님께 버블을 전달했어요</p>
+              <p className="text-[#575757] text-sm mb-2">‘{nickName}’님께 버블을 전달했어요</p>
               <h2 className="text-lg font-semibold leading-snug">
                 나만의 페이지를 만들어
                 <br />
