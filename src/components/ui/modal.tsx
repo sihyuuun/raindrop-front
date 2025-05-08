@@ -9,6 +9,7 @@ interface ModalProps {
 
 export const Modal = ({ isOpen, onClose }: ModalProps) => {
   const [animateIn, setAnimateIn] = useState(false);
+  const [nickname, setNickname] = useState<string>("");
 
   useEffect(() => {
     if (isOpen) {
@@ -18,12 +19,25 @@ export const Modal = ({ isOpen, onClose }: ModalProps) => {
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    // nickname 불러오기
+    const storedAuth = localStorage.getItem("auth-storage");
+    if (storedAuth) {
+      try {
+        const parsed = JSON.parse(storedAuth);
+        const nicknameFromStorage = parsed.state?.user?.nickname ?? "사용자";
+        setNickname(nicknameFromStorage);
+      } catch (e) {
+        console.error("auth-storage 파싱 오류:", e);
+      }
+    }
+  }, []);
+
   if (!isOpen) return null;
 
   return (
     // 배경 클릭 시 onClose 실행
     <div className="fixed inset-0 bg-black/40 z-50" onClick={onClose}>
-      {/* 모달 내부 클릭 시 배경 이벤트 전파 차단 */}
       <div
         className={`
           absolute left-1/2 transform -translate-x-1/2
@@ -38,7 +52,7 @@ export const Modal = ({ isOpen, onClose }: ModalProps) => {
           <div className="flex items-center justify-center gap-4">
             <Lottie animationData={clapAnimation} style={{ width: 80, height: 80 }} />
             <div className="text-left">
-              <p className="text-[#575757] text-sm mb-2">‘ㅇㅇ’님께 버블을 전달했어요</p>
+              <p className="text-[#575757] text-sm mb-2">‘{nickname}’님께 버블을 전달했어요</p>
               <h2 className="text-lg font-semibold leading-snug">
                 나만의 페이지를 만들어
                 <br />
