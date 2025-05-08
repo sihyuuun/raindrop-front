@@ -5,7 +5,7 @@ import KakaoAuthCallback from "@/pages/KakaoAuthCallback.tsx";
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<ScenePage />} />
+      <Route path="/:encryptedSceneId" element={<ScenePage />} />
       <Route path="/auth/login/kakao" element={<KakaoAuthCallback />} />
     </Routes>
   );
