@@ -9,7 +9,6 @@ import {
   ENVIRONMENT_PRESETS,
   DEFAULT_ENVIRONMENT_PRESET,
   EnvironmentPreset,
-  DEFAULT_USER_DATA,
 } from "@/lib/constants";
 import { Modal } from "@/components/common/Modal";
 import { useModalStore } from "@/store/modalstore";
@@ -19,7 +18,6 @@ export const ScenePage = () => {
   const { isSuccess, data } = useGetEncryptedSceneIds(encryptedSceneId ?? "");
   const { user, isAuthenticated } = useAuthStore();
 
-  const [userData, setUserData] = useState(DEFAULT_USER_DATA);
   const [isOwner, setIsOwner] = useState(false);
   const [backgroundPreset, setBackgroundPreset] = useState<EnvironmentPreset>(
     DEFAULT_ENVIRONMENT_PRESET
@@ -29,15 +27,11 @@ export const ScenePage = () => {
   useEffect(() => {
     //UI용 데이터 정제
     if (isSuccess) {
-      setUserData({
-        nickName: data.data.ownerNickname,
-        profileImage: data.data.ownerProfileImage,
-      });
       if (isAuthenticated && user?.email == data.data.ownerSocialId) {
         setIsOwner(true);
       }
     }
-  }, [isSuccess, data, isAuthenticated]);
+  }, [isSuccess, data.data.ownerSocialId, user?.email, isAuthenticated]);
 
   return (
     <div className="relative w-screen h-screen overflow-hidden">
@@ -46,7 +40,7 @@ export const ScenePage = () => {
       </div>
 
       <div className="relative z-10 flex flex-col h-full justify-between px-[5%] py-[5%]">
-        <ProfileHeader userData={userData} />
+        <ProfileHeader encryptedSceneId={encryptedSceneId ?? ""} />
         <Modal modalKey="modal" />
         <button
           onClick={() => openModal("modal")}
