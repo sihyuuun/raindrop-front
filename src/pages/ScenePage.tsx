@@ -10,8 +10,6 @@ import {
   DEFAULT_ENVIRONMENT_PRESET,
   EnvironmentPreset,
 } from "@/lib/constants";
-import { Modal } from "@/components/common/Modal";
-import { useModalStore } from "@/store/modalstore";
 
 export const ScenePage = () => {
   const { encryptedSceneId } = useParams<{ encryptedSceneId: string }>();
@@ -22,7 +20,6 @@ export const ScenePage = () => {
   const [backgroundPreset, setBackgroundPreset] = useState<EnvironmentPreset>(
     DEFAULT_ENVIRONMENT_PRESET
   );
-  const { openModal } = useModalStore();
 
   useEffect(() => {
     //UI용 데이터 정제
@@ -31,7 +28,7 @@ export const ScenePage = () => {
         setIsOwner(true);
       }
     }
-  }, [isSuccess, data.data.ownerSocialId, user?.email, isAuthenticated]);
+  }, [isSuccess, data, isAuthenticated]);
 
   return (
     <div className="relative w-screen h-screen overflow-hidden">
@@ -41,13 +38,6 @@ export const ScenePage = () => {
 
       <div className="relative z-10 flex flex-col h-full justify-between px-[5%] py-[5%]">
         <ProfileHeader encryptedSceneId={encryptedSceneId ?? ""} />
-        <Modal modalKey="modal" />
-        <button
-          onClick={() => openModal("modal")}
-          className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
-        >
-          모달 열기
-        </button>
         <ButtonLg isOwner={isOwner} />
 
         {isOwner && (
