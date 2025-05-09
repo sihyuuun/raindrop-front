@@ -18,9 +18,14 @@ const SceneRedirector = () => {
     // 이미 경로가 scene id 형태라면 아무것도 하지 않음
     const currentPath = location.pathname;
     const isScenePath = /^\/[a-zA-Z0-9+/=_-]+$/.test(currentPath);
-    if (isScenePath) {
+
+    // message 경로인 경우도 리다이렉션 처리 X
+    const isMessagePath = currentPath.startsWith("/message");
+
+    if (isScenePath || isMessagePath) {
       return;
     }
+
     // scene 목록 받아왔을 때 첫 번째 encryptedSceneId로 이동
     if (isSuccess && scenes) {
       navigate(`/${scenes.data}`, { replace: true });
