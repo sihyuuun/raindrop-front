@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { ModalShareIntro } from "./ModalShareIntro";
-import { useModalStore } from "@/store/modalstore";
+import { useModalStore } from "@/store/modalStore";
+import { ModalThemeSelector } from "./ModalThemeSelector";
 
 interface ModalProps {
   modalKey: string;
@@ -29,7 +29,7 @@ export const Modal = ({ modalKey }: ModalProps) => {
   };
 
   return (
-    <ModalShareIntro
+    <ModalThemeSelector
       animateIn={animateIn}
       onClose={() => closeModal(modalKey)}
       onSave={handleThemeSave}

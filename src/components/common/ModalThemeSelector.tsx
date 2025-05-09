@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { THEME_ICONS } from "@/lib/themeIcons";
 
 interface ModalThemeSelectProps {
   onClose: () => void;
@@ -6,28 +7,24 @@ interface ModalThemeSelectProps {
   onSave?: (selectedTheme: string) => void;
 }
 
-export const ModalShareInrtro = ({ onClose, animateIn, onSave }: ModalThemeSelectProps) => {
+// 🔄 기존의 themes 배열 대신 THEME_ICONS 키 배열 사용
+const themeKeys = Object.keys(THEME_ICONS);
+
+export const ModalThemeSelector = ({
+  onClose,
+  animateIn,
+  onSave,
+}: ModalThemeSelectProps) => {
   const [themeIndex, setThemeIndex] = useState(0);
-  const themes = [
-    "노을진 하늘",
-    "고요한 새벽빛",
-    "달이 빛나는 밤",
-    "빈티지 창고",
-    "풀내음 짙은 숲속",
-    "아늑한 우리 집",
-    "감성적인 작업실",
-    "불빛찬란한 도시 야경",
-    "평화로운 공원길",
-    "세련된 로비",
-  ];
-  const emojis = ["❤️", "🌅", "🌌"];
+  const selectedKey = themeKeys[themeIndex]; // 🔄 key로 선택
+  const selectedTheme = THEME_ICONS[selectedKey]; // 🔄 key 기반 테마 정보 가져오기
 
   const handlePrev = () => {
-    setThemeIndex((prev) => (prev - 1 + themes.length) % themes.length);
+    setThemeIndex((prev) => (prev - 1 + themeKeys.length) % themeKeys.length);
   };
 
   const handleNext = () => {
-    setThemeIndex((prev) => (prev + 1) % themes.length);
+    setThemeIndex((prev) => (prev + 1) % themeKeys.length);
   };
 
   return (
@@ -41,24 +38,33 @@ export const ModalShareInrtro = ({ onClose, animateIn, onSave }: ModalThemeSelec
       >
         <div className="bg-white rounded-3xl p-6 shadow-xl w-[360px] space-y-4">
           <div className="flex items-center justify-center gap-8">
-            {/* 왼쪽: 이모지 + 좌우 버튼 */}
             <div className="flex items-center gap-2 text-5xl">
-              <button onClick={handlePrev} className="text-gray-400 hover:text-gray-600 text-2xl">
+              <button
+                onClick={handlePrev}
+                className="text-gray-400 hover:text-gray-600 text-2xl"
+              >
                 ❮
               </button>
-              <span>{emojis[themeIndex]}</span>
-              <button onClick={handleNext} className="text-gray-400 hover:text-gray-600 text-2xl">
+              {/* 🔄 이미지 경로를 public/images/{imgUrl}.png 로 변경 */}
+              <img
+                src={`/images/${selectedTheme.imgUrl}.png`}
+                alt={selectedTheme.name}
+                className="w-20 h-20 rounded-md object-cover"
+              />
+              <button
+                onClick={handleNext}
+                className="text-gray-400 hover:text-gray-600 text-2xl"
+              >
                 ❯
               </button>
             </div>
 
-            {/* 오른쪽: 설명 + 텍스트 + 저장 버튼 */}
             <div className="flex flex-col items-start justify-center gap-2">
               <p className="text-[#575757] text-sm">배경 테마를 변경할까요?</p>
-              <h3 className="text-lg font-semibold">{themes[themeIndex]}</h3>
+              <h3 className="text-lg font-semibold">{selectedTheme.name}</h3>
               <button
                 onClick={() => {
-                  onSave?.(themes[themeIndex]);
+                  onSave?.(selectedKey); // 🔄 key로 저장되도록 변경
                   onClose();
                 }}
                 className="bg-[#9DEEFB] text-blue-700 text-sm font-medium px-6 py-2 rounded-full shadow-md hover:opacity-90"

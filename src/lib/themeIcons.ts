@@ -1,7 +1,12 @@
-export const themeIcons = {
+export const THEME_ICONS: {
+  [key: string]: {
+    name: string;
+    imgUrl: string;
+  };
+} = {
   sunset: { name: "노을진 하늘", imgUrl: "sunsetIcon" },
   dawn: { name: "고요한 새벽", imgUrl: "dawnIcon" },
-  nigth: { name: "달이 빛나는 밤", imgUrl: "nightIcon" },
+  night: { name: "달이 빛나는 밤", imgUrl: "nightIcon" },
   warehouse: { name: "빈티지 창고", imgUrl: "warehouseIcon" },
   forest: { name: "풀내음 짙은 숲속", imgUrl: "forestIcon" },
   apartment: { name: "아늑한 우리 집", imgUrl: "apartmentIcon" },
