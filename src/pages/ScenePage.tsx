@@ -22,7 +22,7 @@ export const ScenePage = () => {
   const [userData, setUserData] = useState(DEFAULT_USER_DATA);
   const [isOwner, setIsOwner] = useState(false);
   const [backgroundPreset, setBackgroundPreset] = useState<EnvironmentPreset>(
-    DEFAULT_ENVIRONMENT_PRESET
+    DEFAULT_ENVIRONMENT_PRESET,
   );
   const { openModal } = useModalStore();
 
