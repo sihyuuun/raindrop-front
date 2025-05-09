@@ -1,3 +1,5 @@
+import { BubbleSelectorBox } from "@/components/message/BubbleSelectorBox";
+import { MessageInputBox } from "@/components/message/MessageInputBox";
 import { SceneLayout } from "@/components/scene/SceneLayout";
 import { useLocation } from "react-router-dom";
 
@@ -9,7 +11,8 @@ export const MessagePage = () => {
   if (!encryptedSceneId) return null;
   return (
     <SceneLayout encryptedSceneId={encryptedSceneId}>
-      <div>this is Message</div>
+      <MessageInputBox />
+      <BubbleSelectorBox />
     </SceneLayout>
   );
 };
