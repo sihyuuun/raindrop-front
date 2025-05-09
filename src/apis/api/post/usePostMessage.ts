@@ -1,4 +1,5 @@
-// apis/api/post/usePostMessage.ts
+// src/apis/api/post/usePostMessage.ts
+
 import {
   useMutation,
   UseMutationResult,
@@ -6,13 +7,13 @@ import {
 } from "@tanstack/react-query";
 import { client } from "@/apis/client";
 import { AxiosError } from "axios";
-import { MessagePostRequest } from "@/types/message.types.ts";
-import { ApiResponse } from "@/types/api.types.ts";
+import { MessagePostRequest } from "@/types/message.types";
+import { ApiResponse } from "@/types/api.types";
 
 /**
- * 메시지 추가를 위한 mutation 훅
+ * 메시지를 생성하는 mutation 훅
  *
- * @returns {UseMutationResult} 메시지 추가를 위한 mutation 결과
+ * @returns 메시지 생성 mutation 결과 객체
  */
 export const usePostMessage = (): UseMutationResult<
   ApiResponse<null>,
@@ -30,9 +31,10 @@ export const usePostMessage = (): UseMutationResult<
       );
       return data;
     },
-    onSuccess: () => {
-      // 성공 시 메시지 목록 쿼리 무효화 (refetch 트리거)
-      queryClient.invalidateQueries({ queryKey: ["messages"] });
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: ["messages", variables.sceneId],
+      });
     },
   });
 };
