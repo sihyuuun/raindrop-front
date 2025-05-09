@@ -22,5 +22,17 @@ export const Modal = ({ modalKey }: ModalProps) => {
 
   if (!isModalOpen) return null;
 
-  return <ModalShareIntro animateIn={animateIn} onClose={() => closeModal(modalKey)} />;
+  // 선택한 테마 저장할 로직 예시
+  const handleThemeSave = (theme: string) => {
+    console.log("🎨 저장된 테마:", theme);
+    // 예: 상태 업데이트나 API 요청 등
+  };
+
+  return (
+    <ModalShareIntro
+      animateIn={animateIn}
+      onClose={() => closeModal(modalKey)}
+      onSave={handleThemeSave}
+    />
+  );
 };
