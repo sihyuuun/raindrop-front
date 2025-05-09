@@ -4,7 +4,7 @@ import {
   UseMutationResult,
   useQueryClient,
 } from "@tanstack/react-query";
-import { authClient } from "@/apis/client";
+import { client } from "@/apis/client";
 import { AxiosError } from "axios";
 import { MessagePostRequest } from "@/types/message.types.ts";
 import { ApiResponse } from "@/types/api.types.ts";
@@ -24,7 +24,7 @@ export const usePostMessage = (): UseMutationResult<
 
   return useMutation({
     mutationFn: async (messageData: MessagePostRequest) => {
-      const { data } = await authClient.post<ApiResponse<null>>(
+      const { data } = await client.post<ApiResponse<null>>(
         "/messages",
         messageData,
       );
