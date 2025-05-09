@@ -14,6 +14,27 @@
   scrollbar-width: none; /* Firefox */
 }
 
+/* 모든 요소의 focus, focus-visible 상태에서 outline, ring 제거 */
+*:focus,
+*:focus-visible,
+input:focus,
+input:focus-visible,
+textarea:focus,
+textarea:focus-visible,
+button:focus,
+button:focus-visible,
+select:focus,
+select:focus-visible {
+  outline: none;
+}
+/* 전역 focus ring 제거만, shadow는 유지 */
+*:focus,
+*:focus-visible {
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-ring-color: transparent;
+  outline: none;
+}
+
 /* 웹킷 기반 브라우저(Chrome, Safari 등)에서 스크롤바 숨기기 */
 *::-webkit-scrollbar {
   display: none;
