@@ -11,7 +11,6 @@ import {
   EnvironmentPreset,
   DEFAULT_USER_DATA,
 } from "@/lib/constants";
-import { MessageDialog } from "@/components/ui/MessageDialog.tsx";
 
 export const ScenePage = () => {
   const { encryptedSceneId } = useParams<{ encryptedSceneId: string }>();
@@ -63,13 +62,6 @@ export const ScenePage = () => {
                 {preset}
               </button>
             ))}
-          </div>
-        )}
-
-        {/* 메시지 작성 버튼 (게스트만) */}
-        {isOwner && encryptedSceneId && (
-          <div className="flex justify-center mt-6">
-            <MessageDialog scene={encryptedSceneId} />
           </div>
         )}
       </div>
