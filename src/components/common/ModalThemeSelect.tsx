@@ -6,9 +6,20 @@ interface ModalThemeSelectProps {
   onSave?: (selectedTheme: string) => void;
 }
 
-export const ModalThemeSelect = ({ onClose, animateIn, onSave }: ModalThemeSelectProps) => {
+export const ModalShareInrtro = ({ onClose, animateIn, onSave }: ModalThemeSelectProps) => {
   const [themeIndex, setThemeIndex] = useState(0);
-  const themes = ["저녁 노을지는 하늘", "아침 햇살 가득한 들판", "별이 쏟아지는 밤"];
+  const themes = [
+    "노을진 하늘",
+    "고요한 새벽빛",
+    "달이 빛나는 밤",
+    "빈티지 창고",
+    "풀내음 짙은 숲속",
+    "아늑한 우리 집",
+    "감성적인 작업실",
+    "불빛찬란한 도시 야경",
+    "평화로운 공원길",
+    "세련된 로비",
+  ];
   const emojis = ["❤️", "🌅", "🌌"];
 
   const handlePrev = () => {
