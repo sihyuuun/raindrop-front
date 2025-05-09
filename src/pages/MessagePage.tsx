@@ -1,3 +1,4 @@
+import { SceneLayout } from "@/components/scene/SceneLayout";
 import { useLocation } from "react-router-dom";
 
 export const MessagePage = () => {
@@ -5,5 +6,10 @@ export const MessagePage = () => {
   const searchParams = new URLSearchParams(location.search);
   const encryptedSceneId = searchParams.get("id");
 
-  return <div>{encryptedSceneId}</div>;
+  if (!encryptedSceneId) return null;
+  return (
+    <SceneLayout encryptedSceneId={encryptedSceneId}>
+      <div>this is Message</div>
+    </SceneLayout>
+  );
 };
