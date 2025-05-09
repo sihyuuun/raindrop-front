@@ -1,17 +1,25 @@
+import { ApiResponse } from "@/types/api.types.ts";
+
 export interface MessageResponse {
-    id: number;
-    content: string;
-    userId: number;
-    userName: string;
-    sceneId: number;
-    createdAt: string;
+  messageId: number;
+  nickname: string;
+  content: string;
+  createdAt: string;
 }
 
-export interface MessageRequest {
-    content: string;
-    sceneId?: number;
+export type MessageGetResponse = ApiResponse<MessageResponse[]>; // 실제 응답 값
+
+export interface MessageGetRequest {
+  sceneId: string; // 암호화된 scene id
 }
 
 export interface MessageDeleteRequest {
-    messageId: number;
+  sceneId: string;
+  messageId: number;
+}
+
+export interface MessagePostRequest {
+  sceneId: string;
+  nickname: string;
+  content: string;
 }
