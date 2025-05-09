@@ -15,8 +15,8 @@ export function ButtonLg({ isOwner }: { isOwner: boolean }) {
     Kakao.Share.sendDefault({
       objectType: "feed",
       content: {
-        title: "버블 남기러 가기",
-        description: "비오는 날, 상대방에게 보여줄 메시지를 남겨보세요.",
+        title: "💧빗속말💧",
+        description: "비 오는 날, 상대방에게 보여줄 메시지를 남겨보세요.",
         imageUrl: "https://k.kakaocdn.net/14/dn/btsMK8QqGc4/MZkDF42K4dHsItG5TeYkTK/o.jpg",
         link: {
           mobileWebUrl: location.href,
@@ -26,7 +26,7 @@ export function ButtonLg({ isOwner }: { isOwner: boolean }) {
 
       buttons: [
         {
-          title: "웹으로 이동",
+          title: "버블 남기러 가기",
           link: {
             mobileWebUrl: location.href,
             webUrl: location.href,
@@ -40,7 +40,7 @@ export function ButtonLg({ isOwner }: { isOwner: boolean }) {
     if (isOwner) {
       shareKakao();
     } else {
-      // 버블 남길 수 있는 모달 오픈
+      // 버블 남기는 메시지 페이지로 이동
     }
   };
 
