@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ModalThemeSelector } from "./ModalThemeSelector";
-import { useModalStore } from "@/store/modalStore";
+import { useModalStore } from "@/store/modalstore";
 
 interface ModalProps {
   modalKey: string;
