@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { authClient } from "../../client";
 import { SceneUpdateVisibilityRequest } from "@/types/scene.types";
 
-export const usePutSceneVisibility = () => {
+export const usePutScenesVisibility = () => {
   return useMutation({
     mutationKey: ["putSceneVisibility"],
     mutationFn: async (body: SceneUpdateVisibilityRequest) => {
