@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { ModalThemeSelector } from "./ModalThemeSelector";
 import { useModalStore } from "@/store/modalstore";
+import { EnvironmentPreset } from "@/lib/constants";
 
 interface ModalProps {
   modalKey: string;
+  onSave?: (preset: EnvironmentPreset) => void;
 }
 
-export const Modal = ({ modalKey }: ModalProps) => {
+export const Modal = ({ modalKey, onSave }: ModalProps) => {
   const [animateIn, setAnimateIn] = useState(false);
   const { isOpen, closeModal } = useModalStore();
 
@@ -22,17 +24,11 @@ export const Modal = ({ modalKey }: ModalProps) => {
 
   if (!isModalOpen) return null;
 
-  // 선택한 테마 저장할 로직 예시
-  const handleThemeSave = (theme: string) => {
-    console.log("🎨 저장된 테마:", theme);
-    // 예: 상태 업데이트나 API 요청 등
-  };
-
   return (
     <ModalThemeSelector
       animateIn={animateIn}
       onClose={() => closeModal(modalKey)}
-      onSave={handleThemeSave}
+      onSave={onSave}
     />
   );
 };

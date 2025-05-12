@@ -1,26 +1,36 @@
 import { useState } from "react";
 import { THEME_ICONS } from "@/lib/themeIcons";
+import { EnvironmentPreset } from "@/lib/constants";
 
 interface ModalThemeSelectProps {
   onClose: () => void;
   animateIn: boolean;
-  onSave?: (selectedTheme: string) => void;
+  onSave?: (selectedTheme: EnvironmentPreset) => void;
+  onPreview?: (previewTheme: EnvironmentPreset) => void;
 }
 
-// 🔄 기존의 themes 배열 대신 THEME_ICONS 키 배열 사용
 const themeKeys = Object.keys(THEME_ICONS);
 
-export const ModalThemeSelector = ({ onClose, animateIn, onSave }: ModalThemeSelectProps) => {
+export const ModalThemeSelector = ({
+  onClose,
+  animateIn,
+  onSave,
+  onPreview,
+}: ModalThemeSelectProps) => {
   const [themeIndex, setThemeIndex] = useState(0);
-  const selectedKey = themeKeys[themeIndex]; // 🔄 key로 선택
-  const selectedTheme = THEME_ICONS[selectedKey]; // 🔄 key 기반 테마 정보 가져오기
+  const selectedKey = themeKeys[themeIndex]; // key로 sceneTheme 선택
+  const selectedTheme = THEME_ICONS[selectedKey]; // key 기반 테마 정보 가져오기
 
   const handlePrev = () => {
-    setThemeIndex((prev) => (prev - 1 + themeKeys.length) % themeKeys.length);
+    const newIndex = (themeIndex - 1 + themeKeys.length) % themeKeys.length;
+    setThemeIndex(newIndex);
+    onPreview?.(THEME_ICONS[themeKeys[newIndex]].preset); // sceneTheme 호출
   };
 
   const handleNext = () => {
-    setThemeIndex((prev) => (prev + 1) % themeKeys.length);
+    const newIndex = (themeIndex + 1) % themeKeys.length;
+    setThemeIndex(newIndex);
+    onPreview?.(THEME_ICONS[themeKeys[newIndex]].preset); // sceneTheme 호출
   };
 
   return (
@@ -38,7 +48,7 @@ export const ModalThemeSelector = ({ onClose, animateIn, onSave }: ModalThemeSel
               <button onClick={handlePrev} className="text-gray-400 hover:text-gray-600 text-2xl">
                 ❮
               </button>
-              {/* 🔄 이미지 경로를 public/images/{imgUrl}.png 로 변경 */}
+              {/* 이미지 경로를 public/images/{imgUrl}.png 로 변경 */}
               <img
                 src={`/images/${selectedTheme.imgUrl}.png`}
                 alt={selectedTheme.name}
@@ -54,7 +64,7 @@ export const ModalThemeSelector = ({ onClose, animateIn, onSave }: ModalThemeSel
               <h3 className="text-lg font-semibold">{selectedTheme.name}</h3>
               <button
                 onClick={() => {
-                  onSave?.(selectedKey); // 🔄 key로 저장되도록 변경
+                  onSave?.(THEME_ICONS[selectedKey].preset); // 선택된 preset을 전달
                   onClose();
                 }}
                 className="bg-[#9DEEFB] text-blue-700 text-sm font-medium px-6 py-2 rounded-full shadow-md hover:opacity-90"
