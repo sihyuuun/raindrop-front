@@ -32,6 +32,28 @@ export const ModalThemeSelector = ({
     setThemeIndex(newIndex);
     onPreview?.(THEME_ICONS[themeKeys[newIndex]].preset); // sceneTheme 호출
   };
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX === null) return;
+
+    const touchEndX = e.changedTouches[0].clientX;
+    const diff = touchStartX - touchEndX;
+
+    if (diff > 50) {
+      // 왼쪽으로 스와이프 → 다음 테마
+      handleNext();
+    } else if (diff < -50) {
+      // 오른쪽으로 스와이프 → 이전 테마
+      handlePrev();
+    }
+
+    setTouchStartX(null); // 초기화
+  };
 
   return (
     <div className="fixed inset-0 bg-black/40 z-50" onClick={onClose}>
@@ -41,6 +63,8 @@ export const ModalThemeSelector = ({
           ${animateIn ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}
         `}
         onClick={(e) => e.stopPropagation()}
+        onTouchStart={handleTouchStart} // swiping 기능
+        onTouchEnd={handleTouchEnd}
       >
         <div className="bg-white rounded-3xl p-6 shadow-xl w-[287.11px] space-y-4">
           <div className="flex items-center justify-center gap-5">
