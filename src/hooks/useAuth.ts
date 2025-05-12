@@ -23,17 +23,19 @@ export const useAuth = () => {
   const { mutate: loginWithKakao, isPending: isLoggingIn } = usePostKakaoCode();
 
   // 사용자 정보 query
-  const { isLoading: isLoadingUserInfo, isError: userInfoError } =
-    useUserInfo();
+  const { isLoading: isLoadingUserInfo, isError: userInfoError } = useUserInfo();
 
   /**
    * 카카오 로그인 페이지로 리다이렉트
    */
   const initiateKakaoLogin = () => {
-    window.location.href = `https://kauth.kakao.com/oauth/authorize?
+    const baseUrl = import.meta.env.VITE_APP_BASE_URL;
+    const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?
 response_type=code
 &client_id=8162b95c200bcd82ce88d8c5468f41c5
-&redirect_uri=http://localhost:5173/auth/login/kakao`;
+&redirect_uri=${baseUrl}/auth/login/kakao`;
+
+    window.location.href = kakaoAuthUrl;
   };
 
   /**
