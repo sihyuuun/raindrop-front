@@ -91,7 +91,7 @@ export const ModalThemeSelector = ({
                   onSave?.(themeKeys[themeIndex] as EnvironmentPreset); // 선택된 preset을 전달
                   onClose();
                 }}
-                className="bg-[#9DEEFB] text-blue-700 text-sm font-medium px-6 py-2 rounded-full shadow-md hover:opacity-90"
+                className="bg-[#9DEEFB] text-blue-700 text-sm font-medium px-6 py-2 rounded-full shadow-md hover:opacity-90 cursor-pointer"
               >
                 저장
               </button>

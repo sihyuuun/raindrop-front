@@ -44,12 +44,12 @@ export const ModalShareIntro = ({ onClose, animateIn }: ModalShareIntroProps) =>
           <div className="flex justify-center gap-4 pt-2">
             <button
               onClick={onClose}
-              className="rounded-full px-6 py-2 border border-gray-300 text-gray-700 bg-white hover:bg-gray-100 shadow"
+              className="rounded-full px-6 py-2 border border-gray-300 text-gray-700 bg-white hover:bg-gray-100 shadow cursor-pointer"
             >
               No
             </button>
             <button
-              className="rounded-full px-6 py-2 text-blue-700 font-semibold hover:opacity-90 shadow"
+              className="rounded-full px-6 py-2 text-blue-700 font-semibold hover:opacity-90 shadow cursor-pointer"
               style={{ backgroundColor: "#9DEEFB" }}
             >
               Yes
