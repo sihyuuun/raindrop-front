@@ -4,7 +4,7 @@ import { useGetEncryptedSceneIds } from "@/apis/api/get/useGetEncryptedSceneIds"
 import { ButtonLg } from "@/components/scene/ButtonLg";
 import { useAuthStore } from "@/store/authStore";
 import { SceneLayout } from "@/components/scene/SceneLayout";
-import { useKakaoShare } from "@/hooks/useKakaoShare";
+import { useWebShare } from "@/hooks/useWebShare";
 import { Button } from "@/components/ui/button";
 
 export const ScenePage = () => {
@@ -13,17 +13,13 @@ export const ScenePage = () => {
 
   const { isSuccess, data } = useGetEncryptedSceneIds(encryptedSceneId ?? "");
   const { user, isAuthenticated } = useAuthStore();
-  const shareToKakao = useKakaoShare();
+  const shareToLink = useWebShare();
 
   const [isOwner, setIsOwner] = useState(false);
 
   useEffect(() => {
     //owner, guest 신분 분기 처리
-    if (
-      isSuccess &&
-      isAuthenticated &&
-      user?.email === data.data.ownerSocialId
-    ) {
+    if (isSuccess && isAuthenticated && user?.email === data.data.ownerSocialId) {
       setIsOwner(true);
     }
   }, [isSuccess, data, isAuthenticated]);
@@ -49,10 +45,7 @@ export const ScenePage = () => {
               버튼
             </Button>
           )}
-          <ButtonLg
-            isOwner={isOwner}
-            onClick={isOwner ? shareToKakao : handleLeaveMessage}
-          />
+          <ButtonLg isOwner={isOwner} onClick={isOwner ? shareToLink : handleLeaveMessage} />
         </div>
       }
       // 현재 3D 객체가 필요 없다면 threeChildren은 생략 가능
