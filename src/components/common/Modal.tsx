@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { ModalThemeSelector } from "./ModalThemeSelector";
 import { useModalStore } from "@/store/modalstore";
+import { ModalLoginPrompt } from "./ModalLoginPrompt";
+import { useAuth } from "@/hooks/useAuth";
 
 interface ModalProps {
   modalKey: string;
@@ -9,6 +11,7 @@ interface ModalProps {
 export const Modal = ({ modalKey }: ModalProps) => {
   const [animateIn, setAnimateIn] = useState(false);
   const { isOpen, closeModal } = useModalStore();
+  const { initiateKakaoLogin } = useAuth();
 
   const isModalOpen = isOpen(modalKey);
 
@@ -29,10 +32,22 @@ export const Modal = ({ modalKey }: ModalProps) => {
   };
 
   return (
-    <ModalThemeSelector
-      animateIn={animateIn}
-      onClose={() => closeModal(modalKey)}
-      onSave={handleThemeSave}
-    />
+    <>
+      {modalKey === "themeModal" && (
+        <ModalThemeSelector
+          animateIn={animateIn}
+          onClose={() => closeModal(modalKey)}
+          onSave={handleThemeSave}
+        />
+      )}
+
+      {modalKey === "loginModal" && (
+        <ModalLoginPrompt
+          animateIn={animateIn}
+          onClose={() => closeModal(modalKey)}
+          onLogin={initiateKakaoLogin}
+        />
+      )}
+    </>
   );
 };
