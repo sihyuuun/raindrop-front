@@ -6,7 +6,6 @@ import { BubbleSelectorBox } from "@/components/message/BubbleSelectorBox";
 import { useAuthStore } from "@/store/authStore";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-
 export const MessagePage = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -34,15 +33,25 @@ export const MessagePage = () => {
   return (
     <SceneLayout
       encryptedSceneId={encryptedSceneId}
-      // 2D UI 요소를 일반 children으로 전달
+      threeChildren={<BubbleSelectorBox />}
       children={
-        <div className="flex flex-col h-full justify-between mt-[5%]">
-          <MessageInputBox />
-          <ButtonLg isOwner={false} />
+        <div className="h-full w-full pointer-events-none">
+          {/* 메시지 입력 박스 컴포넌트 - 상단에 배치 */}
+          <div className="pointer-events-auto mt-[5%]">
+            <MessageInputBox />
+          </div>
+
+          {/* 버블 남기기 버튼 - 화면 맨 하단에 고정 */}
+          <div className="pointer-events-auto fixed bottom-6 left-0 w-full flex justify-center">
+            <ButtonLg
+              isOwner={false}
+              onClick={() => {
+                console.log("eeee");
+              }}
+            />
+          </div>
         </div>
       }
-      // 3D 객체는 threeChildren으로 전달
-      threeChildren={<BubbleSelectorBox />}
     />
   );
 };

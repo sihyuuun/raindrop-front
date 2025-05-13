@@ -24,7 +24,6 @@ const CloudBackground = () => {
     </>
   );
 };
-
 export const SceneLayout = ({
   encryptedSceneId,
   children,
@@ -32,20 +31,25 @@ export const SceneLayout = ({
 }: SceneLayoutProps) => {
   return (
     <div className="relative w-screen h-screen overflow-hidden">
-      {/* Canvas를 최상위 레벨로 배치하여 3D 요소 처리 */}
-      <div className="absolute inset-0 z-0">
+      {/* 3D 요소를 위한 전체 화면 Canvas */}
+      <div className="absolute inset-0">
         <Canvas camera={{ fov: 75, position: [0, 0, 5] }}>
           <CloudBackground />
-          {/* 3D 요소들을 위한 구역 */}
           {threeChildren}
         </Canvas>
       </div>
 
-      {/* 2D UI 요소는 Canvas 밖에 배치 */}
-      <div className="relative z-10 flex flex-col h-full justify-between px-[5%] py-[5%]">
-        <ProfileHeader encryptedSceneId={encryptedSceneId} />
-        {/* 일반 2D children */}
-        {children}
+      {/* 2D UI 요소를 위한 투명 오버레이 */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="w-full h-full px-[5%] py-[5%] flex flex-col">
+          {/* 상단 헤더 영역 - 포인터 이벤트 활성화 */}
+          <div className="pointer-events-auto">
+            <ProfileHeader encryptedSceneId={encryptedSceneId} />
+          </div>
+
+          {/* 하단 컨텐츠 영역 - children에 직접 pointer-events-auto 클래스 적용 */}
+          <div className="pointer-events-auto">{children}</div>
+        </div>
       </div>
     </div>
   );
