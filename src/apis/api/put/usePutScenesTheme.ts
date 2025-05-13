@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { authClient } from "../../client";
 import { SceneThemeUpdateRequest, SceneResponse } from "@/types/scene.types";
 
-export const usePutSceneTheme = () => {
+export const usePutScenesTheme = () => {
   return useMutation({
     mutationKey: ["putSceneTheme"],
     mutationFn: async (body: SceneThemeUpdateRequest) => {
