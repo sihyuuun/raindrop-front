@@ -24,13 +24,13 @@ export const ModalThemeSelector = ({
   const handlePrev = () => {
     const newIndex = (themeIndex - 1 + themeKeys.length) % themeKeys.length;
     setThemeIndex(newIndex);
-    onPreview?.(THEME_ICONS[themeKeys[newIndex]].preset); // sceneTheme 호출
+    onPreview?.(themeKeys[newIndex] as EnvironmentPreset); // sceneTheme 호출
   };
 
   const handleNext = () => {
     const newIndex = (themeIndex + 1) % themeKeys.length;
     setThemeIndex(newIndex);
-    onPreview?.(THEME_ICONS[themeKeys[newIndex]].preset); // sceneTheme 호출
+    onPreview?.(themeKeys[newIndex] as EnvironmentPreset); // sceneTheme 호출
   };
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
 
@@ -88,7 +88,7 @@ export const ModalThemeSelector = ({
               <h3 className="text-lg font-semibold">{selectedTheme.name}</h3>
               <button
                 onClick={() => {
-                  onSave?.(THEME_ICONS[selectedKey].preset); // 선택된 preset을 전달
+                  onSave?.(themeKeys[themeIndex] as EnvironmentPreset); // 선택된 preset을 전달
                   onClose();
                 }}
                 className="bg-[#9DEEFB] text-blue-700 text-sm font-medium px-6 py-2 rounded-full shadow-md hover:opacity-90"
