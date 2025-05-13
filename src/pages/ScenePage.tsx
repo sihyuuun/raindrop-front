@@ -5,6 +5,7 @@ import { ButtonLg } from "@/components/scene/ButtonLg";
 import { useAuthStore } from "@/store/authStore";
 import { SceneLayout } from "@/components/scene/SceneLayout";
 import { useKakaoShare } from "@/hooks/useKakaoShare";
+import { Button } from "@/components/ui/button";
 
 export const ScenePage = () => {
   const { encryptedSceneId } = useParams<{ encryptedSceneId: string }>();
@@ -39,6 +40,15 @@ export const ScenePage = () => {
       // 2D UI 요소 (ButtonLg)를 일반 children으로 전달
       children={
         <div className="flex flex-col h-full justify-end">
+          {isOwner && (
+            <Button
+              onClick={() => {
+                console.log("clicked");
+              }}
+            >
+              버튼
+            </Button>
+          )}
           <ButtonLg
             isOwner={isOwner}
             onClick={isOwner ? shareToKakao : handleLeaveMessage}
