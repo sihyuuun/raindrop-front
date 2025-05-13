@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
 import { ProfileHeader } from "@/components/scene/ProfileHeader";
-import { EnvironmentPreset } from "@/lib/constants";
+import { DEFAULT_ENVIRONMENT_PRESET } from "@/lib/constants";
 import RainLayer from "./RainLayer";
 import { useWeatherQuery } from "@/apis/api/get/useWeatherQuery";
 import { isRainy } from "@/utils/weatherUtils";
@@ -19,7 +19,7 @@ const CloudBackground = () => {
 
   return (
     <>
-      <Environment preset={EnvironmentPreset} background blur={1} />
+      <Environment preset={DEFAULT_ENVIRONMENT_PRESET} background blur={1} />
       {!isLoading && weather?.id && isRainy(weather.id) && <RainLayer />}
     </>
   );
