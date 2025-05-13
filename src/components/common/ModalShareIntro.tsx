@@ -28,11 +28,11 @@ export const ModalShareIntro = ({ onClose, animateIn }: ModalShareIntroProps) =>
         `}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="bg-white rounded-3xl p-6 shadow-xl w-[287.11px] space-y-4">
-          <div className="flex items-center justify-center gap-5">
+        <div className="bg-white rounded-3xl p-6 shadow-xl w-[330px]">
+          <div className="flex items-center justify-center gap-4">
             <Lottie animationData={clapAnimation} style={{ width: 80, height: 80 }} />
             <div className="text-left">
-              <p className="text-[#575757] text-[11px] mb-2">‘{nickName}’님께 버블을 전달했어요</p>
+              <p className="text-[#575757] text-sm mb-2">‘{nickName}’님께 버블을 전달했어요</p>
               <h2 className="text-lg font-semibold leading-snug">
                 나만의 페이지를 만들어
                 <br />

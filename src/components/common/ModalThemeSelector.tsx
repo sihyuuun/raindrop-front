@@ -66,8 +66,8 @@ export const ModalThemeSelector = ({
         onTouchStart={handleTouchStart} // swiping 기능
         onTouchEnd={handleTouchEnd}
       >
-        <div className="bg-white rounded-3xl p-6 shadow-xl w-[287.11px] space-y-4">
-          <div className="flex items-center justify-center gap-5">
+        <div className="bg-white rounded-3xl p-6 shadow-xl w-[330px]">
+          <div className="flex items-center justify-center gap-4">
             <div className="flex items-center gap-1 text-5xl">
               <button onClick={handlePrev} className="text-gray-400 hover:text-gray-600 text-2xl">
                 ❮
@@ -83,8 +83,8 @@ export const ModalThemeSelector = ({
               </button>
             </div>
 
-            <div className="flex flex-col items-start justify-center gap-2">
-              <p className="text-[#575757] text-[11px]">배경 테마를 변경할까요?</p>
+            <div className="flex flex-col items-center justify-center text-center gap-2">
+              <p className="text-[#575757] text-sm">배경 테마를 변경할까요?</p>
               <h3 className="text-lg font-semibold">{selectedTheme.name}</h3>
               <button
                 onClick={() => {
