@@ -1,5 +1,5 @@
 import { useRef, useMemo } from "react";
-import { Sphere } from "@react-three/drei";
+import { Sphere, Text } from "@react-three/drei";
 import { Shape, ExtrudeGeometry, Mesh, Group } from "three";
 import { useFrame } from "@react-three/fiber";
 
@@ -7,17 +7,21 @@ import { useFrame } from "@react-three/fiber";
 export const WaterDrop = ({
   onClick,
   position = [0, 0, 0],
-  isSelected = false, // minVibration prop 추가
+  minVibration,
+  text,
 }: {
   onClick: () => void;
   position?: [number, number, number];
-  isSelected?: boolean; // 선택된 상태 추가
+  minVibration?: boolean; // 선택된 상태 추가
+  text: string;
 }) => {
   const sphereRef = useRef<Mesh>(null);
   useFrame((state) => {
     if (sphereRef.current) {
+      sphereRef.current.rotation.y = state.clock.elapsedTime;
+
       // 선택된 상태에서는 움직임 최소화 (진폭 0.005로 감소)
-      const amplitude = isSelected ? 0.005 : 0.03; // 0.1에서 0.03으로 감소
+      const amplitude = minVibration ? 0.005 : 0.03; // 0.1에서 0.03으로 감소
       sphereRef.current.position.y =
         position[1] + Math.sin(state.clock.elapsedTime) * amplitude;
     }
@@ -45,6 +49,18 @@ export const WaterDrop = ({
         clearcoat={1}
         clearcoatRoughness={0}
       />
+      <Text
+        position={[0, 0.05, 0.2]} // 살짝 앞에 띄우기
+        fontSize={0.03}
+        color="#333"
+        anchorX="center"
+        anchorY="middle"
+        maxWidth={0.3} // 텍스트 줄바꿈 허용 너비 (단위: scene의 단위, 예: meter)
+        textAlign="center"
+        overflowWrap="break-word"
+      >
+        {text}
+      </Text>
     </Sphere>
   );
 };
@@ -53,11 +69,13 @@ export const WaterDrop = ({
 export const HeartDrop = ({
   onClick,
   position = [0, 0, 0],
-  isSelected = false, // minVibration prop 추가
+  minVibration,
+  text,
 }: {
   onClick: () => void;
   position?: [number, number, number];
-  isSelected?: boolean; // 선택된 상태 추가
+  minVibration?: boolean; // 선택된 상태 추가
+  text: string;
 }) => {
   const heartRef = useRef<Mesh>(null);
 
@@ -94,7 +112,7 @@ export const HeartDrop = ({
       heartRef.current.rotation.z = Math.PI; // 하트 방향 수정
 
       // 선택된 상태에서는 움직임 최소화 (진폭 0.005로 감소)
-      const amplitude = isSelected ? 0.005 : 0.03; // 0.1에서 0.03으로 감소
+      const amplitude = minVibration ? 0.005 : 0.03; // 0.1에서 0.03으로 감소
       heartRef.current.position.y =
         position[1] + Math.sin(state.clock.elapsedTime) * amplitude;
     }
@@ -124,6 +142,19 @@ export const HeartDrop = ({
         clearcoat={1}
         clearcoatRoughness={0}
       />
+      <Text
+        position={[0, -0.1, 0.21]} // 살짝 앞에 띄우기
+        fontSize={0.05}
+        color="#333"
+        anchorX="center"
+        anchorY="middle"
+        rotation={[0, 0, Math.PI]} // 텍스트 반대로 한 번 더 회전
+        maxWidth={0.3} // 텍스트 줄바꿈 허용 너비 (단위: scene의 단위, 예: meter)
+        textAlign="center"
+        overflowWrap="break-word"
+      >
+        {text}
+      </Text>
     </mesh>
   );
 };
@@ -132,11 +163,13 @@ export const HeartDrop = ({
 export const TeardropShape = ({
   onClick,
   position = [0, 0, 0],
-  isSelected = false, // minVibration prop 추가
+  minVibration,
+  text,
 }: {
   onClick: () => void;
   position?: [number, number, number];
-  isSelected?: boolean; // 선택된 상태 추가
+  minVibration?: boolean; // 선택된 상태 추가
+  text: string;
 }) => {
   const teardropRef = useRef<Group>(null);
 
@@ -145,7 +178,7 @@ export const TeardropShape = ({
       teardropRef.current.rotation.y = state.clock.elapsedTime;
 
       // 선택된 상태에서는 움직임 최소화 (진폭 0.005로 감소)
-      const amplitude = isSelected ? 0.005 : 0.03; // 0.1에서 0.03으로 감소
+      const amplitude = minVibration ? 0.005 : 0.03; // 0.1에서 0.03으로 감소
       teardropRef.current.position.y =
         position[1] + Math.sin(state.clock.elapsedTime) * amplitude;
     }
@@ -194,6 +227,19 @@ export const TeardropShape = ({
           clearcoatRoughness={0}
         />
       </mesh>
+      {/* 텍스트 추가 */}
+      <Text
+        position={[0, 0.08, 0.15]} // y축 중앙 근처, z축 앞쪽
+        fontSize={0.03}
+        color="#333"
+        anchorX="center"
+        anchorY="middle"
+        maxWidth={0.3} // 텍스트 줄바꿈 허용 너비 (단위: scene의 단위, 예: meter)
+        textAlign="center"
+        overflowWrap="break-word"
+      >
+        {text}
+      </Text>
     </group>
   );
 };
@@ -202,11 +248,13 @@ export const TeardropShape = ({
 export const StarDrop = ({
   onClick,
   position = [0, 0, 0],
-  isSelected = false, // minVibration prop 추가
+  minVibration,
+  text,
 }: {
   onClick: () => void;
   position?: [number, number, number];
-  isSelected?: boolean; // 선택된 상태 추가
+  minVibration?: boolean; // 선택된 상태 추가
+  text: string;
 }) => {
   const starRef = useRef<Mesh>(null);
 
@@ -250,12 +298,12 @@ export const StarDrop = ({
       starRef.current.rotation.y = state.clock.elapsedTime;
 
       // 회전 효과도 선택된 상태일 때 감소
-      const rotationAmplitude = isSelected ? 0.03 : 0.2;
+      const rotationAmplitude = minVibration ? 0.03 : 0.2;
       starRef.current.rotation.x =
         Math.sin(state.clock.elapsedTime * 0.5) * rotationAmplitude;
 
       // 선택된 상태에서는 움직임 최소화 (진폭 0.005로 감소)
-      const amplitude = isSelected ? 0.001 : 0.03; // 0.1에서 0.03으로 감소
+      const amplitude = minVibration ? 0.001 : 0.03; // 0.1에서 0.03으로 감소
       starRef.current.position.y =
         position[1] + Math.sin(state.clock.elapsedTime) * amplitude;
     }
@@ -284,6 +332,18 @@ export const StarDrop = ({
         clearcoat={1}
         clearcoatRoughness={0}
       />
+      <Text
+        position={[0, 0, 0.075]} // 살짝 앞에 띄우기
+        fontSize={0.04}
+        color="#333"
+        anchorX="center"
+        anchorY="middle"
+        maxWidth={0.3} // 텍스트 줄바꿈 허용 너비 (단위: scene의 단위, 예: meter)
+        textAlign="center"
+        overflowWrap="break-word"
+      >
+        {text}
+      </Text>
     </mesh>
   );
 };
@@ -292,11 +352,13 @@ export const StarDrop = ({
 export const FlowerDrop = ({
   onClick,
   position = [0, 0, 0],
-  isSelected = false, // minVibration prop 추가
+  minVibration,
+  text,
 }: {
   onClick: () => void;
   position?: [number, number, number];
-  isSelected?: boolean; // 선택된 상태 추가
+  minVibration?: boolean; // 선택된 상태 추가
+  text: string;
 }) => {
   const flowerRef = useRef<Mesh>(null);
 
@@ -338,12 +400,12 @@ export const FlowerDrop = ({
       flowerRef.current.rotation.y = state.clock.elapsedTime;
 
       // 회전 효과도 선택된 상태일 때 감소
-      const rotationAmplitude = isSelected ? 0.05 : 0.2;
+      const rotationAmplitude = minVibration ? 0.05 : 0.2;
       flowerRef.current.rotation.z =
         Math.sin(state.clock.elapsedTime * 0.5) * rotationAmplitude;
 
       // 선택된 상태에서는 움직임 최소화 (진폭 0.005로 감소)
-      const amplitude = isSelected ? 0.005 : 0.03; // 0.1에서 0.03으로 감소
+      const amplitude = minVibration ? 0.005 : 0.03; // 0.1에서 0.03으로 감소
       flowerRef.current.position.y =
         position[1] + Math.sin(state.clock.elapsedTime) * amplitude;
     }
@@ -372,6 +434,18 @@ export const FlowerDrop = ({
         clearcoat={1}
         clearcoatRoughness={0}
       />
+      <Text
+        position={[0, 0, 0.075]} // 살짝 앞에 띄우기
+        fontSize={0.03}
+        color="#333"
+        anchorX="center"
+        anchorY="middle"
+        maxWidth={0.3} // 텍스트 줄바꿈 허용 너비 (단위: scene의 단위, 예: meter)
+        textAlign="center"
+        overflowWrap="break-word"
+      >
+        {text}
+      </Text>
     </mesh>
   );
 };

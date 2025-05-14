@@ -65,7 +65,7 @@ const AnimatedBubble = ({
         groupRef.current.position,
         { x: currentX, y: currentY, z: currentZ },
         { x: 0, y: -0.5, z: 0 },
-        0, // 시작 시간 (동시 시작)
+        0 // 시작 시간 (동시 시작)
       );
 
       // 크기 애니메이션 추가
@@ -73,7 +73,7 @@ const AnimatedBubble = ({
         groupRef.current.scale,
         { x: currentScaleX, y: currentScaleY, z: currentScaleZ },
         { x: 5.6, y: 5.6, z: 5.6 },
-        0, // 시작 시간 (동시 시작)
+        0 // 시작 시간 (동시 시작)
       );
     } else {
       // 선택 해제 시 현재 상태에서 원래 위치로 부드럽게 전환
@@ -98,12 +98,12 @@ const AnimatedBubble = ({
               groupRef.current.position.set(
                 originalPosition.x,
                 originalPosition.y,
-                originalPosition.z,
+                originalPosition.z
               );
             }
           },
         },
-        0, // 시작 시간 (동시 시작)
+        0 // 시작 시간 (동시 시작)
       );
 
       // 호버 상태와 관계없이 항상 1로 설정 (크기 두 번 변하는 버그 수정)
@@ -127,7 +127,7 @@ const AnimatedBubble = ({
             }
           },
         },
-        0, // 시작 시간 (동시 시작)
+        0 // 시작 시간 (동시 시작)
       );
     }
 
@@ -184,6 +184,7 @@ const AnimatedBubble = ({
         onClick={handleClick}
         minVibration={minVibration}
         position={[0, 0, 0]}
+        text="임시텍스티입니다임시텍스티입니다임시텍스티입니다임시텍스티입니다임시텍스티입니다"
       />
     </group>
   );
