@@ -24,6 +24,8 @@ export const MessagePage = () => {
   const [inputNickName, setInputNickName] = useState("");
   const [inputModelId, setInputModelId] = useState<number | null>(null);
 
+  const [isSubmitAble, setIsSubmitAble] = useState(false);
+
   // message 추가 api 연동
   const { mutate: submitMessage } = usePostMessage();
 
@@ -37,6 +39,19 @@ export const MessagePage = () => {
       setIsOwner(true);
     }
   }, [isSuccess, data, isAuthenticated, user]);
+
+  // message 유효성 검사에 따른 버튼 활성화
+  useEffect(() => {
+    if (
+      inputContent.length > 0 &&
+      inputNickName.length > 0 &&
+      inputModelId !== null
+    ) {
+      setIsSubmitAble(true);
+    } else {
+      setIsSubmitAble(false);
+    }
+  }, [inputContent, inputNickName, inputModelId]);
 
   // 메시지 내용 변경 핸들러
   const handleContentChange = (value: string) => {
@@ -59,7 +74,7 @@ export const MessagePage = () => {
     if (!encryptedSceneId || inputModelId == null) {
       return;
     }
-    // 여기에 API 호출 등의 제출 로직 추가
+    // message post api call
     submitMessage({
       sceneId: encryptedSceneId,
       nickname: inputNickName,
@@ -93,7 +108,11 @@ export const MessagePage = () => {
 
           {/* 버블 남기기 버튼 - 화면 맨 하단에 고정 */}
           <div className="pointer-events-auto fixed bottom-6 left-0 w-full flex justify-center">
-            <ButtonLg isOwner={false} onClick={handleSubmit} />
+            <ButtonLg
+              isOwner={false}
+              onClick={handleSubmit}
+              disabled={!isSubmitAble}
+            />
           </div>
         </div>
       }
