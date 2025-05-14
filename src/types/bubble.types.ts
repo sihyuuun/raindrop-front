@@ -5,6 +5,7 @@ export type BubbleComponentType = FunctionComponent<{
   onClick: () => void; // 필수 프로퍼티로 변경
   minVibration?: boolean;
   position?: [number, number, number];
+  text: string;
 }>;
 
 export interface AnimatedBubbleProps {
@@ -12,4 +13,5 @@ export interface AnimatedBubbleProps {
   originalPosition: Vector3;
   minVibration: boolean;
   onClick: () => void;
+  inputContent: string;
 }
