@@ -1,4 +1,10 @@
-import { FlowerDrop, HeartDrop, StarDrop, TeardropShape, WaterDrop } from "../message/WaterDropt";
+import {
+  FlowerDrop,
+  HeartDrop,
+  StarDrop,
+  TeardropShape,
+  WaterDrop,
+} from "../message/WaterDropt";
 import { useGetMessages } from "@/apis/api/get/useGetMessages";
 import { BubbleComponentType } from "@/types/bubble.types";
 import { MessageResponse, ModelId } from "@/types/message.types";
@@ -11,8 +17,13 @@ const modelComponents: Record<ModelId, BubbleComponentType> = {
   "5": FlowerDrop,
 };
 
-export const SceneMessages = ({ encryptedSceneId }: { encryptedSceneId: string }) => {
-  const { data: messageData, isSuccess: messagesLoaded } = useGetMessages(encryptedSceneId);
+export const SceneMessages = ({
+  encryptedSceneId,
+}: {
+  encryptedSceneId: string;
+}) => {
+  const { data: messageData, isSuccess: messagesLoaded } =
+    useGetMessages(encryptedSceneId);
 
   if (!messagesLoaded) return null;
 
@@ -31,7 +42,11 @@ export const SceneMessages = ({ encryptedSceneId }: { encryptedSceneId: string }
 
         return (
           <group key={msg.messageId} position={[x, y, z]}>
-            <Drop onClick={() => handleBubbleClick(msg)} position={[0, 0, 0]} />
+            <Drop
+              onClick={() => handleBubbleClick(msg)}
+              position={[0, 0, 0]}
+              text=""
+            />
           </group>
         );
       })}
