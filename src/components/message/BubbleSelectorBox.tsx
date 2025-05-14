@@ -8,29 +8,16 @@ import {
   TeardropShape,
   WaterDrop,
 } from "./WaterDropt";
-import { FunctionComponent } from "react";
-
-// 버블 컴포넌트 타입 정의 - 에러 해결을 위한 수정
-// FunctionComponent 타입을 직접 사용하여 타입 호환성 개선
-type BubbleComponentType = FunctionComponent<{
-  onClick: () => void; // 필수 프로퍼티로 변경
-  isSelected?: boolean;
-  position?: [number, number, number];
-}>;
-
-// 애니메이션 버블 컴포넌트의 props 타입 정의
-interface AnimatedBubbleProps {
-  BubbleComponent: BubbleComponentType;
-  originalPosition: Vector3;
-  isSelected: boolean;
-  onClick: () => void;
-}
+import {
+  BubbleComponentType,
+  AnimatedBubbleProps,
+} from "@/types/bubble.types.ts";
 
 // 애니메이션 버블 컴포넌트
 const AnimatedBubble = ({
   BubbleComponent,
   originalPosition,
-  isSelected,
+  minVibration,
   onClick,
 }: AnimatedBubbleProps) => {
   const groupRef = useRef<Object3D>(null);
@@ -64,7 +51,7 @@ const AnimatedBubble = ({
     });
     timelineRef.current = tl;
 
-    if (isSelected) {
+    if (minVibration) {
       // 초기 상태에서 애니메이션 시작 (깜빡임 방지)
       const currentX = groupRef.current.position.x;
       const currentY = groupRef.current.position.y;
@@ -157,11 +144,11 @@ const AnimatedBubble = ({
         timelineRef.current.kill();
       }
     };
-  }, [isSelected, originalPosition, ANIMATION_DURATION]);
+  }, [minVibration, originalPosition, ANIMATION_DURATION]);
 
   // 호버 상태에 따른 애니메이션 (선택되지 않은 상태에서만 적용)
   useEffect(() => {
-    if (!groupRef.current || isSelected || isAnimatingRef.current) return;
+    if (!groupRef.current || minVibration || isAnimatingRef.current) return;
 
     // 호버 효과 애니메이션
     gsap.to(groupRef.current.scale, {
@@ -180,7 +167,7 @@ const AnimatedBubble = ({
       ease: "power1.out",
       overwrite: "auto",
     });
-  }, [isHovered, originalPosition, isSelected]);
+  }, [isHovered, originalPosition, minVibration]);
 
   // onClick 핸들러 함수를 상수로 사용하여 안정성 보장
   const handleClick = () => onClick();
@@ -195,7 +182,7 @@ const AnimatedBubble = ({
     >
       <BubbleComponent
         onClick={handleClick}
-        isSelected={isSelected}
+        minVibration={minVibration}
         position={[0, 0, 0]}
       />
     </group>
@@ -221,11 +208,11 @@ export const BubbleSelectorBox = ({
 
   // 타입 캐스팅으로 타입 호환성 확보
   const bubbleTypes: BubbleComponentType[] = [
-    WaterDrop as unknown as BubbleComponentType,
-    HeartDrop as unknown as BubbleComponentType,
-    TeardropShape as unknown as BubbleComponentType,
-    StarDrop as unknown as BubbleComponentType,
-    FlowerDrop as unknown as BubbleComponentType,
+    WaterDrop,
+    HeartDrop,
+    TeardropShape,
+    StarDrop,
+    FlowerDrop,
   ];
 
   const handleBubbleClick = (index: number) => {
@@ -245,7 +232,7 @@ export const BubbleSelectorBox = ({
           key={index}
           BubbleComponent={bubbleTypes[index]}
           originalPosition={originalPosition}
-          isSelected={selectedBubble === index}
+          minVibration={selectedBubble === index}
           onClick={() => handleBubbleClick(index)}
         />
       ))}
