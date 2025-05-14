@@ -6,6 +6,7 @@ import { BubbleSelectorBox } from "@/components/message/BubbleSelectorBox";
 import { useAuthStore } from "@/store/authStore";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { usePostMessage } from "@/apis/api/post/usePostMessage";
 
 export const MessagePage = () => {
   const location = useLocation();
@@ -23,6 +24,9 @@ export const MessagePage = () => {
   const [inputNickName, setInputNickName] = useState("");
   const [inputModelId, setInputModelId] = useState<number | null>(null);
 
+  // message 추가 api 연동
+  const { mutate: submitMessage } = usePostMessage();
+
   useEffect(() => {
     if (
       isAuthenticated &&
@@ -36,31 +40,32 @@ export const MessagePage = () => {
 
   // 메시지 내용 변경 핸들러
   const handleContentChange = (value: string) => {
-    console.log(value);
     setInputContent(value);
   };
 
   // 닉네임 변경 핸들러
   const handleNickNameChange = (value: string) => {
-    console.log(value);
     setInputNickName(value);
   };
 
   // 모델 ID 변경 핸들러
   const handleModelChange = (index: number | null) => {
-    console.log("Selected bubble index:", index);
     setInputModelId(index);
   };
 
   // 버튼 클릭 핸들러
   const handleSubmit = () => {
-    console.log("메시지 제출:", {
-      content: inputContent,
-      nickName: inputNickName,
-      modelId: inputModelId,
-      encryptedSceneId,
-    });
+    // 타입 확인
+    if (!encryptedSceneId || inputModelId == null) {
+      return;
+    }
     // 여기에 API 호출 등의 제출 로직 추가
+    submitMessage({
+      sceneId: encryptedSceneId,
+      nickname: inputNickName,
+      modelId: String(inputModelId + 1),
+      content: inputContent,
+    });
   };
 
   if (!encryptedSceneId || isOwner) return null;
