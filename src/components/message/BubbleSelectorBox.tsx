@@ -202,9 +202,15 @@ const AnimatedBubble = ({
   );
 };
 
-export const BubbleSelectorBox = () => {
-  const [selectedBubble, setSelectedBubble] = useState<number | null>(null);
+interface BubbleSelectorBoxProps {
+  selectedBubble: number | null;
+  onSelectBubble: (index: number | null) => void;
+}
 
+export const BubbleSelectorBox = ({
+  selectedBubble,
+  onSelectBubble,
+}: BubbleSelectorBoxProps) => {
   const bubblePositions = [
     new Vector3(-1.4, -2.5, 0), // far left
     new Vector3(-0.7, -2.5, 0), // left
@@ -223,10 +229,12 @@ export const BubbleSelectorBox = () => {
   ];
 
   const handleBubbleClick = (index: number) => {
+    // 같은 버블을 다시 클릭하면 선택 해제
     if (selectedBubble === index) {
-      setSelectedBubble(null); // deselect
+      onSelectBubble(null);
     } else {
-      setSelectedBubble(index);
+      // 새로운 버블 선택
+      onSelectBubble(index);
     }
   };
 
