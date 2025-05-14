@@ -19,6 +19,7 @@ const AnimatedBubble = ({
   originalPosition,
   minVibration,
   onClick,
+  inputContent,
 }: AnimatedBubbleProps) => {
   const groupRef = useRef<Object3D>(null);
   const [isHovered, setIsHovered] = useState(false);
@@ -184,7 +185,7 @@ const AnimatedBubble = ({
         onClick={handleClick}
         minVibration={minVibration}
         position={[0, 0, 0]}
-        text="임시텍스티입니다임시텍스티입니다임시텍스티입니다임시텍스티입니다임시텍스티입니다"
+        text={inputContent}
       />
     </group>
   );
@@ -193,11 +194,13 @@ const AnimatedBubble = ({
 interface BubbleSelectorBoxProps {
   selectedBubble: number | null;
   onSelectBubble: (index: number | null) => void;
+  inputContent: string;
 }
 
 export const BubbleSelectorBox = ({
   selectedBubble,
   onSelectBubble,
+  inputContent,
 }: BubbleSelectorBoxProps) => {
   const bubblePositions = [
     new Vector3(-1.4, -2.5, 0), // far left
@@ -235,6 +238,7 @@ export const BubbleSelectorBox = ({
           originalPosition={originalPosition}
           minVibration={selectedBubble === index}
           onClick={() => handleBubbleClick(index)}
+          inputContent={inputContent}
         />
       ))}
     </group>

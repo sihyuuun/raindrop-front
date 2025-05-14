@@ -13,4 +13,5 @@ export interface AnimatedBubbleProps {
   originalPosition: Vector3;
   minVibration: boolean;
   onClick: () => void;
+  inputContent: string;
 }
