@@ -3,15 +3,18 @@ import { Button } from "@/components/ui/button";
 interface ButtonLgProps {
   isOwner: boolean;
   onClick?: () => void;
+  disabled?: boolean;
 }
 
-export function ButtonLg({ isOwner, onClick }: ButtonLgProps) {
+export function ButtonLg({ isOwner, onClick, disabled }: ButtonLgProps) {
   const BUTTON_TEXT = isOwner ? "🫧 버블 공유하기" : "🫧 버블 남기기";
 
   return (
     <Button
+      disabled={disabled}
       onClick={onClick}
-      className="bg-gray-50 font-jua rounded-2xl mb-[10%] h-[3rem] text-xl shadow-lg cursor-pointer">
+      className="bg-gray-50 font-jua rounded-2xl mb-[10%] h-[3rem] text-xl shadow-lg cursor-pointer"
+    >
       {BUTTON_TEXT}
     </Button>
   );
