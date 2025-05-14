@@ -85,7 +85,7 @@ const AnimatedBubble = ({
       tl.fromTo(
         groupRef.current.scale,
         { x: currentScaleX, y: currentScaleY, z: currentScaleZ },
-        { x: 6, y: 6, z: 6 },
+        { x: 5.6, y: 5.6, z: 5.6 },
         0, // 시작 시간 (동시 시작)
       );
     } else {
