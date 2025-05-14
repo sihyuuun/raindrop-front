@@ -22,4 +22,5 @@ export interface MessagePostRequest {
   sceneId: string;
   nickname: string;
   content: string;
+  modelId: string;
 }
