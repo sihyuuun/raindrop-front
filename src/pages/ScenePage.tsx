@@ -4,7 +4,14 @@ import { useGetEncryptedSceneIds } from "@/apis/api/get/useGetEncryptedSceneIds"
 import { ButtonLg } from "@/components/scene/ButtonLg";
 import { useAuthStore } from "@/store/authStore";
 import { SceneLayout } from "@/components/scene/SceneLayout";
-import { useKakaoShare } from "@/hooks/useKakaoShare";
+import { useWebShare } from "@/hooks/useWebShare";
+import { Button } from "@/components/ui/button";
+import { Modal } from "@/components/common/Modal";
+import { useModalStore } from "@/store/modalstore";
+import { usePutScenesTheme } from "@/apis/api/put/usePutScenesTheme";
+import { EnvironmentPreset } from "@/lib/constants";
+import { useSceneStore } from "@/store/sceneStore";
+import { SceneMessages } from "@/components/scene/SceneMessages";
 
 export const ScenePage = () => {
   const { encryptedSceneId } = useParams<{ encryptedSceneId: string }>();
@@ -12,14 +19,34 @@ export const ScenePage = () => {
 
   const { isSuccess, data } = useGetEncryptedSceneIds(encryptedSceneId ?? "");
   const { user, isAuthenticated } = useAuthStore();
-  const shareToKakao = useKakaoShare();
+  const shareToLink = useWebShare();
 
   const [isOwner, setIsOwner] = useState(false);
+  const { openModal } = useModalStore();
+  const { mutate: putTheme } = usePutScenesTheme();
+  const { setPreset } = useSceneStore();
 
+  const handleSaveTheme = (preset: EnvironmentPreset) => {
+    if (data?.data?.sceneId) {
+      putTheme({
+        sceneId: data.data.id,
+        theme: preset,
+      });
+    }
+  };
   useEffect(() => {
     //owner, guest 신분 분기 처리
-    if (isSuccess && isAuthenticated && user?.email === data.data.ownerSocialId) {
+    if (
+      isSuccess &&
+      isAuthenticated &&
+      data?.data?.ownerSocialId &&
+      user?.email === data.data.ownerSocialId
+    ) {
       setIsOwner(true);
+    }
+    // preset
+    if (isSuccess) {
+      setPreset(data.data.theme);
     }
   }, [isSuccess, data, isAuthenticated]);
 
@@ -28,10 +55,26 @@ export const ScenePage = () => {
   const handleLeaveMessage = () => {
     navigate(`/message?id=${encryptedSceneId}`);
   };
-
+  const handleOpenThemeModal = () => {
+    openModal("themeModal");
+  };
   return (
-    <SceneLayout encryptedSceneId={encryptedSceneId}>
-      <ButtonLg isOwner={isOwner} onClick={isOwner ? shareToKakao : handleLeaveMessage} />
-    </SceneLayout>
+    <SceneLayout
+      encryptedSceneId={encryptedSceneId}
+      // 2D UI 요소 (ButtonLg)를 일반 children으로 전달
+      children={
+        <div className="pointer-events-auto fixed bottom-6 left-0 w-full flex justify-center">
+          {isOwner && <Button onClick={handleOpenThemeModal}>버튼</Button>}
+          <Modal modalKey="themeModal" onSave={handleSaveTheme} />
+          <ButtonLg
+            isOwner={isOwner}
+            onClick={isOwner ? shareToLink : handleLeaveMessage}
+          />
+        </div>
+      }
+      // 현재 3D 객체가 필요 없다면 threeChildren은 생략 가능
+      // 필요시 3D 객체 추가 가능
+      threeChildren={<SceneMessages encryptedSceneId={encryptedSceneId} />}
+    />
   );
 };
