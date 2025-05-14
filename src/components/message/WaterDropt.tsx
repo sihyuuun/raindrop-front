@@ -7,15 +7,19 @@ import { useFrame } from "@react-three/fiber";
 export const WaterDrop = ({
   onClick,
   position = [0, 0, 0],
+  isSelected = false, // isSelected prop 추가
 }: {
   onClick: () => void;
   position?: [number, number, number];
+  isSelected?: boolean; // 선택된 상태 추가
 }) => {
   const sphereRef = useRef<Mesh>(null);
   useFrame((state) => {
     if (sphereRef.current) {
+      // 선택된 상태에서는 움직임 최소화 (진폭 0.005로 감소)
+      const amplitude = isSelected ? 0.005 : 0.03; // 0.1에서 0.03으로 감소
       sphereRef.current.position.y =
-        position[1] + Math.sin(state.clock.elapsedTime) * 0.1;
+        position[1] + Math.sin(state.clock.elapsedTime) * amplitude;
     }
   });
 
@@ -44,13 +48,16 @@ export const WaterDrop = ({
     </Sphere>
   );
 };
+
 // 하트 모양 형태
 export const HeartDrop = ({
   onClick,
   position = [0, 0, 0],
+  isSelected = false, // isSelected prop 추가
 }: {
   onClick: () => void;
   position?: [number, number, number];
+  isSelected?: boolean; // 선택된 상태 추가
 }) => {
   const heartRef = useRef<Mesh>(null);
 
@@ -85,8 +92,11 @@ export const HeartDrop = ({
       // 하트가 정방향으로 보이도록 회전 조정
       heartRef.current.rotation.y = state.clock.elapsedTime;
       heartRef.current.rotation.z = Math.PI; // 하트 방향 수정
+
+      // 선택된 상태에서는 움직임 최소화 (진폭 0.005로 감소)
+      const amplitude = isSelected ? 0.005 : 0.03; // 0.1에서 0.03으로 감소
       heartRef.current.position.y =
-        position[1] + Math.sin(state.clock.elapsedTime) * 0.1;
+        position[1] + Math.sin(state.clock.elapsedTime) * amplitude;
     }
   });
 
@@ -122,17 +132,22 @@ export const HeartDrop = ({
 export const TeardropShape = ({
   onClick,
   position = [0, 0, 0],
+  isSelected = false, // isSelected prop 추가
 }: {
   onClick: () => void;
   position?: [number, number, number];
+  isSelected?: boolean; // 선택된 상태 추가
 }) => {
   const teardropRef = useRef<Group>(null);
 
   useFrame((state) => {
     if (teardropRef.current) {
       teardropRef.current.rotation.y = state.clock.elapsedTime;
+
+      // 선택된 상태에서는 움직임 최소화 (진폭 0.005로 감소)
+      const amplitude = isSelected ? 0.005 : 0.03; // 0.1에서 0.03으로 감소
       teardropRef.current.position.y =
-        position[1] + Math.sin(state.clock.elapsedTime) * 0.1;
+        position[1] + Math.sin(state.clock.elapsedTime) * amplitude;
     }
   });
 
@@ -187,9 +202,11 @@ export const TeardropShape = ({
 export const StarDrop = ({
   onClick,
   position = [0, 0, 0],
+  isSelected = false, // isSelected prop 추가
 }: {
   onClick: () => void;
   position?: [number, number, number];
+  isSelected?: boolean; // 선택된 상태 추가
 }) => {
   const starRef = useRef<Mesh>(null);
 
@@ -231,10 +248,16 @@ export const StarDrop = ({
   useFrame((state) => {
     if (starRef.current) {
       starRef.current.rotation.y = state.clock.elapsedTime;
+
+      // 회전 효과도 선택된 상태일 때 감소
+      const rotationAmplitude = isSelected ? 0.03 : 0.2;
       starRef.current.rotation.x =
-        Math.sin(state.clock.elapsedTime * 0.5) * 0.2;
+        Math.sin(state.clock.elapsedTime * 0.5) * rotationAmplitude;
+
+      // 선택된 상태에서는 움직임 최소화 (진폭 0.005로 감소)
+      const amplitude = isSelected ? 0.001 : 0.03; // 0.1에서 0.03으로 감소
       starRef.current.position.y =
-        position[1] + Math.sin(state.clock.elapsedTime) * 0.1;
+        position[1] + Math.sin(state.clock.elapsedTime) * amplitude;
     }
   });
 
@@ -269,9 +292,11 @@ export const StarDrop = ({
 export const FlowerDrop = ({
   onClick,
   position = [0, 0, 0],
+  isSelected = false, // isSelected prop 추가
 }: {
   onClick: () => void;
   position?: [number, number, number];
+  isSelected?: boolean; // 선택된 상태 추가
 }) => {
   const flowerRef = useRef<Mesh>(null);
 
@@ -311,10 +336,16 @@ export const FlowerDrop = ({
   useFrame((state) => {
     if (flowerRef.current) {
       flowerRef.current.rotation.y = state.clock.elapsedTime;
+
+      // 회전 효과도 선택된 상태일 때 감소
+      const rotationAmplitude = isSelected ? 0.05 : 0.2;
       flowerRef.current.rotation.z =
-        Math.sin(state.clock.elapsedTime * 0.5) * 0.2;
+        Math.sin(state.clock.elapsedTime * 0.5) * rotationAmplitude;
+
+      // 선택된 상태에서는 움직임 최소화 (진폭 0.005로 감소)
+      const amplitude = isSelected ? 0.005 : 0.03; // 0.1에서 0.03으로 감소
       flowerRef.current.position.y =
-        position[1] + Math.sin(state.clock.elapsedTime) * 0.1;
+        position[1] + Math.sin(state.clock.elapsedTime) * amplitude;
     }
   });
 
