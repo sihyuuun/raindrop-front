@@ -21,6 +21,7 @@ export const MessagePage = () => {
   // message input 데이터
   const [inputContent, setInputContent] = useState("");
   const [inputNickName, setInputNickName] = useState("");
+  const [inputModelId, setInputModelId] = useState<number | null>(null);
 
   useEffect(() => {
     if (
@@ -45,11 +46,18 @@ export const MessagePage = () => {
     setInputNickName(value);
   };
 
+  // 모델 ID 변경 핸들러
+  const handleModelChange = (index: number | null) => {
+    console.log("Selected bubble index:", index);
+    setInputModelId(index);
+  };
+
   // 버튼 클릭 핸들러
   const handleSubmit = () => {
     console.log("메시지 제출:", {
       content: inputContent,
       nickName: inputNickName,
+      modelId: inputModelId,
       encryptedSceneId,
     });
     // 여기에 API 호출 등의 제출 로직 추가
@@ -60,7 +68,12 @@ export const MessagePage = () => {
   return (
     <SceneLayout
       encryptedSceneId={encryptedSceneId}
-      threeChildren={<BubbleSelectorBox />}
+      threeChildren={
+        <BubbleSelectorBox
+          selectedBubble={inputModelId}
+          onSelectBubble={handleModelChange}
+        />
+      }
       children={
         <div className="h-full w-full pointer-events-none">
           {/* 메시지 입력 박스 컴포넌트 - 상단에 배치 */}
