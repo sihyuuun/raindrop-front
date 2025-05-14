@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { THEME_ICONS } from "@/lib/themeIcons";
 import { EnvironmentPreset } from "@/lib/constants";
+import { useSceneStore } from "@/store/sceneStore";
 
 interface ModalThemeSelectProps {
   onClose: () => void;
@@ -17,6 +18,7 @@ export const ModalThemeSelector = ({
   onSave,
   onPreview,
 }: ModalThemeSelectProps) => {
+  const { setPreset } = useSceneStore(); // hook 사용
   const [themeIndex, setThemeIndex] = useState(0);
   const selectedKey = themeKeys[themeIndex]; // key로 sceneTheme 선택
   const selectedTheme = THEME_ICONS[selectedKey]; // key 기반 테마 정보 가져오기
@@ -25,12 +27,14 @@ export const ModalThemeSelector = ({
     const newIndex = (themeIndex - 1 + themeKeys.length) % themeKeys.length;
     setThemeIndex(newIndex);
     onPreview?.(themeKeys[newIndex] as EnvironmentPreset); // sceneTheme 호출
+    setPreset(themeKeys[newIndex] as EnvironmentPreset);
   };
 
   const handleNext = () => {
     const newIndex = (themeIndex + 1) % themeKeys.length;
     setThemeIndex(newIndex);
     onPreview?.(themeKeys[newIndex] as EnvironmentPreset); // sceneTheme 호출
+    setPreset(themeKeys[newIndex] as EnvironmentPreset);
   };
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
 
@@ -88,7 +92,8 @@ export const ModalThemeSelector = ({
               <h3 className="text-lg font-semibold">{selectedTheme.name}</h3>
               <button
                 onClick={() => {
-                  onSave?.(themeKeys[themeIndex] as EnvironmentPreset); // 선택된 preset을 전달
+                  const selected = themeKeys[themeIndex] as EnvironmentPreset;
+                  onSave?.(selected); // 부모 콜백
                   onClose();
                 }}
                 className="bg-[#9DEEFB] text-blue-700 text-sm font-medium px-6 py-2 rounded-full shadow-md hover:opacity-90 cursor-pointer"

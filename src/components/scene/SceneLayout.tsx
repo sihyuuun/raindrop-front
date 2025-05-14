@@ -2,10 +2,11 @@ import { ReactNode } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
 import { ProfileHeader } from "@/components/scene/ProfileHeader";
-import { DEFAULT_ENVIRONMENT_PRESET } from "@/lib/constants";
+import { EnvironmentPreset } from "@/lib/constants";
 import RainLayer from "./RainLayer";
 import { useWeatherQuery } from "@/apis/api/get/useWeatherQuery";
 import { isRainy } from "@/utils/weatherUtils";
+import { useSceneStore } from "@/store/sceneStore";
 
 interface SceneLayoutProps {
   encryptedSceneId: string;
@@ -16,19 +17,16 @@ interface SceneLayoutProps {
 // 배경 요소만 담당하는 CloudBackground 컴포넌트
 const CloudBackground = () => {
   const { data: weather, isLoading } = useWeatherQuery();
+  const { preset } = useSceneStore(); // 전역 상태에서 preset 가져옴
 
   return (
     <>
-      <Environment preset={DEFAULT_ENVIRONMENT_PRESET} background blur={1} />
+      <Environment preset={preset} background blur={1} />
       {!isLoading && weather?.id && isRainy(weather.id) && <RainLayer />}
     </>
   );
 };
-export const SceneLayout = ({
-  encryptedSceneId,
-  children,
-  threeChildren,
-}: SceneLayoutProps) => {
+export const SceneLayout = ({ encryptedSceneId, children, threeChildren }: SceneLayoutProps) => {
   return (
     <div className="relative w-screen h-screen overflow-hidden">
       {/* 3D 요소를 위한 전체 화면 Canvas */}
