@@ -1,10 +1,13 @@
 import { ApiResponse } from "@/types/api.types.ts";
 
+export type ModelId = "1" | "2" | "3" | "4" | "5";
+
 export interface MessageResponse {
   messageId: number;
   nickname: string;
   content: string;
   createdAt: string;
+  modelId: ModelId;
 }
 
 export type MessageGetResponse = ApiResponse<MessageResponse[]>; // 실제 응답 값

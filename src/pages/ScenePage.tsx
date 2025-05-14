@@ -11,6 +11,7 @@ import { useModalStore } from "@/store/modalstore";
 import { usePutScenesTheme } from "@/apis/api/put/usePutScenesTheme";
 import { EnvironmentPreset } from "@/lib/constants";
 import { useSceneStore } from "@/store/sceneStore";
+import { SceneMessages } from "@/components/scene/SceneMessages";
 
 export const ScenePage = () => {
   const { encryptedSceneId } = useParams<{ encryptedSceneId: string }>();
@@ -63,7 +64,7 @@ export const ScenePage = () => {
       preset={data?.data?.theme as EnvironmentPreset}
       // 2D UI 요소 (ButtonLg)를 일반 children으로 전달
       children={
-        <div className="flex flex-col h-full justify-end">
+        <div className="pointer-events-auto fixed bottom-6 left-0 w-full flex justify-center">
           {isOwner && <Button onClick={handleOpenThemeModal}>버튼</Button>}
           <Modal modalKey="themeModal" onSave={handleSaveTheme} />
           <ButtonLg isOwner={isOwner} onClick={isOwner ? shareToLink : handleLeaveMessage} />
@@ -71,7 +72,7 @@ export const ScenePage = () => {
       }
       // 현재 3D 객체가 필요 없다면 threeChildren은 생략 가능
       // 필요시 3D 객체 추가 가능
-      threeChildren={null}
+      threeChildren={<SceneMessages encryptedSceneId={encryptedSceneId} />}
     />
   );
 };
