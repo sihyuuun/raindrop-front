@@ -5,6 +5,7 @@ import { ButtonLg } from "@/components/scene/ButtonLg";
 import { useAuthStore } from "@/store/authStore";
 import { SceneLayout } from "@/components/scene/SceneLayout";
 import { useWebShare } from "@/hooks/useWebShare";
+import { SceneMessages } from "@/components/scene/SceneMessages";
 
 export const ScenePage = () => {
   const { encryptedSceneId } = useParams<{ encryptedSceneId: string }>();
@@ -34,13 +35,13 @@ export const ScenePage = () => {
       encryptedSceneId={encryptedSceneId}
       // 2D UI 요소 (ButtonLg)를 일반 children으로 전달
       children={
-        <div className="flex flex-col h-full justify-end">
+        <div className="pointer-events-auto fixed bottom-6 left-0 w-full flex justify-center">
           <ButtonLg isOwner={isOwner} onClick={isOwner ? shareToLink : handleLeaveMessage} />
         </div>
       }
       // 현재 3D 객체가 필요 없다면 threeChildren은 생략 가능
       // 필요시 3D 객체 추가 가능
-      threeChildren={null}
+      threeChildren={<SceneMessages encryptedSceneId={encryptedSceneId} />}
     />
   );
 };
