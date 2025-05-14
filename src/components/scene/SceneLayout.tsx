@@ -2,7 +2,6 @@ import { ReactNode } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
 import { ProfileHeader } from "@/components/scene/ProfileHeader";
-import { EnvironmentPreset } from "@/lib/constants";
 import RainLayer from "./RainLayer";
 import { useWeatherQuery } from "@/apis/api/get/useWeatherQuery";
 import { isRainy } from "@/utils/weatherUtils";
@@ -26,7 +25,11 @@ const CloudBackground = () => {
     </>
   );
 };
-export const SceneLayout = ({ encryptedSceneId, children, threeChildren }: SceneLayoutProps) => {
+export const SceneLayout = ({
+  encryptedSceneId,
+  children,
+  threeChildren,
+}: SceneLayoutProps) => {
   return (
     <div className="relative w-screen h-screen overflow-hidden">
       {/* 3D 요소를 위한 전체 화면 Canvas */}
