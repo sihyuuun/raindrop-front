@@ -7,7 +7,7 @@ import { useFrame } from "@react-three/fiber";
 export const WaterDrop = ({
   onClick,
   position = [0, 0, 0],
-  isSelected = false, // isSelected prop 추가
+  isSelected = false, // minVibration prop 추가
 }: {
   onClick: () => void;
   position?: [number, number, number];
@@ -53,7 +53,7 @@ export const WaterDrop = ({
 export const HeartDrop = ({
   onClick,
   position = [0, 0, 0],
-  isSelected = false, // isSelected prop 추가
+  isSelected = false, // minVibration prop 추가
 }: {
   onClick: () => void;
   position?: [number, number, number];
@@ -132,7 +132,7 @@ export const HeartDrop = ({
 export const TeardropShape = ({
   onClick,
   position = [0, 0, 0],
-  isSelected = false, // isSelected prop 추가
+  isSelected = false, // minVibration prop 추가
 }: {
   onClick: () => void;
   position?: [number, number, number];
@@ -202,7 +202,7 @@ export const TeardropShape = ({
 export const StarDrop = ({
   onClick,
   position = [0, 0, 0],
-  isSelected = false, // isSelected prop 추가
+  isSelected = false, // minVibration prop 추가
 }: {
   onClick: () => void;
   position?: [number, number, number];
@@ -292,7 +292,7 @@ export const StarDrop = ({
 export const FlowerDrop = ({
   onClick,
   position = [0, 0, 0],
-  isSelected = false, // isSelected prop 추가
+  isSelected = false, // minVibration prop 추가
 }: {
   onClick: () => void;
   position?: [number, number, number];
