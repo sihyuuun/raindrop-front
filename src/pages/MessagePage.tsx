@@ -92,6 +92,7 @@ export const MessagePage = () => {
         <BubbleSelectorBox
           selectedBubble={inputModelId}
           onSelectBubble={handleModelChange}
+          inputContent={inputContent}
         />
       }
       children={
