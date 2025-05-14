@@ -6,6 +6,7 @@ import { BubbleSelectorBox } from "@/components/message/BubbleSelectorBox";
 import { useAuthStore } from "@/store/authStore";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+
 export const MessagePage = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -16,6 +17,10 @@ export const MessagePage = () => {
 
   // 게시판 주인 여부 확인
   const [isOwner, setIsOwner] = useState(false);
+
+  // message input 데이터
+  const [inputContent, setInputContent] = useState("");
+  const [inputNickName, setInputNickName] = useState("");
 
   useEffect(() => {
     if (
@@ -28,6 +33,28 @@ export const MessagePage = () => {
     }
   }, [isSuccess, data, isAuthenticated, user]);
 
+  // 메시지 내용 변경 핸들러
+  const handleContentChange = (value: string) => {
+    console.log(value);
+    setInputContent(value);
+  };
+
+  // 닉네임 변경 핸들러
+  const handleNickNameChange = (value: string) => {
+    console.log(value);
+    setInputNickName(value);
+  };
+
+  // 버튼 클릭 핸들러
+  const handleSubmit = () => {
+    console.log("메시지 제출:", {
+      content: inputContent,
+      nickName: inputNickName,
+      encryptedSceneId,
+    });
+    // 여기에 API 호출 등의 제출 로직 추가
+  };
+
   if (!encryptedSceneId || isOwner) return null;
 
   return (
@@ -38,17 +65,17 @@ export const MessagePage = () => {
         <div className="h-full w-full pointer-events-none">
           {/* 메시지 입력 박스 컴포넌트 - 상단에 배치 */}
           <div className="pointer-events-auto mt-[5%]">
-            <MessageInputBox />
+            <MessageInputBox
+              content={inputContent}
+              nickName={inputNickName}
+              onContentChange={handleContentChange}
+              onNickNameChange={handleNickNameChange}
+            />
           </div>
 
           {/* 버블 남기기 버튼 - 화면 맨 하단에 고정 */}
           <div className="pointer-events-auto fixed bottom-6 left-0 w-full flex justify-center">
-            <ButtonLg
-              isOwner={false}
-              onClick={() => {
-                console.log("eeee");
-              }}
-            />
+            <ButtonLg isOwner={false} onClick={handleSubmit} />
           </div>
         </div>
       }
