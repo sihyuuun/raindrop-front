@@ -1,4 +1,10 @@
-import { FlowerDrop, HeartDrop, StarDrop, TeardropShape, WaterDrop } from "../message/WaterDropt";
+import {
+  FlowerDrop,
+  HeartDrop,
+  StarDrop,
+  TeardropShape,
+  WaterDrop,
+} from "../message/WaterDropt";
 import { useGetMessages } from "@/apis/api/get/useGetMessages";
 import { BubbleComponentType } from "@/types/bubble.types";
 import { MessageResponse, ModelId } from "@/types/message.types";
@@ -13,16 +19,16 @@ const modelComponents: Record<ModelId, BubbleComponentType> = {
 };
 
 const fixedPositions: [number, number, number][] = [
-  [-1, 2.5, 0],
-  [1.2, 2, 0],
-  [-0.4, 0.7, 0],
-  [0.4, 0.4, 0],
-  [0, 0.1, 0],
-  [-0.5, -0.2, 0],
-  [0.5, -0.4, 0],
-  [-0.4, -0.6, 0],
-  [0.4, -0.75, 0],
-  [0, -2, 0],
+  [-1.0, 2.4, 0],
+  [-0.2, 1.5, 0],
+  [1.0, 2.2, 0],
+  [-0.9, 0.5, 0],
+  [0.8, 0.3, 0],
+  [-0.1, -0.4, 0],
+  [0.5, -1.4, 0],
+  [1.0, -2.4, 0],
+  [-0.6, -2.3, 0],
+  [-1.2, -1.5, 0],
 ];
 
 export const SceneMessages = ({
@@ -32,32 +38,32 @@ export const SceneMessages = ({
   encryptedSceneId: string;
   isOwner: boolean;
 }) => {
-  const { data: messageData, isSuccess: messagesLoaded } = useGetMessages(encryptedSceneId);
+  const { data: messageData, isSuccess: messagesLoaded } =
+    useGetMessages(encryptedSceneId);
 
   if (!messagesLoaded) return null;
 
   return (
     <>
-      {messageData.data?.map((msg: MessageResponse, index: number) => {
-        const BubbleComponent = modelComponents[msg.modelId];
-        const position = fixedPositions[index];
+      {messageData.data
+        ?.slice(0, 10)
+        .map((msg: MessageResponse, index: number) => {
+          const BubbleComponent = modelComponents[msg.modelId];
+          const position = fixedPositions[index];
 
-        const handleBubbleClick = (msg: MessageResponse) => {
-          console.log(`Bubble clicked: ${msg.messageId}`);
-        };
-
-        return (
-          <FloatingMessageBubble
-            key={msg.messageId}
-            BubbleComponent={BubbleComponent}
-            onClick={() => handleBubbleClick(msg)}
-            position={position}
-            mainText={msg.nickname}
-            subText={isOwner ? msg.content : ""}
-            scale={2.3}
-          />
-        );
-      })}
+          return (
+            <FloatingMessageBubble
+              key={msg.messageId}
+              id={msg.messageId}
+              BubbleComponent={BubbleComponent}
+              position={position}
+              isOwner={isOwner}
+              mainText={msg.nickname}
+              subText={isOwner ? msg.content : ""}
+              scale={2.3}
+            />
+          );
+        })}
     </>
   );
 };
