@@ -93,6 +93,7 @@ export const MessagePage = () => {
           selectedBubble={inputModelId}
           onSelectBubble={handleModelChange}
           inputContent={inputContent}
+          inputNickName={inputNickName}
         />
       }
       children={

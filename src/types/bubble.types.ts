@@ -2,10 +2,12 @@ import { FunctionComponent } from "react";
 import { Vector3 } from "three";
 
 export type BubbleComponentType = FunctionComponent<{
-  onClick: () => void; // 필수 프로퍼티로 변경
-  minVibration?: boolean;
+  onClick: () => void;
   position?: [number, number, number];
-  text: string;
+  minVibration?: boolean;
+  mainText: string;
+  subText?: string;
+  color?: string;
 }>;
 
 export interface AnimatedBubbleProps {
@@ -14,4 +16,5 @@ export interface AnimatedBubbleProps {
   minVibration: boolean;
   onClick: () => void;
   inputContent: string;
+  inputNickName: string;
 }
