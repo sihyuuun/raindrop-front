@@ -22,7 +22,6 @@ export interface AnimatedBubbleProps {
 export interface FloatingMessageBubbleProps {
   BubbleComponent: BubbleComponentType;
   position: [number, number, number];
-  onClick: () => void;
   mainText: string;
   subText?: string;
   scale: number;

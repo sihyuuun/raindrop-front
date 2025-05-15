@@ -6,7 +6,6 @@ import { Group } from "three";
 export const FloatingMessageBubble = ({
   BubbleComponent,
   position,
-  onClick,
   mainText,
   subText,
   scale,
@@ -20,11 +19,13 @@ export const FloatingMessageBubble = ({
         position[1] + Math.sin(t + position[0]) * 0.05;
     }
   });
-
+  const handleBubbleClick = () => {
+    console.log(`Bubble clicked`);
+  };
   return (
     <group ref={groupRef} position={position} scale={[scale, scale, scale]}>
       <BubbleComponent
-        onClick={onClick}
+        onClick={handleBubbleClick}
         minVibration={true}
         position={[0, 0, 0]}
         mainText={mainText}
