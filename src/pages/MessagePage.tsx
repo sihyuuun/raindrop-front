@@ -30,6 +30,7 @@ export const MessagePage: React.FC = () => {
       user?.email === data.data.ownerSocialId
     ) {
       alert("스스로에게 메세지를 남길 수 없어요!");
+      setIsOwner(true);
       navigate(-1);
     }
   }, [isAuthenticated, isSuccess, data, user, navigate]);
@@ -38,7 +39,7 @@ export const MessagePage: React.FC = () => {
     setIsSubmitAble(
       inputContent.trim().length > 0 &&
         inputNickName.trim().length > 0 &&
-        inputModelId !== null,
+        inputModelId !== null
     );
   }, [inputContent, inputNickName, inputModelId]);
 
@@ -57,26 +58,32 @@ export const MessagePage: React.FC = () => {
             selectedBubble={inputModelId}
             onSelectBubble={setInputModelId}
             inputContent={inputContent}
+            inputNickName={inputNickName}
           />
         }
-      >
-        <div className="pointer-events-auto mt-[5%]">
-          <MessageInputBox
-            content={inputContent}
-            nickName={inputNickName}
-            onContentChange={setInputContent}
-            onNickNameChange={setInputNickName}
-          />
-        </div>
-        <div className="pointer-events-auto fixed bottom-6 left-0 w-full flex justify-center">
-          <ButtonLg
-            isOwner={false}
-            onClick={handleSubmit}
-            disabled={!isSubmitAble}
-          />
-        </div>
-      </SceneLayout>
+        children={
+          <div className="h-full w-full pointer-events-none">
+            {/* 메시지 입력 박스 컴포넌트 - 상단에 배치 */}
+            <div className="pointer-events-auto mt-[5%]">
+              <MessageInputBox
+                content={inputContent}
+                nickName={inputNickName}
+                onContentChange={setInputContent}
+                onNickNameChange={setInputNickName}
+              />
+            </div>
 
+            {/* 버블 남기기 버튼 - 화면 맨 하단에 고정 */}
+            <div className="pointer-events-auto fixed bottom-6 left-0 w-full flex justify-center">
+              <ButtonLg
+                isOwner={false}
+                onClick={handleSubmit}
+                disabled={!isSubmitAble}
+              />
+            </div>
+          </div>
+        }
+      />
       <Modal
         modalKey="confirmBubble"
         sceneId={sceneId}
@@ -84,6 +91,7 @@ export const MessagePage: React.FC = () => {
         modelId={inputModelId!}
         content={inputContent}
       />
+      \
     </>
   );
 };

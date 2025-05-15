@@ -19,8 +19,10 @@ const modelComponents: Record<ModelId, BubbleComponentType> = {
 
 export const SceneMessages = ({
   encryptedSceneId,
+  isOwner,
 }: {
   encryptedSceneId: string;
+  isOwner: boolean;
 }) => {
   const { data: messageData, isSuccess: messagesLoaded } =
     useGetMessages(encryptedSceneId);
@@ -45,7 +47,8 @@ export const SceneMessages = ({
             <Drop
               onClick={() => handleBubbleClick(msg)}
               position={[0, 0, 0]}
-              text=""
+              mainText={msg.nickname}
+              subText={isOwner ? msg.content : ""}
             />
           </group>
         );

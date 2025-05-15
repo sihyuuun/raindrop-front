@@ -10,6 +10,7 @@ export const AnimatedBubble = ({
   minVibration,
   onClick,
   inputContent,
+  inputNickName,
 }: AnimatedBubbleProps) => {
   const groupRef = useRef<Object3D>(null);
   const [isHovered, setIsHovered] = useState(false);
@@ -175,7 +176,8 @@ export const AnimatedBubble = ({
         onClick={handleClick}
         minVibration={minVibration}
         position={[0, 0, 0]}
-        text={inputContent}
+        mainText={inputContent}
+        subText={inputNickName}
       />
     </group>
   );
