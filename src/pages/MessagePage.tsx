@@ -1,6 +1,6 @@
 // src/pages/MessagePage.tsx
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useGetEncryptedSceneIds } from "@/apis/api/get/useGetEncryptedSceneIds";
 import { usePostMessage } from "@/apis/api/post/usePostMessage";
 import { useAuthStore } from "@/store/authStore";
@@ -12,6 +12,7 @@ import { ButtonLg } from "@/components/scene/ButtonLg";
 import { Modal } from "@/components/common/Modal";
 
 export const MessagePage: React.FC = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const encryptedSceneId = searchParams.get("id");
@@ -61,12 +62,20 @@ export const MessagePage: React.FC = () => {
   // 모달에서 확인 클릭 시 실제 API 호출
   const handleConfirmBubble = () => {
     if (!encryptedSceneId || inputModelId == null) return;
-    submitMessage({
-      sceneId: encryptedSceneId,
-      nickname: inputNickName,
-      modelId: String(inputModelId + 1),
-      content: inputContent,
-    });
+    submitMessage(
+      {
+        sceneId: encryptedSceneId,
+        nickname: inputNickName,
+        modelId: String(inputModelId! + 1),
+        content: inputContent,
+      },
+      {
+        onSuccess: () => {
+          // 뒤로 가기
+          navigate(-1);
+        },
+      },
+    );
   };
 
   if (!encryptedSceneId || isOwner) return null;
