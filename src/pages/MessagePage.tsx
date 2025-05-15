@@ -39,7 +39,7 @@ export const MessagePage: React.FC = () => {
     setIsSubmitAble(
       inputContent.trim().length > 0 &&
         inputNickName.trim().length > 0 &&
-        inputModelId !== null
+        inputModelId !== null,
     );
   }, [inputContent, inputNickName, inputModelId]);
 
@@ -47,7 +47,7 @@ export const MessagePage: React.FC = () => {
     openModal("confirmBubble");
   };
 
-  if (isOwner || !isAuthenticated || !isSuccess) return null;
+  if (isOwner || !isSuccess) return null;
 
   return (
     <>

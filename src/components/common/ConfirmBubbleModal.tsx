@@ -39,7 +39,7 @@ export const MessageConfirmModal: React.FC<MessageConfirmModalProps> = ({
       {
         onSuccess: () => {
           onClose();
-          navigate(-1);
+          navigate(`/${sceneId}?sentBubble=true`, { replace: true });
         },
         onError: (err: unknown) => {
           const msg = err instanceof Error ? err.message : "알 수 없는 오류";
