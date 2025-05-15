@@ -56,7 +56,7 @@ export const Modal = ({ modalKey, onSave, onConfirmBubble }: ModalProps) => {
       {modalKey === "confirmBubble" && (
         <ConfirmBubbleModal
           animateIn={animateIn}
-          onClose={() => closeModal(modalKey)}
+          onClose={handleCloseWithAnimation}
           onConfirm={() => {
             onConfirmBubble?.();
             closeModal(modalKey);
