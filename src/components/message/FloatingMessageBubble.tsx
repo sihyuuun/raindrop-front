@@ -21,7 +21,7 @@ export const FloatingMessageBubble = ({
   });
 
   return (
-    <group ref={groupRef} position={position} scale={[scale, scale, scale]} onClick={onClick}>
+    <group ref={groupRef} position={position} scale={[scale, scale, scale]}>
       <BubbleComponent
         onClick={onClick}
         minVibration={true}
