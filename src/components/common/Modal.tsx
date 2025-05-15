@@ -6,6 +6,7 @@ import { MessageConfirmModal } from "./ConfirmBubbleModal.tsx";
 import { useModalStore } from "@/store/modalstore";
 import { EnvironmentPreset } from "@/lib/constants";
 import { useAuth } from "@/hooks/useAuth";
+import { ModalShareIntro } from "@/components/common/ModalShareIntro.tsx";
 
 interface ModalProps {
   modalKey: string;
@@ -15,6 +16,8 @@ interface ModalProps {
   nickname?: string;
   modelId?: number;
   content?: string;
+  onLogin?: () => void;
+  onConfirm?: () => void;
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -24,6 +27,8 @@ export const Modal: React.FC<ModalProps> = ({
   nickname,
   modelId,
   content,
+  onLogin,
+  onConfirm,
 }) => {
   const [animateIn, setAnimateIn] = useState(false);
   const { isOpen, closeModal } = useModalStore();
@@ -74,6 +79,22 @@ export const Modal: React.FC<ModalProps> = ({
             content={content}
           />
         )}
+
+      {modalKey === "shareIntroModal" && (
+        <ModalShareIntro
+          animateIn={animateIn}
+          onClose={closeWithAnim}
+          onConfirm={onConfirm}
+        />
+      )}
+
+      {modalKey === "loginPrompt" && (
+        <ModalLoginPrompt
+          animateIn={animateIn}
+          onClose={closeWithAnim}
+          onLogin={onLogin}
+        />
+      )}
     </>
   );
 };
