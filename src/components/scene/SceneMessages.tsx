@@ -8,7 +8,6 @@ import {
 import { useGetMessages } from "@/apis/api/get/useGetMessages";
 import { BubbleComponentType } from "@/types/bubble.types";
 import { MessageResponse, ModelId } from "@/types/message.types";
-import { useEffect } from "react";
 
 const modelComponents: Record<ModelId, BubbleComponentType> = {
   "1": WaterDrop,
