@@ -46,7 +46,7 @@ export const MessagePage: React.FC = () => {
     openModal("confirmBubble");
   };
 
-  if (!isAuthenticated || !isSuccess) return null;
+  if (isOwner || !isAuthenticated || !isSuccess) return null;
 
   return (
     <>
