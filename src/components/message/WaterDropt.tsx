@@ -3,12 +3,13 @@ import { Sphere, Text } from "@react-three/drei";
 import { Shape, ExtrudeGeometry, Mesh, Group } from "three";
 import { useFrame } from "@react-three/fiber";
 
-// 공통 타입 정의
+// 공통 타입 정의 변경
 type DropProps = {
   onClick: () => void;
   position?: [number, number, number];
   minVibration?: boolean;
-  text: string;
+  mainText: string;
+  subText?: string;
   color?: string;
 };
 
@@ -119,6 +120,7 @@ interface DropTextProps {
   position?: [number, number, number];
   fontSize?: number;
   rotation?: [number, number, number];
+  color?: string;
 }
 
 // 공통 텍스트 컴포넌트
@@ -127,17 +129,20 @@ const DropText = ({
   position = [0, 0, 0.2],
   fontSize = 0.03,
   rotation = [0, 0, 0],
+  color = "#333",
 }: DropTextProps) => (
   <Text
     position={position}
     fontSize={fontSize}
-    color="#333"
+    color={color}
     anchorX="center"
     anchorY="middle"
     maxWidth={0.3}
     textAlign="center"
     overflowWrap="break-word"
     rotation={rotation}
+    fontWeight="normal"
+    font="/fonts/NanumGothic-Bold.ttf"
   >
     {text}
   </Text>
@@ -148,7 +153,8 @@ export const WaterDrop = ({
   onClick,
   position = [0, 0, 0],
   minVibration = false,
-  text,
+  mainText,
+  subText,
   color = "#ffffff",
 }: DropProps) => {
   const sphereRef = useRef<Mesh | null>(null);
@@ -163,7 +169,17 @@ export const WaterDrop = ({
       onClick={onClick}
     >
       <meshPhysicalMaterial {...getBaseMaterial(color, 0.6)} />
-      <DropText text={text} position={[0, 0.05, 0.2]} fontSize={0.03} />
+      {/* 메인 텍스트 - 앞면 */}
+      <DropText text={mainText} position={[0, 0.05, 0.2]} fontSize={0.03} />
+      {/* 서브 텍스트 - 앞면 */}
+      {subText && (
+        <DropText
+          text={subText}
+          position={[0, -0.05, 0.21]}
+          fontSize={0.02}
+          color="#666"
+        />
+      )}
     </Sphere>
   );
 };
@@ -173,7 +189,8 @@ export const HeartDrop = ({
   onClick,
   position = [0, 0, 0],
   minVibration = false,
-  text,
+  mainText,
+  subText,
   color = "#ff69b4",
 }: DropProps) => {
   const heartRef = useRef<Mesh>(null);
@@ -216,12 +233,23 @@ export const HeartDrop = ({
       onClick={onClick}
     >
       <meshPhysicalMaterial {...getBaseMaterial(color, 0.7)} />
+      {/* 메인 텍스트 */}
       <DropText
-        text={text}
-        position={[0, -0.1, 0.21]}
-        fontSize={0.05}
+        text={mainText}
+        position={[0, -0.13, 0.21]}
+        fontSize={0.045}
         rotation={[0, 0, Math.PI]}
       />
+      {/* 서브 텍스트 */}
+      {subText && (
+        <DropText
+          text={subText}
+          position={[0, 0.09, 0.21]}
+          fontSize={0.04}
+          color="#666"
+          rotation={[0, 0, Math.PI]}
+        />
+      )}
     </mesh>
   );
 };
@@ -231,7 +259,8 @@ export const TeardropShape = ({
   onClick,
   position = [0, 0, 0],
   minVibration = false,
-  text,
+  mainText,
+  subText,
   color = "#88ccff",
 }: DropProps) => {
   const teardropRef = useRef<Group>(null);
@@ -252,17 +281,27 @@ export const TeardropShape = ({
         <meshPhysicalMaterial {...getBaseMaterial(color, 0.6)} />
       </mesh>
 
-      <DropText text={text} position={[0, 0.08, 0.15]} fontSize={0.03} />
+      {/* 메인 텍스트 */}
+      <DropText text={mainText} position={[0, 0.08, 0.15]} fontSize={0.025} />
+      {/* 서브 텍스트 */}
+      {subText && (
+        <DropText
+          text={subText}
+          position={[0, -0.04, 0.15]}
+          fontSize={0.02}
+          color="#666"
+        />
+      )}
     </group>
   );
 };
-
 // 별 모양 형태
 export const StarDrop = ({
   onClick,
   position = [0, 0, 0],
   minVibration = false,
-  text,
+  mainText,
+  subText,
   color = "#ffdd44",
 }: DropProps) => {
   const starRef = useRef<Mesh>(null);
@@ -281,7 +320,17 @@ export const StarDrop = ({
       onClick={onClick}
     >
       <meshPhysicalMaterial {...getBaseMaterial(color, 0.7)} />
-      <DropText text={text} position={[0, 0, 0.075]} fontSize={0.04} />
+      {/* 메인 텍스트 */}
+      <DropText text={mainText} position={[0, 0.03, 0.075]} fontSize={0.025} />
+      {/* 서브 텍스트 */}
+      {subText && (
+        <DropText
+          text={subText}
+          position={[0, -0.05, 0.075]}
+          fontSize={0.025}
+          color="#666"
+        />
+      )}
     </mesh>
   );
 };
@@ -291,7 +340,8 @@ export const FlowerDrop = ({
   onClick,
   position = [0, 0, 0],
   minVibration = false,
-  text,
+  mainText,
+  subText,
   color = "#ff88cc",
 }: DropProps) => {
   const flowerRef = useRef<Mesh | null>(null);
@@ -315,7 +365,75 @@ export const FlowerDrop = ({
       onClick={onClick}
     >
       <meshPhysicalMaterial {...getBaseMaterial(color, 0.7)} />
-      <DropText text={text} position={[0, 0, 0.075]} fontSize={0.03} />
+      {/* 메인 텍스트 */}
+      <DropText text={mainText} position={[0, 0.03, 0.075]} fontSize={0.025} />
+      {/* 서브 텍스트 */}
+      {subText && (
+        <DropText
+          text={subText}
+          position={[0, -0.06, 0.075]}
+          fontSize={0.022}
+          color="#666"
+        />
+      )}
+    </mesh>
+  );
+};
+
+// 터진 방울 모양 컴포넌트
+export const BurstDrop = ({
+  onClick,
+  position = [0, 0, 0],
+  minVibration = false,
+  mainText,
+  subText,
+  color = "#fe9aff", // 이미지의 핑크/퍼플 색상과 유사한 기본값
+}: DropProps) => {
+  const burstRef = useRef<Mesh>(null);
+
+  // 기하학적 형태 생성 (메모이제이션)
+  const burstGeometry = useMemo(() => createBurstGeometry(), []);
+
+  // 애니메이션 로직
+  useFrame((state) => {
+    if (!burstRef.current) return;
+
+    // 진동 애니메이션
+    const amplitude = minVibration ? 0.005 : 0.02;
+    burstRef.current.position.y =
+      position[1] + Math.sin(state.clock.elapsedTime * 1.5) * amplitude;
+
+    // 약간의 회전 애니메이션 (선택 상태가 아닐 때만)
+    if (!minVibration) {
+      burstRef.current.rotation.z =
+        Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
+    } else {
+      // 선택 상태일 때는 정면을 바라보도록
+      burstRef.current.rotation.z = 0;
+    }
+  });
+
+  return (
+    <mesh
+      ref={burstRef}
+      geometry={burstGeometry}
+      position={position}
+      onClick={onClick}
+    >
+      <meshPhysicalMaterial {...getBaseMaterial(color, 0.8)} />
+
+      {/* 메인 텍스트 - 위치 조정 */}
+      <DropText text={mainText} position={[0, 0.02, 0.075]} fontSize={0.025} />
+
+      {/* 서브 텍스트 - 위치 조정 */}
+      {subText && (
+        <DropText
+          text={subText}
+          position={[0, -0.06, 0.075]}
+          fontSize={0.02}
+          color="#666"
+        />
+      )}
     </mesh>
   );
 };
@@ -386,81 +504,85 @@ function createFlowerGeometry(): ExtrudeGeometry {
   return new ExtrudeGeometry(flowerShape, extrudeSettings);
 }
 
-// 모든 드롭 타입을 통합한 컴포넌트
-export const Drop = ({
-  type = "water",
-  onClick,
-  position = [0, 0, 0],
-  minVibration = false,
-  text,
-  color,
-}: {
-  type: "water" | "heart" | "teardrop" | "star" | "flower";
-} & Omit<DropProps, "color"> & {
-    color?: string;
-  }) => {
-  // 타입에 따른 기본 색상 지정
-  const defaultColors: Record<string, string> = {
-    water: "#ffffff",
-    heart: "#ff69b4",
-    teardrop: "#88ccff",
-    star: "#ffdd44",
-    flower: "#ff88cc",
+// 터진 방울 모양 생성 함수
+function createBurstGeometry(): ExtrudeGeometry {
+  const burstShape = new Shape();
+
+  // 보다 유기적인 터진 방울 모양 만들기
+  // 베지어 곡선을 사용해 부드러운 곡선 형태 생성
+
+  // 시작점
+  burstShape.moveTo(0, 0.2);
+
+  // 왼쪽 위 곡선
+  burstShape.bezierCurveTo(
+    -0.1,
+    0.22, // 제어점 1
+    -0.18,
+    0.12, // 제어점 2
+    -0.15,
+    0.04 // 끝점
+  );
+
+  // 왼쪽 돌출부
+  burstShape.bezierCurveTo(
+    -0.2,
+    -0.02, // 제어점 1
+    -0.25,
+    -0.05, // 제어점 2
+    -0.18,
+    -0.1 // 끝점
+  );
+
+  // 왼쪽 아래 곡선
+  burstShape.bezierCurveTo(
+    -0.12,
+    -0.13, // 제어점 1
+    -0.08,
+    -0.17, // 제어점 2
+    0,
+    -0.15 // 끝점
+  );
+
+  // 오른쪽 아래 곡선
+  burstShape.bezierCurveTo(
+    0.05,
+    -0.18, // 제어점 1
+    0.12,
+    -0.16, // 제어점 2
+    0.15,
+    -0.1 // 끝점
+  );
+
+  // 오른쪽 돌출부
+  burstShape.bezierCurveTo(
+    0.18,
+    -0.05, // 제어점 1
+    0.22,
+    -0.02, // 제어점 2
+    0.18,
+    0.05 // 끝점
+  );
+
+  // 오른쪽 위 곡선 (닫기)
+  burstShape.bezierCurveTo(
+    0.15,
+    0.12, // 제어점 1
+    0.08,
+    0.19, // 제어점 2
+    0,
+    0.2 // 시작점으로 돌아오기
+  );
+
+  // 돌출 설정
+  const extrudeSettings = {
+    steps: 1,
+    depth: 0.05,
+    bevelEnabled: true,
+    bevelThickness: 0.02,
+    bevelSize: 0.02,
+    bevelSegments: 5,
   };
 
-  const dropColor = color || defaultColors[type];
-
-  switch (type) {
-    case "heart":
-      return (
-        <HeartDrop
-          onClick={onClick}
-          position={position}
-          minVibration={minVibration}
-          text={text}
-          color={dropColor}
-        />
-      );
-    case "teardrop":
-      return (
-        <TeardropShape
-          onClick={onClick}
-          position={position}
-          minVibration={minVibration}
-          text={text}
-          color={dropColor}
-        />
-      );
-    case "star":
-      return (
-        <StarDrop
-          onClick={onClick}
-          position={position}
-          minVibration={minVibration}
-          text={text}
-          color={dropColor}
-        />
-      );
-    case "flower":
-      return (
-        <FlowerDrop
-          onClick={onClick}
-          position={position}
-          minVibration={minVibration}
-          text={text}
-          color={dropColor}
-        />
-      );
-    case "water":
-    default:
-      return (
-        <WaterDrop
-          onClick={onClick}
-          position={position}
-          minVibration={minVibration}
-          text={text}
-          color={dropColor}
-        />
-      );
-  }
-};
+  return new ExtrudeGeometry(burstShape, extrudeSettings);
+}
