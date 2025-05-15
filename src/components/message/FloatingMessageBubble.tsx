@@ -1,6 +1,6 @@
 import { useSceneStore } from "@/store/sceneStore";
 import { FloatingMessageBubbleProps } from "@/types/bubble.types";
-import { useFrame, useThree } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import { useEffect, useRef, useState } from "react";
 import { Group, Vector3 } from "three";
 import gsap from "gsap";
