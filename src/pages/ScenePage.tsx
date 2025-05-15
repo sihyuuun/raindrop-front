@@ -12,12 +12,13 @@ import { usePutScenesTheme } from "@/apis/api/put/usePutScenesTheme";
 import { EnvironmentPreset } from "@/lib/constants";
 import { useSceneStore } from "@/store/sceneStore";
 import { SceneMessages } from "@/components/scene/SceneMessages";
+import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 
 export const ScenePage = () => {
   const { encryptedSceneId } = useParams<{ encryptedSceneId: string }>();
   const navigate = useNavigate();
 
-  const { isSuccess, data } = useGetEncryptedSceneIds(encryptedSceneId ?? "");
+  const { isSuccess, isLoading, data } = useGetEncryptedSceneIds(encryptedSceneId ?? "");
   const { user, isAuthenticated } = useAuthStore();
   const shareToLink = useWebShare();
 
@@ -49,6 +50,14 @@ export const ScenePage = () => {
       setPreset(data.data.theme);
     }
   }, [isSuccess, data, isAuthenticated]);
+
+  if (isLoading) {
+    return (
+      <div className="w-screen h-screen flex items-center justify-center bg-white">
+        <LoadingSpinner size={60} color="#3BDDF7" />
+      </div>
+    );
+  }
 
   if (!encryptedSceneId) return null;
 
