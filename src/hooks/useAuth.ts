@@ -31,10 +31,7 @@ export const useAuth = () => {
    */
   const initiateKakaoLogin = () => {
     const baseUrl = import.meta.env.VITE_APP_BASE_URL;
-    const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?
-response_type=code
-&client_id=8162b95c200bcd82ce88d8c5468f41c5
-&redirect_uri=${baseUrl}/auth/login/kakao`;
+    const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=8162b95c200bcd82ce88d8c5468f41c5&redirect_uri=${baseUrl}/auth/login/kakao`;
 
     window.location.href = kakaoAuthUrl;
   };
