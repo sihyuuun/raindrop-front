@@ -175,7 +175,7 @@ export const WaterDrop = ({
       {subText && (
         <DropText
           text={subText}
-          position={[0, -0.05, 0.3]}
+          position={[0, -0.05, 0.21]}
           fontSize={0.02}
           color="#666"
         />
@@ -236,16 +236,16 @@ export const HeartDrop = ({
       {/* 메인 텍스트 */}
       <DropText
         text={mainText}
-        position={[0, -0.05, 0.21]}
-        fontSize={0.05}
+        position={[0, -0.13, 0.21]}
+        fontSize={0.045}
         rotation={[0, 0, Math.PI]}
       />
       {/* 서브 텍스트 */}
       {subText && (
         <DropText
           text={subText}
-          position={[0, -0.15, 0.21]}
-          fontSize={0.03}
+          position={[0, 0.09, 0.21]}
+          fontSize={0.04}
           color="#666"
           rotation={[0, 0, Math.PI]}
         />
@@ -282,12 +282,12 @@ export const TeardropShape = ({
       </mesh>
 
       {/* 메인 텍스트 */}
-      <DropText text={mainText} position={[0, 0.08, 0.15]} fontSize={0.03} />
+      <DropText text={mainText} position={[0, 0.08, 0.15]} fontSize={0.025} />
       {/* 서브 텍스트 */}
       {subText && (
         <DropText
           text={subText}
-          position={[0, -0.02, 0.15]}
+          position={[0, -0.04, 0.15]}
           fontSize={0.02}
           color="#666"
         />
@@ -321,7 +321,7 @@ export const StarDrop = ({
     >
       <meshPhysicalMaterial {...getBaseMaterial(color, 0.7)} />
       {/* 메인 텍스트 */}
-      <DropText text={mainText} position={[0, 0.03, 0.075]} fontSize={0.04} />
+      <DropText text={mainText} position={[0, 0.03, 0.075]} fontSize={0.025} />
       {/* 서브 텍스트 */}
       {subText && (
         <DropText
@@ -366,13 +366,13 @@ export const FlowerDrop = ({
     >
       <meshPhysicalMaterial {...getBaseMaterial(color, 0.7)} />
       {/* 메인 텍스트 */}
-      <DropText text={mainText} position={[0, 0.03, 0.075]} fontSize={0.03} />
+      <DropText text={mainText} position={[0, 0.03, 0.075]} fontSize={0.025} />
       {/* 서브 텍스트 */}
       {subText && (
         <DropText
           text={subText}
-          position={[0, -0.04, 0.075]}
-          fontSize={0.02}
+          position={[0, -0.06, 0.075]}
+          fontSize={0.022}
           color="#666"
         />
       )}
