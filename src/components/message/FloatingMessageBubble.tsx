@@ -16,12 +16,13 @@ export const FloatingMessageBubble = ({
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
     if (groupRef.current) {
-      groupRef.current.position.y = position[1] + Math.sin(t + position[0]) * 0.05;
+      groupRef.current.position.y =
+        position[1] + Math.sin(t + position[0]) * 0.05;
     }
   });
 
   return (
-    <group ref={groupRef} position={position} scale={[scale, scale, scale]} onClick={onClick}>
+    <group ref={groupRef} position={position} scale={[scale, scale, scale]}>
       <BubbleComponent
         onClick={onClick}
         minVibration={true}
