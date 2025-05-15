@@ -23,6 +23,7 @@ export interface FloatingMessageBubbleProps {
   BubbleComponent: BubbleComponentType;
   position: [number, number, number];
   onClick: () => void;
-  text: string;
+  mainText: string;
+  subText?: string;
   scale: number;
 }

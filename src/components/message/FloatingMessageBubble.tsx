@@ -7,7 +7,8 @@ export const FloatingMessageBubble = ({
   BubbleComponent,
   position,
   onClick,
-  text,
+  mainText,
+  subText,
   scale,
 }: FloatingMessageBubbleProps) => {
   const groupRef = useRef<Group>(null);
@@ -21,7 +22,13 @@ export const FloatingMessageBubble = ({
 
   return (
     <group ref={groupRef} position={position} scale={[scale, scale, scale]} onClick={onClick}>
-      <BubbleComponent onClick={onClick} minVibration={true} position={[0, 0, 0]} text={text} />
+      <BubbleComponent
+        onClick={onClick}
+        minVibration={true}
+        position={[0, 0, 0]}
+        mainText={mainText}
+        subText={subText}
+      />
     </group>
   );
 };
