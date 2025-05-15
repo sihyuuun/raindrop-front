@@ -4,22 +4,14 @@ import fingerAnimation from "@/assets/lottie/finger.json";
 interface ModalLoginPromptProps {
   onClose: () => void;
   animateIn: boolean;
+  onLogin?: () => void;
 }
 
 export const ModalLoginPrompt = ({
   onClose,
   animateIn,
+  onLogin,
 }: ModalLoginPromptProps) => {
-  const handleKakaoLogin = () => {
-    // Vite 환경 변수 접근
-    const kakaoUrl = import.meta.env.VITE_KAKAO_LOGIN_URL!;
-    console.log("redirect to:", kakaoUrl);
-    if (!kakaoUrl) {
-      console.error("VITE_KAKAO_LOGIN_URL 이 정의되지 않았습니다!");
-      return;
-    }
-    window.location.assign(kakaoUrl);
-  };
   return (
     <div className="fixed inset-0 bg-black/40 z-50" onClick={onClose}>
       <div
@@ -43,7 +35,7 @@ export const ModalLoginPrompt = ({
                 우선 로그인 해주세요
               </h2>
               <button
-                onClick={handleKakaoLogin}
+                onClick={onLogin}
                 className="rounded-full px-6 py-2 text-black font-semibold mt-1 hover:opacity-90 shadow cursor-pointer"
                 style={{ backgroundColor: "#FEE500" }}
               >
