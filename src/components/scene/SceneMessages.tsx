@@ -54,6 +54,7 @@ export const SceneMessages = ({
           return (
             <FloatingMessageBubble
               key={msg.messageId}
+              id={msg.messageId}
               BubbleComponent={BubbleComponent}
               position={position}
               mainText={msg.nickname}

@@ -20,6 +20,7 @@ export interface AnimatedBubbleProps {
 }
 
 export interface FloatingMessageBubbleProps {
+  id: number;
   BubbleComponent: BubbleComponentType;
   position: [number, number, number];
   mainText: string;
