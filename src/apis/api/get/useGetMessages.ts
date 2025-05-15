@@ -1,8 +1,6 @@
-// src/apis/api/message/useGetMessages.ts
-
 import { useQuery } from "@tanstack/react-query";
 import { authClient } from "@/apis/client";
-import { MessageGetResponse } from "@/types/message.types";
+import { MessageResponse } from "@/types/message.types";
 
 /**
  * 암호화된 sceneId를 기반으로 메시지 목록을 조회하는 커스텀 훅
@@ -11,13 +9,24 @@ import { MessageGetResponse } from "@/types/message.types";
  * @returns TanStack Query의 useQuery 결과 객체
  */
 export const useGetMessages = (sceneId: string) => {
-  return useQuery<MessageGetResponse>({
+  return useQuery<MessageResponse>({
     queryKey: ["messages", sceneId],
     queryFn: async () => {
-      const { data } = await authClient.get("/messages", {
+      const { data } = await authClient.get<MessageResponse>("/messages", {
         params: { scene: sceneId },
       });
-      return data;
+
+      const sortedMessages = [...data.data]
+        .sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        )
+        .slice(0, 10);
+
+      return {
+        ...data,
+        data: sortedMessages,
+      };
     },
     staleTime: 1000 * 30,
     refetchOnWindowFocus: false,

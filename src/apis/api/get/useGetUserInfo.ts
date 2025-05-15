@@ -1,4 +1,3 @@
-// src/hooks/useUserInfo.ts 수정
 import { useQuery } from "@tanstack/react-query";
 import { authClient } from "../../client";
 import { useAuthStore } from "@/store/authStore";
@@ -17,7 +16,7 @@ export const fetchUserInfo = async (): Promise<UserInfo> => {
   return data;
 };
 
-export const useUserInfo = (options = {}) => {
+export const useGetUserInfo = (options = {}) => {
   const { isAuthenticated } = useAuthStore();
 
   return useQuery({

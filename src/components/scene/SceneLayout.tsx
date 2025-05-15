@@ -31,7 +31,10 @@ export const SceneLayout = ({
   threeChildren,
 }: SceneLayoutProps) => {
   return (
-    <div className="relative w-screen h-screen overflow-hidden">
+    <div
+      className="relative w-screen overflow-hidden"
+      style={{ height: "100dvh" }}
+    >
       {/* 3D 요소를 위한 전체 화면 Canvas */}
       <div className="absolute inset-0">
         <Canvas camera={{ fov: 75, position: [0, 0, 5] }}>
