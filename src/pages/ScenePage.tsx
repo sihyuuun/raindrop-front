@@ -61,7 +61,7 @@ export const ScenePage = () => {
   return (
     <SceneLayout
       encryptedSceneId={encryptedSceneId}
-      // 2D UI 요소 (ButtonLg)를 일반 children으로 전달
+      // 2D UI 요소 (PostButton)를 일반 children으로 전달
       children={
         <>
           <div className="pointer-events-auto fixed fixed top-6 right-2 z-50">
@@ -73,7 +73,10 @@ export const ScenePage = () => {
             <Modal modalKey="themeModal" onSave={handleSaveTheme} />
           </div>
           <div className="pointer-events-auto fixed bottom-6 left-0 w-full flex justify-center">
-            <ButtonLg isOwner={isOwner} onClick={isOwner ? shareToLink : handleLeaveMessage} />
+            <ButtonLg
+              isOwner={isOwner}
+              onClick={isOwner ? shareToLink : handleLeaveMessage}
+            />
           </div>
         </>
       }
