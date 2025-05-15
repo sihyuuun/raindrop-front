@@ -61,7 +61,7 @@ export const ScenePage = () => {
   return (
     <SceneLayout
       encryptedSceneId={encryptedSceneId}
-      // 2D UI 요소 (ButtonLg)를 일반 children으로 전달
+      // 2D UI 요소 (PostButton)를 일반 children으로 전달
       children={
         <>
           <div className="pointer-events-auto fixed top-6 right-2 z-50">
