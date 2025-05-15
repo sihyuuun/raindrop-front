@@ -13,12 +13,14 @@ interface BubbleSelectorBoxProps {
   selectedBubble: number | null;
   onSelectBubble: (index: number | null) => void;
   inputContent: string;
+  inputNickName: string;
 }
 
 export const BubbleSelectorBox = ({
   selectedBubble,
   onSelectBubble,
   inputContent,
+  inputNickName,
 }: BubbleSelectorBoxProps) => {
   const bubblePositions = [
     new Vector3(-1.4, -2.5, 0), // far left
@@ -56,6 +58,7 @@ export const BubbleSelectorBox = ({
           minVibration={selectedBubble === index}
           onClick={() => handleBubbleClick(index)}
           inputContent={inputContent}
+          inputNickName={inputNickName}
         />
       ))}
     </group>

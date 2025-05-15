@@ -3,12 +3,13 @@ import { Sphere, Text } from "@react-three/drei";
 import { Shape, ExtrudeGeometry, Mesh, Group } from "three";
 import { useFrame } from "@react-three/fiber";
 
-// 공통 타입 정의
+// 공통 타입 정의 변경
 type DropProps = {
   onClick: () => void;
   position?: [number, number, number];
   minVibration?: boolean;
-  text: string;
+  mainText: string;
+  subText?: string;
   color?: string;
 };
 
@@ -119,6 +120,7 @@ interface DropTextProps {
   position?: [number, number, number];
   fontSize?: number;
   rotation?: [number, number, number];
+  color?: string;
 }
 
 // 공통 텍스트 컴포넌트
@@ -127,17 +129,20 @@ const DropText = ({
   position = [0, 0, 0.2],
   fontSize = 0.03,
   rotation = [0, 0, 0],
+  color = "#333",
 }: DropTextProps) => (
   <Text
     position={position}
     fontSize={fontSize}
-    color="#333"
+    color={color}
     anchorX="center"
     anchorY="middle"
     maxWidth={0.3}
     textAlign="center"
     overflowWrap="break-word"
     rotation={rotation}
+    fontWeight="normal"
+    font="/fonts/NanumGothic-Bold.ttf"
   >
     {text}
   </Text>
@@ -148,7 +153,8 @@ export const WaterDrop = ({
   onClick,
   position = [0, 0, 0],
   minVibration = false,
-  text,
+  mainText,
+  subText,
   color = "#ffffff",
 }: DropProps) => {
   const sphereRef = useRef<Mesh | null>(null);
@@ -163,7 +169,17 @@ export const WaterDrop = ({
       onClick={onClick}
     >
       <meshPhysicalMaterial {...getBaseMaterial(color, 0.6)} />
-      <DropText text={text} position={[0, 0.05, 0.2]} fontSize={0.03} />
+      {/* 메인 텍스트 - 앞면 */}
+      <DropText text={mainText} position={[0, 0.05, 0.2]} fontSize={0.03} />
+      {/* 서브 텍스트 - 앞면 */}
+      {subText && (
+        <DropText
+          text={subText}
+          position={[0, -0.05, 0.21]}
+          fontSize={0.02}
+          color="#666"
+        />
+      )}
     </Sphere>
   );
 };
@@ -173,7 +189,8 @@ export const HeartDrop = ({
   onClick,
   position = [0, 0, 0],
   minVibration = false,
-  text,
+  mainText,
+  subText,
   color = "#ff69b4",
 }: DropProps) => {
   const heartRef = useRef<Mesh>(null);
@@ -216,12 +233,23 @@ export const HeartDrop = ({
       onClick={onClick}
     >
       <meshPhysicalMaterial {...getBaseMaterial(color, 0.7)} />
+      {/* 메인 텍스트 */}
       <DropText
-        text={text}
-        position={[0, -0.1, 0.21]}
-        fontSize={0.05}
+        text={mainText}
+        position={[0, -0.13, 0.21]}
+        fontSize={0.045}
         rotation={[0, 0, Math.PI]}
       />
+      {/* 서브 텍스트 */}
+      {subText && (
+        <DropText
+          text={subText}
+          position={[0, 0.09, 0.21]}
+          fontSize={0.04}
+          color="#666"
+          rotation={[0, 0, Math.PI]}
+        />
+      )}
     </mesh>
   );
 };
@@ -231,7 +259,8 @@ export const TeardropShape = ({
   onClick,
   position = [0, 0, 0],
   minVibration = false,
-  text,
+  mainText,
+  subText,
   color = "#88ccff",
 }: DropProps) => {
   const teardropRef = useRef<Group>(null);
@@ -252,17 +281,27 @@ export const TeardropShape = ({
         <meshPhysicalMaterial {...getBaseMaterial(color, 0.6)} />
       </mesh>
 
-      <DropText text={text} position={[0, 0.08, 0.15]} fontSize={0.03} />
+      {/* 메인 텍스트 */}
+      <DropText text={mainText} position={[0, 0.08, 0.15]} fontSize={0.025} />
+      {/* 서브 텍스트 */}
+      {subText && (
+        <DropText
+          text={subText}
+          position={[0, -0.04, 0.15]}
+          fontSize={0.02}
+          color="#666"
+        />
+      )}
     </group>
   );
 };
-
 // 별 모양 형태
 export const StarDrop = ({
   onClick,
   position = [0, 0, 0],
   minVibration = false,
-  text,
+  mainText,
+  subText,
   color = "#ffdd44",
 }: DropProps) => {
   const starRef = useRef<Mesh>(null);
@@ -281,7 +320,17 @@ export const StarDrop = ({
       onClick={onClick}
     >
       <meshPhysicalMaterial {...getBaseMaterial(color, 0.7)} />
-      <DropText text={text} position={[0, 0, 0.075]} fontSize={0.04} />
+      {/* 메인 텍스트 */}
+      <DropText text={mainText} position={[0, 0.03, 0.075]} fontSize={0.025} />
+      {/* 서브 텍스트 */}
+      {subText && (
+        <DropText
+          text={subText}
+          position={[0, -0.05, 0.075]}
+          fontSize={0.025}
+          color="#666"
+        />
+      )}
     </mesh>
   );
 };
@@ -291,7 +340,8 @@ export const FlowerDrop = ({
   onClick,
   position = [0, 0, 0],
   minVibration = false,
-  text,
+  mainText,
+  subText,
   color = "#ff88cc",
 }: DropProps) => {
   const flowerRef = useRef<Mesh | null>(null);
@@ -315,7 +365,17 @@ export const FlowerDrop = ({
       onClick={onClick}
     >
       <meshPhysicalMaterial {...getBaseMaterial(color, 0.7)} />
-      <DropText text={text} position={[0, 0, 0.075]} fontSize={0.03} />
+      {/* 메인 텍스트 */}
+      <DropText text={mainText} position={[0, 0.03, 0.075]} fontSize={0.025} />
+      {/* 서브 텍스트 */}
+      {subText && (
+        <DropText
+          text={subText}
+          position={[0, -0.06, 0.075]}
+          fontSize={0.022}
+          color="#666"
+        />
+      )}
     </mesh>
   );
 };
@@ -392,7 +452,8 @@ export const Drop = ({
   onClick,
   position = [0, 0, 0],
   minVibration = false,
-  text,
+  mainText,
+  subText,
   color,
 }: {
   type: "water" | "heart" | "teardrop" | "star" | "flower";
@@ -417,7 +478,8 @@ export const Drop = ({
           onClick={onClick}
           position={position}
           minVibration={minVibration}
-          text={text}
+          mainText={mainText}
+          subText={subText}
           color={dropColor}
         />
       );
@@ -427,7 +489,8 @@ export const Drop = ({
           onClick={onClick}
           position={position}
           minVibration={minVibration}
-          text={text}
+          mainText={mainText}
+          subText={subText}
           color={dropColor}
         />
       );
@@ -437,7 +500,8 @@ export const Drop = ({
           onClick={onClick}
           position={position}
           minVibration={minVibration}
-          text={text}
+          mainText={mainText}
+          subText={subText}
           color={dropColor}
         />
       );
@@ -447,7 +511,8 @@ export const Drop = ({
           onClick={onClick}
           position={position}
           minVibration={minVibration}
-          text={text}
+          mainText={mainText}
+          subText={subText}
           color={dropColor}
         />
       );
@@ -458,7 +523,8 @@ export const Drop = ({
           onClick={onClick}
           position={position}
           minVibration={minVibration}
-          text={text}
+          mainText={mainText}
+          subText={subText}
           color={dropColor}
         />
       );

@@ -1,44 +1,53 @@
-import { useEffect, useState } from "react";
+// src/components/common/Modal.tsx
+import React, { useEffect, useState } from "react";
 import { ModalThemeSelector } from "./ModalThemeSelector";
+import { ModalLoginPrompt } from "./ModalLoginPrompt";
+import { MessageConfirmModal } from "./ConfirmBubbleModal.tsx";
 import { useModalStore } from "@/store/modalstore";
 import { EnvironmentPreset } from "@/lib/constants";
-import { ModalLoginPrompt } from "./ModalLoginPrompt";
 import { useAuth } from "@/hooks/useAuth";
 
 interface ModalProps {
   modalKey: string;
   onSave?: (preset: EnvironmentPreset) => void;
+  // for confirmBubble
+  sceneId?: string;
+  nickname?: string;
+  modelId?: number;
+  content?: string;
 }
 
-export const Modal = ({ modalKey, onSave }: ModalProps) => {
+export const Modal: React.FC<ModalProps> = ({
+  modalKey,
+  onSave,
+  sceneId,
+  nickname,
+  modelId,
+  content,
+}) => {
   const [animateIn, setAnimateIn] = useState(false);
   const { isOpen, closeModal } = useModalStore();
   const { initiateKakaoLogin } = useAuth();
 
-  const isModalOpen = isOpen(modalKey);
-  const handleCloseWithAnimation = () => {
-    setAnimateIn(false);
-    setTimeout(() => {
-      closeModal(modalKey);
-    }, 700);
-  };
-
+  const open = isOpen(modalKey);
   useEffect(() => {
-    if (isModalOpen) {
-      setTimeout(() => setAnimateIn(true), 10);
-    } else {
-      setAnimateIn(false);
-    }
-  }, [isModalOpen]);
+    if (open) setTimeout(() => setAnimateIn(true), 10);
+    else setAnimateIn(false);
+  }, [open]);
 
-  if (!isModalOpen) return null;
+  if (!open) return null;
+
+  const closeWithAnim = () => {
+    setAnimateIn(false);
+    setTimeout(() => closeModal(modalKey), 700);
+  };
 
   return (
     <>
       {modalKey === "themeModal" && (
         <ModalThemeSelector
           animateIn={animateIn}
-          onClose={handleCloseWithAnimation}
+          onClose={closeWithAnim}
           onSave={onSave}
         />
       )}
@@ -46,10 +55,25 @@ export const Modal = ({ modalKey, onSave }: ModalProps) => {
       {modalKey === "loginModal" && (
         <ModalLoginPrompt
           animateIn={animateIn}
-          onClose={handleCloseWithAnimation}
+          onClose={closeWithAnim}
           onLogin={initiateKakaoLogin}
         />
       )}
+
+      {modalKey === "confirmBubble" &&
+        sceneId &&
+        nickname !== undefined &&
+        modelId !== undefined &&
+        content !== undefined && (
+          <MessageConfirmModal
+            animateIn={animateIn}
+            onClose={closeWithAnim}
+            sceneId={sceneId}
+            nickname={nickname}
+            modelId={modelId}
+            content={content}
+          />
+        )}
     </>
   );
 };
