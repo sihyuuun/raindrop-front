@@ -18,6 +18,12 @@ export const Modal = ({ modalKey, onSave, onConfirmBubble }: ModalProps) => {
   const { initiateKakaoLogin } = useAuth();
 
   const isModalOpen = isOpen(modalKey);
+  const handleCloseWithAnimation = () => {
+    setAnimateIn(false);
+    setTimeout(() => {
+      closeModal(modalKey);
+    }, 700);
+  };
 
   useEffect(() => {
     if (isModalOpen) {
@@ -34,7 +40,7 @@ export const Modal = ({ modalKey, onSave, onConfirmBubble }: ModalProps) => {
       {modalKey === "themeModal" && (
         <ModalThemeSelector
           animateIn={animateIn}
-          onClose={() => closeModal(modalKey)}
+          onClose={handleCloseWithAnimation}
           onSave={onSave}
         />
       )}
@@ -42,7 +48,7 @@ export const Modal = ({ modalKey, onSave, onConfirmBubble }: ModalProps) => {
       {modalKey === "loginModal" && (
         <ModalLoginPrompt
           animateIn={animateIn}
-          onClose={() => closeModal(modalKey)}
+          onClose={handleCloseWithAnimation}
           onLogin={initiateKakaoLogin}
         />
       )}
