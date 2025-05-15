@@ -44,6 +44,7 @@ interface CustomRotation {
 }
 
 // 애니메이션 로직을 추출한 훅
+/// 애니메이션 로직을 추출한 훅 - 향상된 버전
 const useDropAnimation = (
   ref: React.RefObject<Mesh | Group | null>,
   position: [number, number, number] = [0, 0, 0],
@@ -61,6 +62,10 @@ const useDropAnimation = (
   );
   // 초기 렌더링 플래그
   const isInitialRender = useRef(true);
+  // 애니메이션 시작 시간 저장용 ref
+  const startTime = useRef(0);
+  // 이전 프레임 위치 저장용 ref (스무딩 효과를 위해)
+  const prevPosition = useRef<[number, number, number]>([...position]);
 
   // 기본 방향으로 설정할 회전값 초기화 함수
   const getDefaultRotation = () => {
@@ -80,9 +85,13 @@ const useDropAnimation = (
   useFrame((state) => {
     if (!ref.current) return;
 
+    const { clock } = state;
+    const elapsedTime = clock.elapsedTime;
+
     // 첫 프레임에서 기본 회전값 설정 (아직 설정되지 않은 경우)
     if (defaultRotation.current === null) {
       defaultRotation.current = getDefaultRotation();
+      startTime.current = elapsedTime;
     }
 
     // 초기 렌더링 시 바로 기본 회전값 적용
@@ -93,34 +102,90 @@ const useDropAnimation = (
       isInitialRender.current = false;
     }
 
-    // minVibration 상태가 false에서 true로 변경될 때 기본 회전값으로 초기화
-    if (minVibration && !prevMinVibration.current && defaultRotation.current) {
-      // 회전이 멈출 때 기본 방향으로 설정
-      ref.current.rotation.x = defaultRotation.current.x;
-      ref.current.rotation.y = defaultRotation.current.y;
-      ref.current.rotation.z = defaultRotation.current.z;
+    // minVibration 상태가 변경될 때 시작 시간 재설정
+    if (minVibration !== prevMinVibration.current) {
+      startTime.current = elapsedTime;
+
+      // minVibration이 true로 변경될 때 기본 회전값으로 천천히 복귀하도록 설정
+      if (minVibration && defaultRotation.current) {
+        // 바로 기본값 설정 대신, 회전 값을 부드럽게 변경하도록 설정 (실제 회전은 아래에서 계산)
+        // 회전 정보만 저장
+      }
     }
 
     // 현재 minVibration 상태 저장
     prevMinVibration.current = minVibration;
 
-    // minVibration이 true이면 회전을 하지 않음
     if (!minVibration) {
-      // 기본 회전 (minVibration이 false일 때만 회전)
-      ref.current.rotation.y = state.clock.elapsedTime;
+      // 일반 상태에서는 자유롭게 회전
+      ref.current.rotation.y = elapsedTime * 0.5; // 원래 회전 속도의 절반
+    } else {
+      // 선택 상태에서는 부드러운 미세 회전
+      // 선택된 상태에서도 미세한 회전 적용 (살짝 더 강하게)
+      const microRotation = Math.sin(elapsedTime * 0.4) * 0.05;
+      ref.current.rotation.y =
+        (defaultRotation.current?.y || 0) + microRotation;
     }
 
-    // 커스텀 회전 로직이 있고 minVibration이 false일 때만 적용
-    if (customRotation && !minVibration) {
-      const rotations = customRotation(state.clock.elapsedTime, minVibration);
-      if (rotations.x !== undefined) ref.current.rotation.x = rotations.x;
-      if (rotations.z !== undefined) ref.current.rotation.z = rotations.z;
+    // 커스텀 회전 로직이 있을 때 적용
+    if (customRotation) {
+      const rotations = customRotation(elapsedTime, minVibration);
+
+      if (minVibration) {
+        // 선택 상태에서는 미세한 움직임만 적용
+        if (rotations.x !== undefined) {
+          const baseRotX = defaultRotation.current?.x || 0;
+          ref.current.rotation.x =
+            baseRotX + Math.sin(elapsedTime * 0.7) * 0.01;
+        }
+        if (rotations.z !== undefined) {
+          const baseRotZ = defaultRotation.current?.z || 0;
+          ref.current.rotation.z =
+            baseRotZ + Math.sin(elapsedTime * 0.5) * 0.01;
+        }
+      } else {
+        // 일반 상태에서는 정상적인 커스텀 회전 적용
+        if (rotations.x !== undefined) ref.current.rotation.x = rotations.x;
+        if (rotations.z !== undefined) ref.current.rotation.z = rotations.z;
+      }
     }
 
-    // 진동 애니메이션 (선택 상태에 따라 진폭 조절)
-    const amplitude = minVibration ? 0.005 : 0.03;
-    ref.current.position.y =
-      position[1] + Math.sin(state.clock.elapsedTime) * amplitude;
+    // 둥둥 떠다니는 효과를 위한 애니메이션 적용
+    let targetY: number;
+
+    if (minVibration) {
+      // 선택 상태에서 더 강한 둥둥 떠다니는 효과
+      // 여러 사인파를 조합해 유기적이고 역동적인 움직임 생성
+      targetY =
+        position[1] +
+        Math.sin(elapsedTime * 0.8) * 0.025 +
+        Math.sin(elapsedTime * 1.2) * 0.015;
+
+      // 수평 움직임도 더 뚜렷하게 추가
+      const targetX = position[0] + Math.sin(elapsedTime * 0.6) * 0.015;
+      const targetZ = position[2] + Math.cos(elapsedTime * 0.4) * 0.018;
+
+      // 위치 변경을 스무딩 처리 (부드럽게 이동, 속도 증가)
+      ref.current.position.x =
+        prevPosition.current[0] + (targetX - prevPosition.current[0]) * 0.08;
+      ref.current.position.y =
+        prevPosition.current[1] + (targetY - prevPosition.current[1]) * 0.08;
+      ref.current.position.z =
+        prevPosition.current[2] + (targetZ - prevPosition.current[2]) * 0.08;
+
+      // 현재 위치 저장
+      prevPosition.current = [
+        ref.current.position.x,
+        ref.current.position.y,
+        ref.current.position.z,
+      ];
+    } else {
+      // 일반 상태에서는 원래 애니메이션 적용
+      targetY = position[1] + Math.sin(elapsedTime) * 0.03;
+      ref.current.position.y = targetY;
+      ref.current.position.x = position[0];
+      ref.current.position.z = position[2];
+    }
   });
 };
 
