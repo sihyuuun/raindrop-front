@@ -8,6 +8,7 @@ import { SceneLayout } from "@/components/scene/SceneLayout";
 import { BubbleSelectorBox } from "@/components/message/BubbleSelectorBox";
 import { MessageInputBox } from "@/components/message/MessageInputBox";
 import { Modal } from "@/components/common/Modal";
+import { ButtonLg } from "@/components/scene/ButtonLg.tsx";
 
 export const MessagePage: React.FC = () => {
   const navigate = useNavigate();
@@ -68,17 +69,11 @@ export const MessagePage: React.FC = () => {
           />
         </div>
         <div className="pointer-events-auto fixed bottom-6 left-0 w-full flex justify-center">
-          <button
+          <ButtonLg
+            isOwner={false}
             onClick={handleSubmit}
             disabled={!isSubmitAble}
-            className={`
-              bg-gray-50 font-jua rounded-2xl mb-[10%] h-[3rem] text-xl
-              shadow-lg cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed
-              px-6
-            `}
-          >
-            🫧 버블 남기기
-          </button>
+          />
         </div>
       </SceneLayout>
 
