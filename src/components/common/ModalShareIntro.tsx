@@ -7,9 +7,14 @@ import { useParams } from "react-router-dom";
 interface ModalShareIntroProps {
   onClose: () => void;
   animateIn: boolean;
+  onConfirm?: () => void;
 }
 
-export const ModalShareIntro = ({ onClose, animateIn }: ModalShareIntroProps) => {
+export const ModalShareIntro = ({
+  onClose,
+  animateIn,
+  onConfirm,
+}: ModalShareIntroProps) => {
   const { encryptedSceneId } = useParams<{ encryptedSceneId: string }>();
   const { data, isSuccess } = useGetEncryptedSceneIds(encryptedSceneId || "");
   const [nickName, setNickName] = useState("사용자");
@@ -30,9 +35,14 @@ export const ModalShareIntro = ({ onClose, animateIn }: ModalShareIntroProps) =>
       >
         <div className="bg-white rounded-3xl p-6 shadow-xl w-[330px]">
           <div className="flex items-center justify-center gap-4">
-            <Lottie animationData={clapAnimation} style={{ width: 80, height: 80 }} />
+            <Lottie
+              animationData={clapAnimation}
+              style={{ width: 80, height: 80 }}
+            />
             <div className="text-left">
-              <p className="text-[#575757] text-sm mb-2">‘{nickName}’님께 버블을 전달했어요</p>
+              <p className="text-[#575757] text-sm mb-2">
+                ‘{nickName}’님께 버블을 전달했어요
+              </p>
               <h2 className="text-lg font-semibold leading-snug">
                 나만의 페이지를 만들어
                 <br />
@@ -51,6 +61,7 @@ export const ModalShareIntro = ({ onClose, animateIn }: ModalShareIntroProps) =>
             <button
               className="rounded-full px-6 py-2 text-blue-700 font-semibold hover:opacity-90 shadow cursor-pointer"
               style={{ backgroundColor: "#9DEEFB" }}
+              onClick={onConfirm}
             >
               Yes
             </button>

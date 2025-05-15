@@ -5,7 +5,7 @@ import { ModalLoginPrompt } from "./ModalLoginPrompt";
 import { MessageConfirmModal } from "./ConfirmBubbleModal.tsx";
 import { useModalStore } from "@/store/modalstore";
 import { EnvironmentPreset } from "@/lib/constants";
-import { useAuth } from "@/hooks/useAuth";
+// import { useAuth } from "@/hooks/useAuth";
 import { ModalShareIntro } from "@/components/common/ModalShareIntro.tsx";
 
 interface ModalProps {
@@ -16,7 +16,6 @@ interface ModalProps {
   nickname?: string;
   modelId?: number;
   content?: string;
-  onLogin?: () => void;
   onConfirm?: () => void;
 }
 
@@ -27,12 +26,11 @@ export const Modal: React.FC<ModalProps> = ({
   nickname,
   modelId,
   content,
-  onLogin,
   onConfirm,
 }) => {
   const [animateIn, setAnimateIn] = useState(false);
   const { isOpen, closeModal } = useModalStore();
-  const { initiateKakaoLogin } = useAuth();
+  // const { initiateKakaoLogin } = useAuth();
 
   const open = isOpen(modalKey);
   useEffect(() => {
@@ -58,11 +56,7 @@ export const Modal: React.FC<ModalProps> = ({
       )}
 
       {modalKey === "loginModal" && (
-        <ModalLoginPrompt
-          animateIn={animateIn}
-          onClose={closeWithAnim}
-          onLogin={initiateKakaoLogin}
-        />
+        <ModalLoginPrompt animateIn={animateIn} onClose={closeWithAnim} />
       )}
 
       {modalKey === "confirmBubble" &&
@@ -85,14 +79,6 @@ export const Modal: React.FC<ModalProps> = ({
           animateIn={animateIn}
           onClose={closeWithAnim}
           onConfirm={onConfirm}
-        />
-      )}
-
-      {modalKey === "loginPrompt" && (
-        <ModalLoginPrompt
-          animateIn={animateIn}
-          onClose={closeWithAnim}
-          onLogin={onLogin}
         />
       )}
     </>

@@ -75,12 +75,7 @@ export const ScenePage = () => {
 
   const handleShareIntroConfirm = () => {
     closeModal("shareIntroModal");
-    openModal("loginPrompt");
-  };
-
-  const handleKakaoLogin = () => {
-    // .env 에 REACT_APP_KAKAO_LOGIN_URL 로 정의한 카카오 OAuth URL 로 리다이렉트
-    window.location.href = process.env.REACT_APP_KAKAO_LOGIN_URL!;
+    openModal("loginModal");
   };
 
   return (
@@ -95,7 +90,7 @@ export const ScenePage = () => {
               modalKey="shareIntroModal"
               onConfirm={handleShareIntroConfirm}
             />
-            <Modal modalKey="loginPrompt" onLogin={handleKakaoLogin} />
+            <Modal modalKey="loginModal" />
 
             {isOwner && (
               <Button onClick={handleOpenThemeModal}>
