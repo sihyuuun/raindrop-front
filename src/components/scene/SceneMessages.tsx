@@ -9,6 +9,8 @@ import { useGetMessages } from "@/apis/api/get/useGetMessages";
 import { BubbleComponentType } from "@/types/bubble.types";
 import { MessageResponse, ModelId } from "@/types/message.types";
 import { FloatingMessageBubble } from "../message/FloatingMessageBubble";
+import { useWeatherQuery } from "@/apis/api/get/useWeatherQuery";
+import { isRainy } from "@/utils/weatherUtils";
 
 const modelComponents: Record<ModelId, BubbleComponentType> = {
   "1": WaterDrop,
@@ -40,6 +42,7 @@ export const SceneMessages = ({
 }) => {
   const { data: messageData, isSuccess: messagesLoaded } =
     useGetMessages(encryptedSceneId);
+  const { data: weather, isLoading } = useWeatherQuery();
 
   if (!messagesLoaded) return null;
 
@@ -57,7 +60,7 @@ export const SceneMessages = ({
               id={msg.messageId}
               BubbleComponent={BubbleComponent}
               position={position}
-              isOwner={isOwner}
+              isPopAble={isOwner && !isLoading && isRainy(weather!.id)}
               mainText={msg.nickname}
               subText={isOwner ? msg.content : ""}
               scale={2.3}

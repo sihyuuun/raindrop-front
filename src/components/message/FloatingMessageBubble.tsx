@@ -9,7 +9,7 @@ export const FloatingMessageBubble = ({
   id,
   BubbleComponent,
   position,
-  isOwner,
+  isPopAble,
   mainText,
   subText,
   scale,
@@ -27,7 +27,7 @@ export const FloatingMessageBubble = ({
   const originalScale = useRef(scale);
 
   const { selectedMessageId, setSelectedMessageId } = useSceneStore();
-  const isSelected = isOwner && selectedMessageId === id;
+  const isSelected = isPopAble && selectedMessageId === id;
 
   // 화면 중앙 위치 (z는 그대로 유지)
   const centerPosition = [0, 0, position[2]];
@@ -45,7 +45,6 @@ export const FloatingMessageBubble = ({
   });
 
   const handleBubbleClick = () => {
-    console.log(`Bubble clicked`, id);
     setSelectedMessageId(isSelected ? null : id); // 선택/선택해제 토글
   };
 
