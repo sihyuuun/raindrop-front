@@ -23,6 +23,7 @@ export interface FloatingMessageBubbleProps {
   id: number;
   BubbleComponent: BubbleComponentType;
   position: [number, number, number];
+  isOwner: boolean;
   mainText: string;
   subText?: string;
   scale: number;

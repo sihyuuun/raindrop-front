@@ -9,6 +9,7 @@ export const FloatingMessageBubble = ({
   id,
   BubbleComponent,
   position,
+  isOwner,
   mainText,
   subText,
   scale,
@@ -43,7 +44,7 @@ export const FloatingMessageBubble = ({
 
   return (
     <group ref={groupRef} position={position} scale={[scale, scale, scale]}>
-      {isSelected ? (
+      {isOwner && isSelected ? (
         // 선택된 상태일 때 BurstDrop 렌더링
         <BurstDrop
           onClick={handleBubbleClick}

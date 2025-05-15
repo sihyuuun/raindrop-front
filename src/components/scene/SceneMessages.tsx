@@ -57,6 +57,7 @@ export const SceneMessages = ({
               id={msg.messageId}
               BubbleComponent={BubbleComponent}
               position={position}
+              isOwner={isOwner}
               mainText={msg.nickname}
               subText={isOwner ? msg.content : ""}
               scale={2.3}
