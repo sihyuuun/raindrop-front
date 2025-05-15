@@ -63,14 +63,19 @@ export const ScenePage = () => {
       encryptedSceneId={encryptedSceneId}
       // 2D UI 요소 (ButtonLg)를 일반 children으로 전달
       children={
-        <div className="pointer-events-auto fixed bottom-6 left-0 w-full flex justify-center">
-          {isOwner && <Button onClick={handleOpenThemeModal}>버튼</Button>}
-          <Modal modalKey="themeModal" onSave={handleSaveTheme} />
-          <ButtonLg
-            isOwner={isOwner}
-            onClick={isOwner ? shareToLink : handleLeaveMessage}
-          />
-        </div>
+        <>
+          <div className="pointer-events-auto fixed fixed top-6 right-2 z-50">
+            {isOwner && (
+              <Button onClick={handleOpenThemeModal}>
+                <img src="/images/themeButton.png" alt="테마 변경" width={50} />
+              </Button>
+            )}
+            <Modal modalKey="themeModal" onSave={handleSaveTheme} />
+          </div>
+          <div className="pointer-events-auto fixed bottom-6 left-0 w-full flex justify-center">
+            <ButtonLg isOwner={isOwner} onClick={isOwner ? shareToLink : handleLeaveMessage} />
+          </div>
+        </>
       }
       // 현재 3D 객체가 필요 없다면 threeChildren은 생략 가능
       // 필요시 3D 객체 추가 가능
