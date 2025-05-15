@@ -4,13 +4,15 @@ import { useModalStore } from "@/store/modalstore";
 import { EnvironmentPreset } from "@/lib/constants";
 import { ModalLoginPrompt } from "./ModalLoginPrompt";
 import { useAuth } from "@/hooks/useAuth";
+import { ConfirmBubbleModal } from "@/components/common/ConfirmBubbleModal.tsx";
 
 interface ModalProps {
   modalKey: string;
   onSave?: (preset: EnvironmentPreset) => void;
+  onConfirmBubble?: () => void;
 }
 
-export const Modal = ({ modalKey, onSave }: ModalProps) => {
+export const Modal = ({ modalKey, onSave, onConfirmBubble }: ModalProps) => {
   const [animateIn, setAnimateIn] = useState(false);
   const { isOpen, closeModal } = useModalStore();
   const { initiateKakaoLogin } = useAuth();
@@ -42,6 +44,17 @@ export const Modal = ({ modalKey, onSave }: ModalProps) => {
           animateIn={animateIn}
           onClose={() => closeModal(modalKey)}
           onLogin={initiateKakaoLogin}
+        />
+      )}
+
+      {modalKey === "confirmBubble" && (
+        <ConfirmBubbleModal
+          animateIn={animateIn}
+          onClose={() => closeModal(modalKey)}
+          onConfirm={() => {
+            onConfirmBubble?.();
+            closeModal(modalKey);
+          }}
         />
       )}
     </>
