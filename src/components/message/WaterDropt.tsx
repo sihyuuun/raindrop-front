@@ -59,6 +59,8 @@ const useDropAnimation = (
   const defaultRotation = useRef<{ x: number; y: number; z: number } | null>(
     null
   );
+  // 초기 렌더링 플래그
+  const isInitialRender = useRef(true);
 
   // 기본 방향으로 설정할 회전값 초기화 함수
   const getDefaultRotation = () => {
@@ -81,6 +83,14 @@ const useDropAnimation = (
     // 첫 프레임에서 기본 회전값 설정 (아직 설정되지 않은 경우)
     if (defaultRotation.current === null) {
       defaultRotation.current = getDefaultRotation();
+    }
+
+    // 초기 렌더링 시 바로 기본 회전값 적용
+    if (isInitialRender.current && defaultRotation.current) {
+      ref.current.rotation.x = defaultRotation.current.x;
+      ref.current.rotation.y = defaultRotation.current.y;
+      ref.current.rotation.z = defaultRotation.current.z;
+      isInitialRender.current = false;
     }
 
     // minVibration 상태가 false에서 true로 변경될 때 기본 회전값으로 초기화
