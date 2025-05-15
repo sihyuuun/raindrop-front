@@ -18,3 +18,12 @@ export interface AnimatedBubbleProps {
   inputContent: string;
   inputNickName: string;
 }
+
+export interface FloatingMessageBubbleProps {
+  BubbleComponent: BubbleComponentType;
+  position: [number, number, number];
+  onClick: () => void;
+  mainText: string;
+  subText?: string;
+  scale: number;
+}
