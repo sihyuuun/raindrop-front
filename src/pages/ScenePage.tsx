@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useGetEncryptedSceneIds } from "@/apis/api/get/useGetEncryptedSceneIds";
 import { ButtonLg } from "@/components/scene/ButtonLg";
 import { useAuthStore } from "@/store/authStore";
@@ -14,15 +14,14 @@ import { useSceneStore } from "@/store/sceneStore";
 import { SceneMessages } from "@/components/scene/SceneMessages";
 
 export const ScenePage = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const { encryptedSceneId } = useParams<{ encryptedSceneId: string }>();
   const navigate = useNavigate();
-
   const { isSuccess, data } = useGetEncryptedSceneIds(encryptedSceneId ?? "");
   const { user, isAuthenticated } = useAuthStore();
   const shareToLink = useWebShare();
-
   const [isOwner, setIsOwner] = useState(false);
-  const { openModal } = useModalStore();
+  const { openModal, closeModal } = useModalStore();
   const { mutate: putTheme } = usePutScenesTheme();
   const { setPreset } = useSceneStore();
 
@@ -34,8 +33,23 @@ export const ScenePage = () => {
       });
     }
   };
+
   useEffect(() => {
+    // 파라미터 처리
+    if (searchParams.get("sentBubble") === "true") {
+      // 파라미터 제거
+      searchParams.delete("sentBubble");
+      setSearchParams(searchParams, { replace: true });
+
+      // 비로그인 상태면 첫 번째 모달 띄우기
+      if (!isAuthenticated) {
+        openModal("shareIntroModal");
+      }
+      console.log("shareIntro 모달 띄웠음");
+    }
+
     //owner, guest 신분 분기 처리
+
     if (
       isSuccess &&
       isAuthenticated &&
@@ -48,7 +62,7 @@ export const ScenePage = () => {
     if (isSuccess) {
       setPreset(data.data.theme);
     }
-  }, [isSuccess, data, isAuthenticated]);
+  }, [isSuccess, data, isAuthenticated, searchParams]);
 
   if (!encryptedSceneId) return null;
 
@@ -58,6 +72,17 @@ export const ScenePage = () => {
   const handleOpenThemeModal = () => {
     openModal("themeModal");
   };
+
+  const handleShareIntroConfirm = () => {
+    closeModal("shareIntroModal");
+    openModal("loginPrompt");
+  };
+
+  const handleKakaoLogin = () => {
+    // .env 에 REACT_APP_KAKAO_LOGIN_URL 로 정의한 카카오 OAuth URL 로 리다이렉트
+    window.location.href = process.env.REACT_APP_KAKAO_LOGIN_URL!;
+  };
+
   return (
     <SceneLayout
       encryptedSceneId={encryptedSceneId}
@@ -65,6 +90,13 @@ export const ScenePage = () => {
       children={
         <>
           <div className="pointer-events-auto fixed top-6 right-2 z-50">
+            {/* shareIntroModal */}
+            <Modal
+              modalKey="shareIntroModal"
+              onConfirm={handleShareIntroConfirm}
+            />
+            <Modal modalKey="loginPrompt" onLogin={handleKakaoLogin} />
+
             {isOwner && (
               <Button onClick={handleOpenThemeModal}>
                 <img src="/images/themeButton.png" alt="테마 변경" width={50} />
