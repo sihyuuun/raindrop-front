@@ -7,8 +7,12 @@ import {
 } from "../message/WaterDropt";
 import { useGetMessages } from "@/apis/api/get/useGetMessages";
 import { BubbleComponentType } from "@/types/bubble.types";
-import { MessageResponse, ModelId } from "@/types/message.types";
+import { ModelId } from "@/types/message.types";
 import { FloatingMessageBubble } from "../message/FloatingMessageBubble";
+import { useWeatherQuery } from "@/apis/api/get/useWeatherQuery";
+import { isRainy } from "@/utils/weatherUtils";
+import { useEffect, useRef } from "react";
+import { Group } from "three";
 
 const modelComponents: Record<ModelId, BubbleComponentType> = {
   "1": WaterDrop,
@@ -40,30 +44,51 @@ export const SceneMessages = ({
 }) => {
   const { data: messageData, isSuccess: messagesLoaded } =
     useGetMessages(encryptedSceneId);
+  const { data: weather, isLoading } = useWeatherQuery();
+
+  const bubbleRefs = useRef<(Group | null)[]>([]);
+
+  useEffect(() => {
+    if (!messagesLoaded || !messageData?.data) return;
+
+    messageData.data.forEach((_, index) => {
+      const ref = bubbleRefs.current[index];
+      const [x, y, z] = fixedPositions[index];
+
+      if (ref) {
+        gsap.to(ref.position, {
+          x,
+          y,
+          z,
+          duration: 0.8,
+          ease: "power3.out",
+        });
+      }
+    });
+  }, [messageData?.data, messagesLoaded]);
 
   if (!messagesLoaded) return null;
 
   return (
     <>
-      {messageData.data
-        ?.slice(0, 10)
-        .map((msg: MessageResponse, index: number) => {
-          const BubbleComponent = modelComponents[msg.modelId];
-          const position = fixedPositions[index];
+      {messageData.data?.map((msg, index) => {
+        const BubbleComponent = modelComponents[msg.modelId as ModelId];
+        console.log(index, msg.nickname);
+        const position = fixedPositions[index];
 
-          return (
-            <FloatingMessageBubble
-              key={msg.messageId}
-              id={msg.messageId}
-              BubbleComponent={BubbleComponent}
-              position={position}
-              isOwner={isOwner}
-              mainText={msg.nickname}
-              subText={isOwner ? msg.content : ""}
-              scale={2.3}
-            />
-          );
-        })}
+        return (
+          <FloatingMessageBubble
+            key={msg.messageId}
+            id={msg.messageId}
+            BubbleComponent={BubbleComponent}
+            position={position}
+            isPopAble={isOwner && !isLoading && isRainy(weather!.id)}
+            mainText={msg.nickname}
+            subText={isOwner ? msg.content : ""}
+            scale={2.3}
+          />
+        );
+      })}
     </>
   );
 };

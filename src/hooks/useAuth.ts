@@ -5,7 +5,7 @@
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/store/authStore";
 import { usePostKakaoCode } from "@/apis/api/post/usePostKakaoCode";
-import { useUserInfo } from "@/apis/api/get/useUserInfo.ts";
+import { useGetUserInfo } from "@/apis/api/get/useGetUserInfo";
 import { client } from "@/apis/client";
 import { useState } from "react";
 
@@ -23,17 +23,15 @@ export const useAuth = () => {
   const { mutate: loginWithKakao, isPending: isLoggingIn } = usePostKakaoCode();
 
   // 사용자 정보 query
-  const { isLoading: isLoadingUserInfo, isError: userInfoError } = useUserInfo();
+  const { isLoading: isLoadingUserInfo, isError: userInfoError } =
+    useGetUserInfo();
 
   /**
    * 카카오 로그인 페이지로 리다이렉트
    */
   const initiateKakaoLogin = () => {
     const baseUrl = import.meta.env.VITE_APP_BASE_URL;
-    const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?
-response_type=code
-&client_id=8162b95c200bcd82ce88d8c5468f41c5
-&redirect_uri=${baseUrl}/auth/login/kakao`;
+    const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=8162b95c200bcd82ce88d8c5468f41c5&redirect_uri=${baseUrl}/auth/login/kakao`;
 
     window.location.href = kakaoAuthUrl;
   };
