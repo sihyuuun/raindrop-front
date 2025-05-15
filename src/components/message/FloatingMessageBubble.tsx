@@ -16,29 +16,31 @@ export const FloatingMessageBubble = ({
   const groupRef = useRef<Group>(null);
   const bubbleRef = useRef<Group>(null);
 
-  // 원래 위치를 저장
-  const originalPosition = useRef(
-    new Vector3(position[0], position[1], position[2])
-  );
+  const originalPosition = useRef(new Vector3(0, 0, 0)); // 초기값 0,0,0으로 변경
   const originalScale = useRef(scale);
 
   const { selectedMessageId, setSelectedMessageId } = useSceneStore();
   const isSelected = isPopAble && selectedMessageId === id;
 
-  // 화면 중앙 위치 (z는 그대로 유지)
   const centerPosition = [0, 0, position[2]];
-  const expandedScale = scale * 2.5; // 선택 시 1.8배 크기로 확대
+  const expandedScale = scale * 2.5;
 
   const handleBubbleClick = () => {
-    setSelectedMessageId(isSelected ? null : id); // 선택/선택해제 토글
+    setSelectedMessageId(isSelected ? null : id);
   };
 
-  // 선택 상태 변경 시 애니메이션 적용
+  // 초기 위치 세팅
+  useEffect(() => {
+    if (groupRef.current) {
+      groupRef.current.position.set(position[0], position[1], position[2]);
+      originalPosition.current.set(position[0], position[1], position[2]);
+    }
+  }, [position]);
+
   useEffect(() => {
     if (!groupRef.current) return;
 
     if (isSelected) {
-      // 선택되었을 때: 중앙으로 이동하고 확대
       gsap.to(groupRef.current.position, {
         x: centerPosition[0],
         y: centerPosition[1],
@@ -55,7 +57,6 @@ export const FloatingMessageBubble = ({
         ease: "back.out(1.7)",
       });
     } else {
-      // 선택 해제: 원래 위치로 돌아가고 크기 복원
       gsap.to(groupRef.current.position, {
         x: originalPosition.current.x,
         y: originalPosition.current.y,
@@ -75,11 +76,12 @@ export const FloatingMessageBubble = ({
   }, [isSelected, centerPosition, expandedScale]);
 
   return (
-    <group ref={groupRef} position={position} scale={[scale, scale, scale]}>
+    // position prop 빼고 scale만 줌
+    <group ref={groupRef} scale={[scale, scale, scale]}>
       <group ref={bubbleRef}>
         <BubbleComponent
           onClick={handleBubbleClick}
-          minVibration={true} // 선택된 상태에서는 진동 없앰
+          minVibration={true}
           position={[0, 0, 0]}
           mainText={mainText}
           subText={subText}
