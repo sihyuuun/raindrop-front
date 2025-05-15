@@ -141,6 +141,8 @@ const DropText = ({
     textAlign="center"
     overflowWrap="break-word"
     rotation={rotation}
+    fontWeight="normal"
+    font="/fonts/NanumGothic-Bold.ttf"
   >
     {text}
   </Text>
