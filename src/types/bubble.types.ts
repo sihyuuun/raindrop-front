@@ -20,9 +20,10 @@ export interface AnimatedBubbleProps {
 }
 
 export interface FloatingMessageBubbleProps {
+  id: number;
   BubbleComponent: BubbleComponentType;
   position: [number, number, number];
-  onClick: () => void;
+  isOwner: boolean;
   mainText: string;
   subText?: string;
   scale: number;
