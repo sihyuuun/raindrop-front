@@ -12,13 +12,12 @@ import { usePutScenesTheme } from "@/apis/api/put/usePutScenesTheme";
 import { EnvironmentPreset } from "@/lib/constants";
 import { useSceneStore } from "@/store/sceneStore";
 import { SceneMessages } from "@/components/scene/SceneMessages";
-import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 
 export const ScenePage = () => {
   const { encryptedSceneId } = useParams<{ encryptedSceneId: string }>();
   const navigate = useNavigate();
 
-  const { isSuccess, isLoading, data } = useGetEncryptedSceneIds(encryptedSceneId ?? "");
+  const { isSuccess, data } = useGetEncryptedSceneIds(encryptedSceneId ?? "");
   const { user, isAuthenticated } = useAuthStore();
   const shareToLink = useWebShare();
 
@@ -51,14 +50,6 @@ export const ScenePage = () => {
     }
   }, [isSuccess, data, isAuthenticated]);
 
-  if (isLoading) {
-    return (
-      <div className="w-screen h-screen flex items-center justify-center bg-white">
-        <LoadingSpinner size={60} color="#3BDDF7" />
-      </div>
-    );
-  }
-
   if (!encryptedSceneId) return null;
 
   const handleLeaveMessage = () => {
@@ -82,18 +73,13 @@ export const ScenePage = () => {
             <Modal modalKey="themeModal" onSave={handleSaveTheme} />
           </div>
           <div className="pointer-events-auto fixed bottom-6 left-0 w-full flex justify-center">
-            <ButtonLg
-              isOwner={isOwner}
-              onClick={isOwner ? shareToLink : handleLeaveMessage}
-            />
+            <ButtonLg isOwner={isOwner} onClick={isOwner ? shareToLink : handleLeaveMessage} />
           </div>
         </>
       }
       // 현재 3D 객체가 필요 없다면 threeChildren은 생략 가능
       // 필요시 3D 객체 추가 가능
-      threeChildren={
-        <SceneMessages encryptedSceneId={encryptedSceneId} isOwner={isOwner} />
-      }
+      threeChildren={<SceneMessages encryptedSceneId={encryptedSceneId} isOwner={isOwner} />}
     />
   );
 };
