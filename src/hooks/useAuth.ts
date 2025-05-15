@@ -5,7 +5,7 @@
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/store/authStore";
 import { usePostKakaoCode } from "@/apis/api/post/usePostKakaoCode";
-import { useUserInfo } from "@/apis/api/get/useUserInfo.ts";
+import { useGetUserInfo } from "@/apis/api/get/useGetUserInfo";
 import { client } from "@/apis/client";
 import { useState } from "react";
 
@@ -23,7 +23,8 @@ export const useAuth = () => {
   const { mutate: loginWithKakao, isPending: isLoggingIn } = usePostKakaoCode();
 
   // 사용자 정보 query
-  const { isLoading: isLoadingUserInfo, isError: userInfoError } = useUserInfo();
+  const { isLoading: isLoadingUserInfo, isError: userInfoError } =
+    useGetUserInfo();
 
   /**
    * 카카오 로그인 페이지로 리다이렉트
