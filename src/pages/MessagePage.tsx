@@ -15,7 +15,7 @@ export const MessagePage: React.FC = () => {
   const sceneId = new URLSearchParams(useLocation().search).get("id") || "";
   const { isAuthenticated, user } = useAuthStore();
   const { isSuccess, data } = useGetEncryptedSceneIds(sceneId);
-
+  const [isOwner, setIsOwner] = useState(false);
   const { openModal } = useModalStore();
 
   const [inputContent, setInputContent] = useState("");
