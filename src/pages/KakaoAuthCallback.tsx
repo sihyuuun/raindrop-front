@@ -14,12 +14,12 @@ export default function KakaoAuthCallback() {
   const [isNewUser, setIsNewUser] = useState(false);
 
   const { mutate: loginWithKakao } = usePostKakaoCode();
-  const { setUser, isAuthenticated } = useAuthStore();
+  const { setUser } = useAuthStore();
   const { mutate: postScene } = usePostScenes();
 
   // 코드가 있으면 로그인 요청 (한 번만 실행)
   useEffect(() => {
-    console.log("코드 변화 감지");
+    console.log("코드 변화 감지", code);
     if (code) {
       console.log("코드 존재", code);
       loginWithKakao(code);
@@ -27,9 +27,7 @@ export default function KakaoAuthCallback() {
   }, [code]);
 
   // useGetUserInfo 훅 설정
-  const { data: userInfo, isLoading } = useGetUserInfo({
-    enabled: isAuthenticated,
-  });
+  const { data: userInfo, isLoading } = useGetUserInfo();
 
   // 사용자 정보 로드 완료 시 스토어에 저장 및 상태 설정
   useEffect(() => {
