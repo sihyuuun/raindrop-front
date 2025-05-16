@@ -5,6 +5,8 @@ import { useMutation } from "@tanstack/react-query";
 import { client } from "../../client";
 import { useAuthStore } from "@/store/authStore";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 // 응답 타입 정의
 interface KakaoAuthResponse {
@@ -17,7 +19,7 @@ interface KakaoAuthResponse {
  */
 export const usePostKakaoCode = () => {
   const { setAuthenticated } = useAuthStore();
-
+  const navigate = useNavigate();
   const mutation = useMutation<KakaoAuthResponse, Error, string>({
     mutationKey: ["login"],
     mutationFn: async (kakaoCode: string) => {
@@ -30,6 +32,7 @@ export const usePostKakaoCode = () => {
     },
     onSuccess: () => {
       setAuthenticated(true);
+      navigate("/");
     },
   });
 
