@@ -1,3 +1,4 @@
+// useLongPress.ts 수정
 import { useRef, useCallback } from "react";
 
 export const useLongPress = (onLongPress: () => void, ms = 600) => {
@@ -18,8 +19,17 @@ export const useLongPress = (onLongPress: () => void, ms = 600) => {
   }, []);
 
   return {
-    onPointerDown: (e: React.PointerEvent) => {
-      e.preventDefault();
+    onPointerDown: (e: { preventDefault: () => void }) => {
+      // e.preventDefault() 제거하고 안전하게 처리
+      // Three.js 이벤트는 preventDefault가 없을 수 있음
+      try {
+        if (e.preventDefault) {
+          e.preventDefault();
+        }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (error) {
+        // 무시
+      }
       start();
     },
     onPointerUp: clear,
