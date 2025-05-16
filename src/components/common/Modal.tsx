@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { ModalThemeSelector } from "./ModalThemeSelector";
 import { ModalLoginPrompt } from "./ModalLoginPrompt";
 import { MessageConfirmModal } from "./ConfirmBubbleModal.tsx";
+import { ModalMessageDelete } from "@/components/common/ModalMessageDelete.tsx";
 import { useModalStore } from "@/store/modalstore";
 import { EnvironmentPreset } from "@/lib/constants";
 import { useAuth } from "@/hooks/useAuth";
@@ -80,6 +81,14 @@ export const Modal: React.FC<ModalProps> = ({
 
       {modalKey === "shareIntroModal" && (
         <ModalShareIntro
+          animateIn={animateIn}
+          onClose={closeWithAnim}
+          onConfirm={onConfirm}
+        />
+      )}
+
+      {modalKey === "modalMessageDelete" && (
+        <ModalMessageDelete
           animateIn={animateIn}
           onClose={closeWithAnim}
           onConfirm={onConfirm}
