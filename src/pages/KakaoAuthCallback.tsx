@@ -51,6 +51,8 @@ export default function KakaoAuthCallback() {
         postScene({
           theme: DEFAULT_ENVIRONMENT_PRESET,
         });
+      } else {
+        navigate("/");
       }
     }
   }, [userInfo, isLoading]);
