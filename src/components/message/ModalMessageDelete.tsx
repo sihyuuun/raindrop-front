@@ -1,6 +1,7 @@
 import Lottie from "lottie-react";
 import trashcanAnimation from "@/assets/lottie/trashcan.json";
 
+// UI 구현
 interface ModalMessageDeleteProps {
   onClose: () => void;
   animateIn: boolean;
