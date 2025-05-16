@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { client } from "../../client";
 import { useAuthStore } from "@/store/authStore";
 import { useEffect } from "react";
+import Cookies from "js-cookie";
 
 // 응답 타입 정의
 interface KakaoAuthResponse {
@@ -23,10 +24,28 @@ export const usePostKakaoCode = () => {
     mutationKey: ["login"],
     mutationFn: async (kakaoCode: string) => {
       console.log("code post 실행");
-      const { data } = await client.post<KakaoAuthResponse>("/user/login", {
+      const response = await client.post<KakaoAuthResponse>("/user/login", {
         code: kakaoCode,
       });
-      return data;
+
+      // 응답 헤더에서 쿠키 정보 확인 (모바일 대응)
+      const cookies = response.headers["set-cookie"];
+      if (cookies) {
+        // 응답으로 받은 쿠키들을 처리
+        cookies.forEach((cookieString) => {
+          const [cookiePart] = cookieString.split(";");
+          const [name, value] = cookiePart.split("=");
+
+          // 쿠키 수동 설정 (모바일 환경 대응)
+          Cookies.set(name, value, {
+            path: "/",
+            secure: true,
+            sameSite: "none",
+          });
+        });
+      }
+
+      return response.data;
     },
   });
 
