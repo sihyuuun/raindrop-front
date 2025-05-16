@@ -1,3 +1,4 @@
+// SceneMessages.tsx
 import {
   FlowerDrop,
   HeartDrop,
@@ -11,11 +12,9 @@ import { ModelId } from "@/types/message.types";
 import { FloatingMessageBubble } from "../message/FloatingMessageBubble";
 import { useWeatherQuery } from "@/apis/api/get/useWeatherQuery";
 import { isRainy } from "@/utils/weatherUtils";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Group } from "three";
-import { useModalStore } from "@/store/modalstore";
-import { useDeleteMessage } from "@/apis/api/delete/useDeleteMessage";
-import { Modal } from "@/components/common/Modal";
+import gsap from "gsap";
 
 const modelComponents: Record<ModelId, BubbleComponentType> = {
   "1": WaterDrop,
@@ -41,21 +40,15 @@ const fixedPositions: [number, number, number][] = [
 export const SceneMessages = ({
   encryptedSceneId,
   isOwner,
+  onLongPress,
 }: {
   encryptedSceneId: string;
   isOwner: boolean;
+  onLongPress?: (messageId: number) => void;
 }) => {
   const { data: messageData, isSuccess: messagesLoaded } =
     useGetMessages(encryptedSceneId);
   const { data: weather, isLoading } = useWeatherQuery();
-
-  const { openModal } = useModalStore();
-
-  const [messageToDeleteId, setMessageToDeleteId] = useState<number | null>(
-    null,
-  );
-
-  const { mutate: deleteMessage } = useDeleteMessage(encryptedSceneId);
 
   const bubbleRefs = useRef<(Group | null)[]>([]);
 
@@ -78,19 +71,11 @@ export const SceneMessages = ({
     });
   }, [messageData?.data, messagesLoaded]);
 
-  // 길게 누르기 이벤트 핸들러
+  // 길게 누르기 핸들러 - 부모 컴포넌트에 전달된 콜백 사용
   const handleLongPress = (messageId: number) => {
-    if (isOwner) {
-      setMessageToDeleteId(messageId);
-      openModal("modalMessageDelete");
-    }
-  };
-
-  // 삭제 확인 핸들러
-  const handleDeleteConfirm = () => {
-    if (messageToDeleteId) {
-      deleteMessage(messageToDeleteId);
-      setMessageToDeleteId(null);
+    console.log(`메시지 ID: ${messageId} 길게 누름 이벤트 발생`);
+    if (onLongPress) {
+      onLongPress(messageId);
     }
   };
 
@@ -108,7 +93,6 @@ export const SceneMessages = ({
             id={msg.messageId}
             BubbleComponent={BubbleComponent}
             position={position}
-            // isPopAble={isOwner && !isLoading && isRainy(weather!.id)}
             isPopAble={true}
             mainText={msg.nickname}
             subText={isOwner ? msg.content : ""}
@@ -117,8 +101,6 @@ export const SceneMessages = ({
           />
         );
       })}
-
-      <Modal modalKey="modalMessageDelete" onConfirm={handleDeleteConfirm} />
     </>
   );
 };
