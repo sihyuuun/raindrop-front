@@ -12,6 +12,7 @@ interface UserInfo {
 export const USER_INFO_QUERY_KEY = ["userInfo"] as const;
 
 export const fetchUserInfo = async (): Promise<UserInfo> => {
+  console.log("user info get 실행");
   const { data } = await authClient.get<UserInfo>("/user/info");
   return data;
 };
