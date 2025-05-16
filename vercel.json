@@ -1,8 +1,3 @@
 {
-  "rewrites": [
-    {
-      "source": "/api/:match*",
-      "destination": "https://raindrop-back.onrender.com/api/:match*"
-    }
-  ]
+  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
 }
