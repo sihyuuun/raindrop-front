@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { authClient } from "../../client";
 import { SceneRequest, SceneResponse } from "@/types/scene.types";
+import { useNavigate } from "react-router-dom";
 
 /**
  * usePostScenes: Scene을 생성하는 커스텀 훅입니다.
@@ -12,6 +13,7 @@ import { SceneRequest, SceneResponse } from "@/types/scene.types";
  * @returns react-query의 useMutation 객체. mutate 함수로 요청을 실행할 수 있습니다.
  */
 export const usePostScenes = () => {
+  const navigate = useNavigate();
   return useMutation({
     mutationKey: ["postScene"],
     mutationFn: async (sceneData: SceneRequest) => {
@@ -24,7 +26,7 @@ export const usePostScenes = () => {
     onSuccess: (data) => {
       console.log("Scene 생성 성공", data);
       setTimeout(() => {
-        window.location.href = "/";
+        navigate("/");
       }, 100);
     },
   });

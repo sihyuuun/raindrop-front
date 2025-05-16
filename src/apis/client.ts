@@ -67,7 +67,7 @@ authClient.interceptors.request.use(
 
     return config;
   },
-  (error: AxiosError) => Promise.reject(error),
+  (error: AxiosError) => Promise.reject(error)
 );
 
 /**
@@ -82,9 +82,6 @@ authClient.interceptors.response.use(
       // 인증 오류 발생 시 인증 상태 초기화
       useAuthStore.getState().setAuthenticated(false);
 
-      // 로그인 페이지로 리다이렉트 (선택적)
-      // window.location.href = '/login';
-
       // 또는 자동 로그아웃 처리
       // await logout();
       console.log("401 error");
@@ -92,7 +89,7 @@ authClient.interceptors.response.use(
 
     // 기타 오류는 그대로 전달
     return Promise.reject(error);
-  },
+  }
 );
 
 /**
