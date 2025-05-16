@@ -91,7 +91,6 @@ export const MessagePage: React.FC = () => {
         modelId={inputModelId!}
         content={inputContent}
       />
-      \
     </>
   );
 };
