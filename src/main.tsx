@@ -111,7 +111,7 @@ const MobileViewportWrapper = () => {
 
   return (
     <div
-      className="flex justify-center items-center overflow-hidden bg-cyan-100"
+      className="flex justify-center items-center overflow-hidden accent-gray-500"
       style={{
         height: viewportHeight,
         width: "100%",
