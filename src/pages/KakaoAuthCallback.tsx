@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { usePostKakaoCode } from "@/apis/api/post/usePostKakaoCode";
 import { useAuthStore } from "../store/authStore";
 import { useGetUserInfo } from "@/apis/api/get/useGetUserInfo";
@@ -9,15 +9,15 @@ import { DEFAULT_ENVIRONMENT_PRESET } from "@/lib/constants";
 export default function KakaoAuthCallback() {
   const [searchParams] = useSearchParams();
   const code = searchParams.get("code");
-  const [navigationAttempted, setNavigationAttempted] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const [isNewUser, setIsNewUser] = useState(false);
 
   const { mutate: loginWithKakao } = usePostKakaoCode();
   const { setUser } = useAuthStore();
   const { mutate: postScene } = usePostScenes();
+  const navigate = useNavigate();
 
-  // 코드가 있으면 로그인 요청 (한 번만 실행)
+  // 코드 post 실행
   useEffect(() => {
     console.log("코드 변화 감지", code);
     if (code) {
@@ -31,9 +31,7 @@ export default function KakaoAuthCallback() {
 
   // 사용자 정보 로드 완료 시 스토어에 저장 및 상태 설정
   useEffect(() => {
-    if (userInfo && !isLoading && !navigationAttempted) {
-      setNavigationAttempted(true);
-
+    if (userInfo && !isLoading) {
       // 사용자 정보를 Zustand 스토어에 저장
       setUser(userInfo);
 
@@ -42,20 +40,8 @@ export default function KakaoAuthCallback() {
 
       // 리다이렉션 준비 완료 상태로 설정
       setIsReady(true);
-
-      // PC 환경을 위한 자동 리다이렉션 시도 (옵션)
-      if (!isMobileBrowser()) {
-        handleNavigation();
-      }
     }
-  }, [userInfo, isLoading, navigationAttempted, setUser]);
-
-  // 모바일 브라우저 감지 함수
-  const isMobileBrowser = () => {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent
-    );
-  };
+  }, [userInfo, isLoading, setUser]);
 
   // 네비게이션 처리 함수
   const handleNavigation = () => {
@@ -64,7 +50,7 @@ export default function KakaoAuthCallback() {
         theme: DEFAULT_ENVIRONMENT_PRESET,
       });
     } else {
-      window.location.href = "/";
+      navigate("/");
     }
   };
 
