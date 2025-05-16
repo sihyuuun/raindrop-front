@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ModalMessageDelete } from "@/components/message/ModalMessageDelete"; // 경로는 프로젝트에 맞게 조정
+import { ModalMessageDelete } from "@/components/common/ModalMessageDelete.tsx"; // 경로는 프로젝트에 맞게 조정
 
 export default function TestDeleteModal() {
   const [showModal, setShowModal] = useState(false);

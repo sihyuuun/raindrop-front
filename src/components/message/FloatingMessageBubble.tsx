@@ -3,6 +3,7 @@ import { FloatingMessageBubbleProps } from "@/types/bubble.types";
 import { useEffect, useRef } from "react";
 import { Group, Vector3 } from "three";
 import gsap from "gsap";
+import { useLongPress } from "@/hooks/useLongPress";
 
 export const FloatingMessageBubble = ({
   id,
@@ -12,7 +13,8 @@ export const FloatingMessageBubble = ({
   mainText,
   subText,
   scale,
-}: FloatingMessageBubbleProps) => {
+  onLongPress,
+}: FloatingMessageBubbleProps & { onLongPress?: () => void }) => {
   const groupRef = useRef<Group>(null);
   const bubbleRef = useRef<Group>(null);
 
@@ -28,6 +30,14 @@ export const FloatingMessageBubble = ({
   const handleBubbleClick = () => {
     setSelectedMessageId(isSelected ? null : id);
   };
+
+  // 길게 누르기 이벤트 설정 (isPopAble일 때만 활성화)
+  const longPressHandlers = useLongPress(() => {
+    if (onLongPress && isPopAble) {
+      onLongPress();
+      console.log("길게 누르기 훅 활성화");
+    }
+  }, 800);
 
   // 초기 위치 세팅
   useEffect(() => {
@@ -77,7 +87,11 @@ export const FloatingMessageBubble = ({
 
   return (
     // position prop 빼고 scale만 줌
-    <group ref={groupRef} scale={[scale, scale, scale]}>
+    <group
+      ref={groupRef}
+      scale={[scale, scale, scale]}
+      {...(isPopAble ? longPressHandlers : {})}
+    >
       <group ref={bubbleRef}>
         <BubbleComponent
           onClick={handleBubbleClick}

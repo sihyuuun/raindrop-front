@@ -11,8 +11,11 @@ import { ModelId } from "@/types/message.types";
 import { FloatingMessageBubble } from "../message/FloatingMessageBubble";
 import { useWeatherQuery } from "@/apis/api/get/useWeatherQuery";
 import { isRainy } from "@/utils/weatherUtils";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Group } from "three";
+import { useModalStore } from "@/store/modalstore";
+import { useDeleteMessage } from "@/apis/api/delete/useDeleteMessage";
+import { Modal } from "@/components/common/Modal";
 
 const modelComponents: Record<ModelId, BubbleComponentType> = {
   "1": WaterDrop,
@@ -46,6 +49,14 @@ export const SceneMessages = ({
     useGetMessages(encryptedSceneId);
   const { data: weather, isLoading } = useWeatherQuery();
 
+  const { openModal } = useModalStore();
+
+  const [messageToDeleteId, setMessageToDeleteId] = useState<number | null>(
+    null,
+  );
+
+  const { mutate: deleteMessage } = useDeleteMessage(encryptedSceneId);
+
   const bubbleRefs = useRef<(Group | null)[]>([]);
 
   useEffect(() => {
@@ -67,13 +78,28 @@ export const SceneMessages = ({
     });
   }, [messageData?.data, messagesLoaded]);
 
+  // 길게 누르기 이벤트 핸들러
+  const handleLongPress = (messageId: number) => {
+    if (isOwner) {
+      setMessageToDeleteId(messageId);
+      openModal("modalMessageDelete");
+    }
+  };
+
+  // 삭제 확인 핸들러
+  const handleDeleteConfirm = () => {
+    if (messageToDeleteId) {
+      deleteMessage(messageToDeleteId);
+      setMessageToDeleteId(null);
+    }
+  };
+
   if (!messagesLoaded) return null;
 
   return (
     <>
       {messageData.data?.map((msg, index) => {
         const BubbleComponent = modelComponents[msg.modelId as ModelId];
-        console.log(index, msg.nickname);
         const position = fixedPositions[index];
 
         return (
@@ -82,13 +108,17 @@ export const SceneMessages = ({
             id={msg.messageId}
             BubbleComponent={BubbleComponent}
             position={position}
-            isPopAble={isOwner && !isLoading && isRainy(weather!.id)}
+            // isPopAble={isOwner && !isLoading && isRainy(weather!.id)}
+            isPopAble={true}
             mainText={msg.nickname}
             subText={isOwner ? msg.content : ""}
             scale={2.3}
+            onLongPress={() => handleLongPress(msg.messageId)}
           />
         );
       })}
+
+      <Modal modalKey="modalMessageDelete" onConfirm={handleDeleteConfirm} />
     </>
   );
 };
