@@ -1,3 +1,4 @@
+// vite.config.ts
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
@@ -6,16 +7,16 @@ import path from "path";
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
+    host: true,
+    port: 5173,
+    strictPort: true,
     proxy: {
+      // '/api'로 시작하는 요청은 전부 이 타겟으로 보낸다
       "/api": {
-        target: "http://www.raindrop.my",
+        target: "https://raindrop-back.onrender.com",
         changeOrigin: true,
         secure: false,
-      },
-      "/messages": {
-        target: "http://www.raindrop.my",
-        changeOrigin: true,
-        secure: false,
+        rewrite: (path) => path.replace(/^\/api/, "/api"),
       },
     },
   },

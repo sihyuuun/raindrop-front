@@ -7,6 +7,7 @@
 
 :root {
   font-family: "Nanum Gothic", sans-serif;
+  --vh: 100%;
 }
 /* 모든 요소에서 스크롤바 숨기기 */
 * {
