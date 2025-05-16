@@ -13,6 +13,7 @@ import { useWeatherQuery } from "@/apis/api/get/useWeatherQuery";
 import { isRainy } from "@/utils/weatherUtils";
 import { useEffect, useRef } from "react";
 import { Group } from "three";
+import gsap from "gsap";
 
 const modelComponents: Record<ModelId, BubbleComponentType> = {
   "1": WaterDrop,
@@ -38,9 +39,11 @@ const fixedPositions: [number, number, number][] = [
 export const SceneMessages = ({
   encryptedSceneId,
   isOwner,
+  onLongPress,
 }: {
   encryptedSceneId: string;
   isOwner: boolean;
+  onLongPress?: (messageId: number) => void;
 }) => {
   const { data: messageData, isSuccess: messagesLoaded } =
     useGetMessages(encryptedSceneId);
@@ -67,13 +70,20 @@ export const SceneMessages = ({
     });
   }, [messageData?.data, messagesLoaded]);
 
+  // 길게 누르기 핸들러 - 부모 컴포넌트에 전달된 콜백 사용
+  const handleLongPress = (messageId: number) => {
+    // console.log(`메시지 ID: ${messageId} 길게 누름 이벤트 발생`);
+    if (onLongPress) {
+      onLongPress(messageId);
+    }
+  };
+
   if (!messagesLoaded) return null;
 
   return (
     <>
       {messageData.data?.map((msg, index) => {
         const BubbleComponent = modelComponents[msg.modelId as ModelId];
-        console.log(index, msg.nickname);
         const position = fixedPositions[index];
 
         return (
@@ -86,6 +96,7 @@ export const SceneMessages = ({
             mainText={msg.nickname}
             subText={isOwner ? msg.content : ""}
             scale={2.3}
+            onLongPress={() => handleLongPress(msg.messageId)}
           />
         );
       })}

@@ -27,4 +27,5 @@ export interface FloatingMessageBubbleProps {
   mainText: string;
   subText?: string;
   scale: number;
+  onLongPress?: () => void;
 }

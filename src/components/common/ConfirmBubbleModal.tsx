@@ -1,4 +1,3 @@
-// src/components/common/MessageConfirmModal.tsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePostMessage } from "@/apis/api/post/usePostMessage";
