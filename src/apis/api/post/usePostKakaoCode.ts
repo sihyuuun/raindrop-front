@@ -22,11 +22,11 @@ export const usePostKakaoCode = () => {
     mutationKey: ["login"],
     mutationFn: async (kakaoCode: string) => {
       console.log("code post 실행");
-      const response = await client.post<KakaoAuthResponse>("/user/login", {
+      const { data } = await client.post<KakaoAuthResponse>("/user/login", {
         code: kakaoCode,
       });
 
-      return response.data;
+      return data;
     },
     onSuccess: () => {
       setAuthenticated(true);
