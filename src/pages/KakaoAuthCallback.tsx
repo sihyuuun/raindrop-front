@@ -55,8 +55,17 @@ export default function KakaoAuthCallback() {
     }
   }, [userInfo, isScenesSuccess, scenes, navigate]);
 
-  if (isUserLoading) return <LoadingSpinner />;
+  if (isUserLoading)
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <LoadingSpinner />
+      </div>
+    );
   if (!code) return <div>인증 코드가 없습니다</div>;
 
-  return <LoadingSpinner />;
+  return (
+    <div className="flex items-center justify-center h-screen">
+      <LoadingSpinner />
+    </div>
+  );
 }
