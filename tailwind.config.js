@@ -19,6 +19,9 @@ export default {
       animation: {
         /* 애니메이션... */
       },
+      height: {
+        "screen-vh": "calc(var(--vh)*100)",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

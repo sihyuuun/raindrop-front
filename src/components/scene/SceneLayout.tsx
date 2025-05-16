@@ -32,7 +32,7 @@ export const SceneLayout = ({
 }: SceneLayoutProps) => {
   return (
     <div
-      className="relative w-screen overflow-hidden"
+      className="relative w-screen overflow-hidden h-screen-vh"
       style={{ height: "100dvh" }}
     >
       {/* 3D 요소를 위한 전체 화면 Canvas */}
