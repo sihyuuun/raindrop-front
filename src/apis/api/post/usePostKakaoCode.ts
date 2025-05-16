@@ -22,6 +22,7 @@ export const usePostKakaoCode = () => {
   const mutation = useMutation<KakaoAuthResponse, Error, string>({
     mutationKey: ["login"],
     mutationFn: async (kakaoCode: string) => {
+      console.log("code post 실행");
       const { data } = await client.post<KakaoAuthResponse>("/user/login", {
         code: kakaoCode,
       });
@@ -36,6 +37,7 @@ export const usePostKakaoCode = () => {
       // 프론트엔드에서는 인증 상태만 설정
       setAuthenticated(true);
 
+      console.log("카카오 코드 성공 쿼리 무효화 실행");
       // 사용자 정보 쿼리 무효화
       queryClient.invalidateQueries({ queryKey: ["userInfo"] });
     }

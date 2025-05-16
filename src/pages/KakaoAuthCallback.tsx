@@ -13,27 +13,18 @@ export default function KakaoAuthCallback() {
   const [isReady, setIsReady] = useState(false);
   const [isNewUser, setIsNewUser] = useState(false);
 
-  const { mutate: loginWithKakao, isSuccess: isKakaoCodePost } =
-    usePostKakaoCode();
-  const { setAuthenticated, setUser, isAuthenticated } = useAuthStore();
+  const { mutate: loginWithKakao } = usePostKakaoCode();
+  const { setUser, isAuthenticated } = useAuthStore();
   const { mutate: postScene } = usePostScenes();
 
   // 코드가 있으면 로그인 요청 (한 번만 실행)
   useEffect(() => {
-    if (!code) {
-      window.location.href = "/login";
-      return;
+    console.log("코드 변화 감지");
+    if (code) {
+      console.log("코드 존재", code);
+      loginWithKakao(code);
     }
-
-    loginWithKakao(code);
   }, [code]);
-
-  // 로그인 성공 시 인증 상태 업데이트
-  useEffect(() => {
-    if (isKakaoCodePost) {
-      setAuthenticated(true);
-    }
-  }, [isKakaoCodePost, setAuthenticated]);
 
   // useGetUserInfo 훅 설정
   const { data: userInfo, isLoading } = useGetUserInfo({
