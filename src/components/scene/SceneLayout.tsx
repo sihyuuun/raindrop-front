@@ -25,16 +25,9 @@ const CloudBackground = () => {
     </>
   );
 };
-export const SceneLayout = ({
-  encryptedSceneId,
-  children,
-  threeChildren,
-}: SceneLayoutProps) => {
+export const SceneLayout = ({ encryptedSceneId, children, threeChildren }: SceneLayoutProps) => {
   return (
-    <div
-      className="relative w-screen overflow-hidden h-screen-vh"
-      style={{ height: "100dvh" }}
-    >
+    <div className="relative w-[100%] overflow-hidden h-screen-vh" style={{ height: "100dvh" }}>
       {/* 3D 요소를 위한 전체 화면 Canvas */}
       <div className="absolute inset-0">
         <Canvas camera={{ fov: 75, position: [0, 0, 5] }}>

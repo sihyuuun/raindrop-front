@@ -18,10 +18,7 @@ const queryClient = new QueryClient({
 const App: React.FC = () => {
   useEffect(() => {
     const setVh = () => {
-      document.documentElement.style.setProperty(
-        "--vh",
-        `${window.innerHeight * 0.01}px`,
-      );
+      document.documentElement.style.setProperty("--vh", `${window.innerHeight * 0.01}px`);
     };
     // 초기 호출
     setVh();
@@ -33,7 +30,13 @@ const App: React.FC = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <AppRoutes />
+        {/* 배경 퍼짐을 위한 바깥 wrapper */}
+        <div className="w-screen h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#a3c3dc] to-[#6f87a7] flex justify-center items-center">
+          {/* 모바일 콘텐츠 wrapper */}
+          <div className="w-full max-w-[375px] h-full bg-transparent relative overflow-hidden">
+            <AppRoutes />
+          </div>
+        </div>
       </BrowserRouter>
       {process.env.NODE_ENV === "development" && <ReactQueryDevtools />}
     </QueryClientProvider>
