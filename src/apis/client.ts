@@ -8,7 +8,7 @@ import axios, {
   InternalAxiosRequestConfig,
 } from "axios";
 import { useAuthStore } from "@/store/authStore";
-import { logout } from "@/utils/auth";
+// import { logout } from "@/utils/auth";
 
 /** API 엔드포인트 기본 URL */
 const BE_URL = "https://raindrop-back.onrender.com/api";
