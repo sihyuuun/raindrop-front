@@ -10,6 +10,8 @@ export default function KakaoAuthCallback() {
   const [searchParams] = useSearchParams();
   const code = searchParams.get("code");
   const [navigationAttempted, setNavigationAttempted] = useState(false);
+  const [isReady, setIsReady] = useState(false);
+  const [isNewUser, setIsNewUser] = useState(false);
 
   const { mutate: loginWithKakao, isSuccess: isKakaoCodePost } =
     usePostKakaoCode();
@@ -38,7 +40,7 @@ export default function KakaoAuthCallback() {
     enabled: isAuthenticated,
   });
 
-  // 사용자 정보 로드 완료 시 스토어에 저장 및 리다이렉트
+  // 사용자 정보 로드 완료 시 스토어에 저장 및 상태 설정
   useEffect(() => {
     if (userInfo && !isLoading && !navigationAttempted) {
       setNavigationAttempted(true);
@@ -46,24 +48,81 @@ export default function KakaoAuthCallback() {
       // 사용자 정보를 Zustand 스토어에 저장
       setUser(userInfo);
 
-      // 모바일에서 잘 작동하도록 setTimeout 추가
-      setTimeout(() => {
-        if (userInfo.newUser) {
-          postScene({
-            theme: DEFAULT_ENVIRONMENT_PRESET,
-          });
-        } else {
-          window.location.href = "/";
-        }
-      }, 300);
+      // 새 사용자 상태 설정
+      setIsNewUser(userInfo.newUser);
+
+      // 리다이렉션 준비 완료 상태로 설정
+      setIsReady(true);
+
+      // PC 환경을 위한 자동 리다이렉션 시도 (옵션)
+      if (!isMobileBrowser()) {
+        handleNavigation();
+      }
     }
-  }, [userInfo, isLoading, navigationAttempted, setUser, postScene]);
+  }, [userInfo, isLoading, navigationAttempted, setUser]);
 
-  // 로딩 상태 처리
-  if (isLoading) return <div>로딩 중...</div>;
+  // 모바일 브라우저 감지 함수
+  const isMobileBrowser = () => {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    );
+  };
 
-  // 오류 발생 시 사용자에게 표시
+  // 네비게이션 처리 함수
+  const handleNavigation = () => {
+    if (isNewUser) {
+      postScene({
+        theme: DEFAULT_ENVIRONMENT_PRESET,
+      });
+    } else {
+      window.location.href = "/";
+    }
+  };
+
+  // 로딩 중이거나 코드 없는 경우 처리
+  if (isLoading) return <div>로그인 정보를 불러오는 중...</div>;
   if (!code) return <div>인증 코드가 없습니다</div>;
 
-  return null;
+  // 사용자 정보 로드 완료 후 리다이렉션 버튼 표시
+  if (isReady) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+          textAlign: "center",
+          padding: "20px",
+        }}
+      >
+        <h2>로그인이 완료되었습니다!</h2>
+        <p>
+          {isNewUser
+            ? "환영합니다! 새로운 Scene을 생성하려면 아래 버튼을 클릭하세요."
+            : "홈페이지로 이동하려면 아래 버튼을 클릭하세요."}
+        </p>
+        <button
+          onClick={handleNavigation}
+          autoFocus
+          style={{
+            marginTop: "20px",
+            padding: "12px 24px",
+            backgroundColor: "#4CAF50",
+            color: "white",
+            border: "none",
+            borderRadius: "4px",
+            fontSize: "16px",
+            cursor: "pointer",
+          }}
+        >
+          {isNewUser ? "Scene 생성 및 홈으로 이동" : "홈으로 이동"}
+        </button>
+      </div>
+    );
+  }
+
+  // 로딩 중 표시
+  return <div>처리 중...</div>;
 }
