@@ -9,7 +9,7 @@ export default function ErrorPage() {
       <div className="z-10">
         <h1 className="text-[6rem] font-extrabold text-[#ff5f5f] drop-shadow-md">500</h1>
         <p className="text-xl text-gray-800 mb-4">서버가 잠시 쉬고 있어요... ☔</p>
-        <p className="text-base text-gray-700 mb-6">잠시 후 다시 시도해 주세요</p>
+        <p className="text-base text-gray-700 mb-6">잠시 후 다시 시도해 주세요.</p>
 
         <button
           onClick={() => (window.location.href = "/")}
