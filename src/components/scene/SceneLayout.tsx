@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
 import { ProfileHeader } from "@/components/scene/ProfileHeader";
@@ -25,19 +25,44 @@ const CloudBackground = () => {
     </>
   );
 };
+
 export const SceneLayout = ({
   encryptedSceneId,
   children,
   threeChildren,
 }: SceneLayoutProps) => {
+  // 실제 뷰포트 높이 계산 (CSS 변수로 저장)
+  useEffect(() => {
+    const setVh = () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    };
+
+    setVh();
+    window.addEventListener("resize", setVh);
+    window.addEventListener("orientationchange", setVh);
+
+    return () => {
+      window.removeEventListener("resize", setVh);
+      window.removeEventListener("orientationchange", setVh);
+    };
+  }, []);
+
   return (
     <div
-      className="relative w-screen overflow-hidden h-screen-vh"
-      style={{ height: "100dvh" }}
+      className="relative w-full overflow-hidden"
+      style={{
+        height: "calc(var(--vh, 1vh) * 100)",
+        maxHeight: "calc(var(--vh, 1vh) * 100)",
+      }}
     >
       {/* 3D 요소를 위한 전체 화면 Canvas */}
       <div className="absolute inset-0">
-        <Canvas camera={{ fov: 75, position: [0, 0, 5] }}>
+        <Canvas
+          camera={{ fov: 75, position: [0, 0, 5] }}
+          style={{ width: "100%", height: "100%" }}
+          gl={{ alpha: true, antialias: true }}
+        >
           <CloudBackground />
           {threeChildren}
         </Canvas>
