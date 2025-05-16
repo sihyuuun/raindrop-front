@@ -11,7 +11,8 @@
 
   /* 모바일 뷰포트 크기 */
   --mobile-width: 375px;
-  --mobile-height: 667px;
+  --mobile-height: 812px;
+  --scale-factor: 1;
 
   /* 폰트 */
   --font-jua: "Jua", sans-serif;
