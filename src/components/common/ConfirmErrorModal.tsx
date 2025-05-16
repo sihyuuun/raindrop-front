@@ -1,4 +1,3 @@
-// src/components/modal/ConfirmErrorModal.tsx
 import React from "react";
 import { Button } from "@/components/ui/button";
 

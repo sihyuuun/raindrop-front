@@ -12,6 +12,7 @@ import { usePutScenesTheme } from "@/apis/api/put/usePutScenesTheme";
 import { EnvironmentPreset } from "@/lib/constants";
 import { useSceneStore } from "@/store/sceneStore";
 import { SceneMessages } from "@/components/scene/SceneMessages";
+import { useDeleteMessage } from "@/apis/api/delete/useDeleteMessage";
 
 export const ScenePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -24,6 +25,12 @@ export const ScenePage = () => {
   const { openModal, closeModal } = useModalStore();
   const { mutate: putTheme } = usePutScenesTheme();
   const { setPreset } = useSceneStore();
+
+  // 메시지 삭제 관련 상태와 훅 추가
+  const [selectedMessageToDelete, setSelectedMessageToDelete] = useState<
+    number | null
+  >(null);
+  const { mutate: deleteMessage } = useDeleteMessage(encryptedSceneId ?? "");
 
   const handleSaveTheme = (preset: EnvironmentPreset) => {
     if (data?.data?.sceneId) {
@@ -49,7 +56,6 @@ export const ScenePage = () => {
     }
 
     //owner, guest 신분 분기 처리
-
     if (
       isSuccess &&
       isAuthenticated &&
@@ -63,6 +69,22 @@ export const ScenePage = () => {
       setPreset(data.data.theme);
     }
   }, [isSuccess, data, isAuthenticated, searchParams]);
+
+  // 메시지 길게 누르기 핸들러
+  const handleMessageLongPress = (messageId: number) => {
+    // console.log(`메시지 ID: ${messageId} 길게 누름 - 삭제 모달 열기`);
+    setSelectedMessageToDelete(messageId);
+    openModal("modalMessageDelete");
+  };
+  // 삭제 확인 핸들러
+  const handleDeleteConfirm = () => {
+    if (selectedMessageToDelete) {
+      // console.log(`메시지 ID: ${selectedMessageToDelete} 삭제 실행`);
+      deleteMessage(selectedMessageToDelete);
+      setSelectedMessageToDelete(null);
+      closeModal("modalMessageDelete");
+    }
+  };
 
   if (!encryptedSceneId) return null;
 
@@ -79,34 +101,52 @@ export const ScenePage = () => {
   };
 
   return (
-    <SceneLayout
-      encryptedSceneId={encryptedSceneId}
-      // 2D UI 요소 (PostButton)를 일반 children으로 전달
-      children={
-        <>
-          <div className="pointer-events-auto fixed top-6 right-2 z-50">
-            {/* shareIntroModal */}
-            <Modal
-              modalKey="shareIntroModal"
-              onConfirm={handleShareIntroConfirm}
-            />
-            <Modal modalKey="loginModal" />
+    <>
+      <SceneLayout
+        encryptedSceneId={encryptedSceneId}
+        // 2D UI 요소 (PostButton)를 일반 children으로 전달
+        children={
+          <>
+            <div className="pointer-events-auto fixed top-6 right-2 z-50">
+              {/* shareIntroModal */}
+              <Modal
+                modalKey="shareIntroModal"
+                onConfirm={handleShareIntroConfirm}
+              />
+              <Modal modalKey="loginModal" />
 
-            {isOwner && (
-              <Button onClick={handleOpenThemeModal}>
-                <img src="/images/themeButton.png" alt="테마 변경" width={50} />
-              </Button>
-            )}
-            <Modal modalKey="themeModal" onSave={handleSaveTheme} />
-          </div>
-          <div className="pointer-events-auto fixed bottom-6 left-0 w-full flex justify-center">
-            <ButtonLg isOwner={isOwner} onClick={isOwner ? shareToLink : handleLeaveMessage} />
-          </div>
-        </>
-      }
-      // 현재 3D 객체가 필요 없다면 threeChildren은 생략 가능
-      // 필요시 3D 객체 추가 가능
-      threeChildren={<SceneMessages encryptedSceneId={encryptedSceneId} isOwner={isOwner} />}
-    />
+              <Modal
+                modalKey="modalMessageDelete"
+                onConfirm={handleDeleteConfirm}
+              />
+
+              {isOwner && (
+                <Button onClick={handleOpenThemeModal}>
+                  <img
+                    src="/images/themeButton.png"
+                    alt="테마 변경"
+                    width={50}
+                  />
+                </Button>
+              )}
+              <Modal modalKey="themeModal" onSave={handleSaveTheme} />
+            </div>
+            <div className="pointer-events-auto fixed bottom-6 left-0 w-full flex justify-center">
+              <ButtonLg
+                isOwner={isOwner}
+                onClick={isOwner ? shareToLink : handleLeaveMessage}
+              />
+            </div>
+          </>
+        }
+        threeChildren={
+          <SceneMessages
+            encryptedSceneId={encryptedSceneId}
+            isOwner={isOwner}
+            onLongPress={handleMessageLongPress}
+          />
+        }
+      />
+    </>
   );
 };
