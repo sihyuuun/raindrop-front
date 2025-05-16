@@ -128,9 +128,7 @@ export const ScenePage = () => {
                 modalKey="shareIntroModal"
                 onConfirm={handleShareIntroConfirm}
               />
-              <Modal
-                modalKey="loginModal"
-              />
+              <Modal modalKey="loginModal"/>
 
               <Modal
                 modalKey="modalMessageDelete"
@@ -146,9 +144,7 @@ export const ScenePage = () => {
                   />
                 </Button>
               )}
-              <Modal
-                modalKey="themeModal" onSave={handleSaveTheme}
-              />
+              <Modal modalKey="themeModal" onSave={handleSaveTheme}/>
             </div>
             <div className="pointer-events-auto fixed bottom-6 left-0 w-full flex justify-center">
               <ButtonLg
