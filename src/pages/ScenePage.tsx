@@ -13,12 +13,13 @@ import { EnvironmentPreset } from "@/lib/constants";
 import { useSceneStore } from "@/store/sceneStore";
 import { SceneMessages } from "@/components/scene/SceneMessages";
 import { useDeleteMessage } from "@/apis/api/delete/useDeleteMessage";
+import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 
 export const ScenePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { encryptedSceneId } = useParams<{ encryptedSceneId: string }>();
   const navigate = useNavigate();
-  const { isSuccess, data } = useGetEncryptedSceneIds(encryptedSceneId ?? "");
+  const { isSuccess, data, isError, isLoading } = useGetEncryptedSceneIds(encryptedSceneId ?? "");
   const { user, isAuthenticated } = useAuthStore();
   const shareToLink = useWebShare();
   const [isOwner, setIsOwner] = useState(false);
@@ -86,7 +87,21 @@ export const ScenePage = () => {
     }
   };
 
+  // 에러 처리
   if (!encryptedSceneId) return null;
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  if (isError) {
+    navigate("/500");
+    return null;
+  }
 
   const handleLeaveMessage = () => {
     navigate(`/message?id=${encryptedSceneId}`);
@@ -113,7 +128,7 @@ export const ScenePage = () => {
                 modalKey="shareIntroModal"
                 onConfirm={handleShareIntroConfirm}
               />
-              <Modal modalKey="loginModal" />
+              <Modal modalKey="loginModal"/>
 
               <Modal
                 modalKey="modalMessageDelete"
@@ -129,7 +144,7 @@ export const ScenePage = () => {
                   />
                 </Button>
               )}
-              <Modal modalKey="themeModal" onSave={handleSaveTheme} />
+              <Modal modalKey="themeModal" onSave={handleSaveTheme}/>
             </div>
             <div className="pointer-events-auto fixed bottom-6 left-0 w-full flex justify-center">
               <ButtonLg
