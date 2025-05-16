@@ -1,4 +1,3 @@
-// src/pages/MessagePage.tsx
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useGetEncryptedSceneIds } from "@/apis/api/get/useGetEncryptedSceneIds";
