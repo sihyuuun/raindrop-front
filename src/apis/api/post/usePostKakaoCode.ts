@@ -58,7 +58,7 @@ export const usePostKakaoCode = () => {
 
       console.log("카카오 코드 성공 쿼리 무효화 실행");
       // 사용자 정보 쿼리 무효화
-      queryClient.invalidateQueries({ queryKey: ["userInfo"] });
+      // queryClient.invalidateQueries({ queryKey: ["userInfo"] });
     }
   }, [mutation.isSuccess, setAuthenticated, queryClient]);
 
