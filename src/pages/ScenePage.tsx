@@ -13,12 +13,13 @@ import { EnvironmentPreset } from "@/lib/constants";
 import { useSceneStore } from "@/store/sceneStore";
 import { SceneMessages } from "@/components/scene/SceneMessages";
 import { useDeleteMessage } from "@/apis/api/delete/useDeleteMessage";
+import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 
 export const ScenePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { encryptedSceneId } = useParams<{ encryptedSceneId: string }>();
   const navigate = useNavigate();
-  const { isSuccess, data } = useGetEncryptedSceneIds(encryptedSceneId ?? "");
+  const { isSuccess, data, isError, isLoading } = useGetEncryptedSceneIds(encryptedSceneId ?? "");
   const { user, isAuthenticated } = useAuthStore();
   const shareToLink = useWebShare();
   const [isOwner, setIsOwner] = useState(false);
@@ -27,9 +28,7 @@ export const ScenePage = () => {
   const { setPreset } = useSceneStore();
 
   // 메시지 삭제 관련 상태와 훅 추가
-  const [selectedMessageToDelete, setSelectedMessageToDelete] = useState<
-    number | null
-  >(null);
+  const [selectedMessageToDelete, setSelectedMessageToDelete] = useState<number | null>(null);
   const { mutate: deleteMessage } = useDeleteMessage(encryptedSceneId ?? "");
 
   const handleSaveTheme = (preset: EnvironmentPreset) => {
@@ -86,7 +85,21 @@ export const ScenePage = () => {
     }
   };
 
+  // 에러 처리
   if (!encryptedSceneId) return null;
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  if (isError) {
+    navigate("/500");
+    return null;
+  }
 
   const handleLeaveMessage = () => {
     navigate(`/message?id=${encryptedSceneId}`);
@@ -109,33 +122,20 @@ export const ScenePage = () => {
           <>
             <div className="pointer-events-auto fixed top-6 right-2 z-50">
               {/* shareIntroModal */}
-              <Modal
-                modalKey="shareIntroModal"
-                onConfirm={handleShareIntroConfirm}
-              />
+              <Modal modalKey="shareIntroModal" onConfirm={handleShareIntroConfirm} />
               <Modal modalKey="loginModal" />
 
-              <Modal
-                modalKey="modalMessageDelete"
-                onConfirm={handleDeleteConfirm}
-              />
+              <Modal modalKey="modalMessageDelete" onConfirm={handleDeleteConfirm} />
 
               {isOwner && (
                 <Button onClick={handleOpenThemeModal}>
-                  <img
-                    src="/images/themeButton.png"
-                    alt="테마 변경"
-                    width={50}
-                  />
+                  <img src="/images/themeButton.png" alt="테마 변경" width={50} />
                 </Button>
               )}
               <Modal modalKey="themeModal" onSave={handleSaveTheme} />
             </div>
             <div className="pointer-events-auto fixed bottom-6 left-0 w-full flex justify-center">
-              <ButtonLg
-                isOwner={isOwner}
-                onClick={isOwner ? shareToLink : handleLeaveMessage}
-              />
+              <ButtonLg isOwner={isOwner} onClick={isOwner ? shareToLink : handleLeaveMessage} />
             </div>
           </>
         }
