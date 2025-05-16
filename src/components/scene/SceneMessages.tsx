@@ -1,4 +1,3 @@
-// SceneMessages.tsx
 import {
   FlowerDrop,
   HeartDrop,

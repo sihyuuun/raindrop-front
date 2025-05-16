@@ -1,4 +1,3 @@
-// useLongPress.ts 수정
 import { useRef, useCallback } from "react";
 
 export const useLongPress = (onLongPress: () => void, ms = 600) => {

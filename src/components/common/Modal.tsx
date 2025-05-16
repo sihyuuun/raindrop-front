@@ -1,4 +1,3 @@
-// src/components/common/Modal.tsx
 import React, { useEffect, useState } from "react";
 import { ModalThemeSelector } from "./ModalThemeSelector";
 import { ModalLoginPrompt } from "./ModalLoginPrompt";

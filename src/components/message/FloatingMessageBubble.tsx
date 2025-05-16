@@ -1,4 +1,3 @@
-// FloatingMessageBubble.tsx
 import { useSceneStore } from "@/store/sceneStore";
 import { FloatingMessageBubbleProps } from "@/types/bubble.types";
 import { useEffect, useRef } from "react";
