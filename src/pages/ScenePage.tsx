@@ -72,14 +72,14 @@ export const ScenePage = () => {
 
   // 메시지 길게 누르기 핸들러
   const handleMessageLongPress = (messageId: number) => {
-    console.log(`메시지 ID: ${messageId} 길게 누름 - 삭제 모달 열기`);
+    // console.log(`메시지 ID: ${messageId} 길게 누름 - 삭제 모달 열기`);
     setSelectedMessageToDelete(messageId);
     openModal("modalMessageDelete");
   };
   // 삭제 확인 핸들러
   const handleDeleteConfirm = () => {
     if (selectedMessageToDelete) {
-      console.log(`메시지 ID: ${selectedMessageToDelete} 삭제 실행`);
+      // console.log(`메시지 ID: ${selectedMessageToDelete} 삭제 실행`);
       deleteMessage(selectedMessageToDelete);
       setSelectedMessageToDelete(null);
       closeModal("modalMessageDelete");
@@ -143,7 +143,7 @@ export const ScenePage = () => {
           <SceneMessages
             encryptedSceneId={encryptedSceneId}
             isOwner={isOwner}
-            onLongPress={handleMessageLongPress} // 길게 누르기 핸들러 전달
+            onLongPress={handleMessageLongPress}
           />
         }
       />
