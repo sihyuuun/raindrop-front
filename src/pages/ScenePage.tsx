@@ -76,13 +76,13 @@ export const ScenePage = () => {
     setSelectedMessageToDelete(messageId);
     openModal("modalMessageDelete");
   };
-
   // 삭제 확인 핸들러
   const handleDeleteConfirm = () => {
     if (selectedMessageToDelete) {
       console.log(`메시지 ID: ${selectedMessageToDelete} 삭제 실행`);
       deleteMessage(selectedMessageToDelete);
       setSelectedMessageToDelete(null);
+      closeModal("modalMessageDelete");
     }
   };
 
@@ -114,6 +114,7 @@ export const ScenePage = () => {
                 onConfirm={handleShareIntroConfirm}
               />
               <Modal modalKey="loginModal" />
+
               <Modal
                 modalKey="modalMessageDelete"
                 onConfirm={handleDeleteConfirm}
@@ -138,7 +139,6 @@ export const ScenePage = () => {
             </div>
           </>
         }
-        // 3D 요소에 SceneMessages 전달하며 onLongPress 콜백 추가
         threeChildren={
           <SceneMessages
             encryptedSceneId={encryptedSceneId}
