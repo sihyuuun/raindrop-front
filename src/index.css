@@ -8,40 +8,12 @@
 :root {
   font-family: "Nanum Gothic", sans-serif;
   --vh: 100%;
-}
-/* 모든 요소에서 스크롤바 숨기기 */
-* {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
 
-/* 모든 요소의 focus, focus-visible 상태에서 outline, ring 제거 */
-*:focus,
-*:focus-visible,
-input:focus,
-input:focus-visible,
-textarea:focus,
-textarea:focus-visible,
-button:focus,
-button:focus-visible,
-select:focus,
-select:focus-visible {
-  outline: none;
-}
-/* 전역 focus ring 제거만, shadow는 유지 */
-*:focus,
-*:focus-visible {
-  --tw-ring-shadow: 0 0 #0000;
-  --tw-ring-color: transparent;
-  outline: none;
-}
+  /* 모바일 뷰포트 크기 */
+  --mobile-width: 375px;
+  --mobile-height: 812px;
+  --scale-factor: 1;
 
-/* 웹킷 기반 브라우저(Chrome, Safari 등)에서 스크롤바 숨기기 */
-*::-webkit-scrollbar {
-  display: none;
-}
-
-@theme {
   /* 폰트 */
   --font-jua: "Jua", sans-serif;
   --font-nanum: "Nanum Gothic", sans-serif;
@@ -91,4 +63,82 @@ select:focus-visible {
   --color-error-700: #990000;
   --color-error-800: #660000;
   --color-error-900: #330000;
+}
+
+/* 모든 요소에서 스크롤바 숨기기 */
+* {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* 모든 요소의 focus, focus-visible 상태에서 outline, ring 제거 */
+*:focus,
+*:focus-visible,
+input:focus,
+input:focus-visible,
+textarea:focus,
+textarea:focus-visible,
+button:focus,
+button:focus-visible,
+select:focus,
+select:focus-visible {
+  outline: none;
+}
+
+/* 전역 focus ring 제거만, shadow는 유지 */
+*:focus,
+*:focus-visible {
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-ring-color: transparent;
+  outline: none;
+}
+
+/* 웹킷 기반 브라우저(Chrome, Safari 등)에서 스크롤바 숨기기 */
+*::-webkit-scrollbar {
+  display: none;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* 모바일 앱 레이아웃 컨테이너 */
+.mobile-container {
+  width: var(--mobile-width);
+  height: var(--mobile-height);
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: white;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+}
+
+/* 앱 내부 콘텐츠 영역 */
+.mobile-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* iOS 스크롤 부드럽게 */
+}
+
+/* iOS 스타일 버튼 및 요소 */
+.ios-bubble {
+  background-color: white;
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.chat-bubble {
+  max-width: 85%;
+  padding: 0.75rem 1rem;
+  border-radius: 18px;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }

@@ -1,5 +1,3 @@
-// src/apis/api/post/usePostMessage.ts
-
 import {
   useMutation,
   UseMutationResult,
