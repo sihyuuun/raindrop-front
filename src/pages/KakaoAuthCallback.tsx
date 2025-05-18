@@ -37,31 +37,17 @@ export default function KakaoAuthCallback() {
 
     // 신규 유저면 scene 생성
     if (userInfo.newUser) {
-      postScene(
-        { theme: DEFAULT_ENVIRONMENT_PRESET },
-        {
-          onSuccess: (data) => {
-            navigate(`/${data.encryptedSceneId}`, { replace: true });
-          },
-        }
-      );
-    }
-  }, [userInfo, isUserLoading, isAuthenticated, setUser, postScene, navigate]);
-
-  //기존 유저는 scene 목록 받아오면 scene으로 이동
-  useEffect(() => {
-    if (
-      userInfo &&
-      !userInfo.newUser &&
-      isScenesSuccess &&
-      scenes &&
-      scenes.data
-    ) {
+      console.log("새 유저입니다");
+      postScene({ theme: DEFAULT_ENVIRONMENT_PRESET });
+    } else if (isScenesSuccess) {
+      console.log("기존 유저입니다");
       navigate(`/${scenes.data}`, { replace: true });
     }
-  }, [userInfo, isScenesSuccess, scenes, navigate]);
+  }, [userInfo, isUserLoading, isAuthenticated, isScenesSuccess]);
 
-  if (!code) return <div>인증 코드가 없습니다</div>;
+  if (!code) {
+    alert("인증코드가 없습니다! 다시 시도해주세요");
+  }
 
   return <LoadingPage />;
 }
