@@ -1,7 +1,5 @@
 export const useWebShare = () => {
   const shareData = {
-    title: "빗속말",
-    text: "비 오는 날, 상대방에게 보여줄 메시지를 남겨보세요",
     url: location.href,
   };
 

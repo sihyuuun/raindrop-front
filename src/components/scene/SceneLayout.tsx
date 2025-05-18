@@ -32,7 +32,7 @@ export const SceneLayout = ({
 }: SceneLayoutProps) => {
   return (
     <div
-      className="relative w-screen overflow-hidden h-screen-vh"
+      className="relative w-[100%] overflow-hidden h-screen-vh"
       style={{ height: "100dvh" }}
     >
       {/* 3D 요소를 위한 전체 화면 Canvas */}
@@ -45,7 +45,7 @@ export const SceneLayout = ({
 
       {/* 2D UI 요소를 위한 투명 오버레이 */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="w-full h-full px-[5%] py-[5%] flex flex-col">
+        <div className="px-[5%] py-[5%] flex flex-col">
           {/* 상단 헤더 영역 - 포인터 이벤트 활성화 */}
           <div className="pointer-events-auto">
             <ProfileHeader encryptedSceneId={encryptedSceneId} />

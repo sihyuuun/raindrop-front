@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { authClient } from "../../client";
-import { SceneRequest, SceneResponse } from "@/types/scene.types";
+import { SceneRequest } from "@/types/scene.types";
 import { useNavigate } from "react-router-dom";
 
 /**
@@ -18,16 +18,14 @@ export const usePostScenes = () => {
     mutationKey: ["postScene"],
     mutationFn: async (sceneData: SceneRequest) => {
       const { data } = await authClient.post("/scenes", sceneData);
-      return data as SceneResponse;
+      return data;
     },
     onError: (error) => {
       console.error("Scene 생성 실패", error);
     },
     onSuccess: (data) => {
       console.log("Scene 생성 성공", data);
-      setTimeout(() => {
-        navigate("/");
-      }, 100);
+      navigate(`/${data.data}`, { replace: true });
     },
   });
 };
