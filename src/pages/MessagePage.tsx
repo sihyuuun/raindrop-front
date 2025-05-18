@@ -38,7 +38,7 @@ export const MessagePage: React.FC = () => {
     setIsSubmitAble(
       inputContent.trim().length > 0 &&
         inputNickName.trim().length > 0 &&
-        inputModelId !== null,
+        inputModelId !== null
     );
   }, [inputContent, inputNickName, inputModelId]);
 
@@ -61,7 +61,7 @@ export const MessagePage: React.FC = () => {
           />
         }
         children={
-          <div className="h-full w-full pointer-events-none">
+          <div className="min w-full pointer-events-none">
             {/* 메시지 입력 박스 컴포넌트 - 상단에 배치 */}
             <div className="pointer-events-auto mt-[5%]">
               <MessageInputBox
@@ -73,7 +73,7 @@ export const MessagePage: React.FC = () => {
             </div>
 
             {/* 버블 남기기 버튼 - 화면 맨 하단에 고정 */}
-            <div className="pointer-events-auto fixed bottom-6 left-0 w-full flex justify-center">
+            <div className="pointer-events-auto fixed bottom-1 left-0 w-full flex justify-center sm:absolute">
               <ButtonLg
                 isOwner={false}
                 onClick={handleSubmit}

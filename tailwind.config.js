@@ -19,8 +19,9 @@ export default {
       animation: {
         /* 애니메이션... */
       },
-      height: {
-        "screen-vh": "calc(var(--vh)*100)",
+      screens: {
+        sm: "431px", // 모바일 기준점: 430px 초과 = 모바일 아님
+        // 기타 기존 브레이크포인트들 (md, lg, xl 등)
       },
     },
   },
