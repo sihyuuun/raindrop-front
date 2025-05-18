@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { BrowserRouter } from "react-router-dom";
 import AppRoutes from "./routes/AppRoutes.tsx";
+import MobileLayoutContainer from "./components/common/MobileLayoutContainer.tsx";
 
 // React Query 클라이언트 설정
 const queryClient = new QueryClient({
@@ -16,24 +17,12 @@ const queryClient = new QueryClient({
 });
 
 const App: React.FC = () => {
-  useEffect(() => {
-    const setVh = () => {
-      document.documentElement.style.setProperty(
-        "--vh",
-        `${window.innerHeight * 0.01}px`,
-      );
-    };
-    // 초기 호출
-    setVh();
-    // 리사이즈 때마다 호출
-    window.addEventListener("resize", setVh);
-    return () => window.removeEventListener("resize", setVh);
-  }, []);
-
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <AppRoutes />
+        <MobileLayoutContainer>
+          <AppRoutes />
+        </MobileLayoutContainer>
       </BrowserRouter>
       {process.env.NODE_ENV === "development" && <ReactQueryDevtools />}
     </QueryClientProvider>
