@@ -19,7 +19,9 @@ export const ScenePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { encryptedSceneId } = useParams<{ encryptedSceneId: string }>();
   const navigate = useNavigate();
-  const { isSuccess, data, isError, isLoading } = useGetEncryptedSceneIds(encryptedSceneId ?? "");
+  const { isSuccess, data, isError, isLoading } = useGetEncryptedSceneIds(
+    encryptedSceneId ?? ""
+  );
   const { user, isAuthenticated } = useAuthStore();
   const shareToLink = useWebShare();
   const [isOwner, setIsOwner] = useState(false);
@@ -128,7 +130,7 @@ export const ScenePage = () => {
                 modalKey="shareIntroModal"
                 onConfirm={handleShareIntroConfirm}
               />
-              <Modal modalKey="loginModal"/>
+              <Modal modalKey="loginModal" />
 
               <Modal
                 modalKey="modalMessageDelete"
@@ -144,9 +146,9 @@ export const ScenePage = () => {
                   />
                 </Button>
               )}
-              <Modal modalKey="themeModal" onSave={handleSaveTheme}/>
+              <Modal modalKey="themeModal" onSave={handleSaveTheme} />
             </div>
-            <div className="pointer-events-auto fixed bottom-6 left-0 w-full flex justify-center">
+            <div className="pointer-events-auto fixed bottom-[1%] left-0 w-full flex justify-center sm:absolute">
               <ButtonLg
                 isOwner={isOwner}
                 onClick={isOwner ? shareToLink : handleLeaveMessage}
