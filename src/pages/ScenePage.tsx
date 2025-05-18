@@ -13,7 +13,7 @@ import { EnvironmentPreset } from "@/lib/constants";
 import { useSceneStore } from "@/store/sceneStore";
 import { SceneMessages } from "@/components/scene/SceneMessages";
 import { useDeleteMessage } from "@/apis/api/delete/useDeleteMessage";
-import { LoadingSpinner } from "@/components/common/LoadingSpinner";
+import { LoadingPage } from "./LoadingPage";
 
 export const ScenePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -93,11 +93,7 @@ export const ScenePage = () => {
   if (!encryptedSceneId) return null;
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <LoadingSpinner />
-      </div>
-    );
+    return <LoadingPage />;
   }
 
   if (isError) {

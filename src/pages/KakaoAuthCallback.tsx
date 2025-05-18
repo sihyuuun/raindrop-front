@@ -6,7 +6,7 @@ import { useGetUserInfo } from "@/apis/api/get/useGetUserInfo";
 import { usePostScenes } from "@/apis/api/post/usePostScenes";
 import { DEFAULT_ENVIRONMENT_PRESET } from "@/lib/constants";
 import { useGetScenes } from "@/apis/api/get/useGetScenes";
-import { LoadingSpinner } from "@/components/common/LoadingSpinner";
+import { LoadingPage } from "./LoadingPage";
 
 export default function KakaoAuthCallback() {
   const [searchParams] = useSearchParams();
@@ -50,22 +50,18 @@ export default function KakaoAuthCallback() {
 
   //기존 유저는 scene 목록 받아오면 scene으로 이동
   useEffect(() => {
-    if (userInfo && !userInfo.newUser && isScenesSuccess && scenes && scenes.data) {
+    if (
+      userInfo &&
+      !userInfo.newUser &&
+      isScenesSuccess &&
+      scenes &&
+      scenes.data
+    ) {
       navigate(`/${scenes.data}`, { replace: true });
     }
   }, [userInfo, isScenesSuccess, scenes, navigate]);
 
-  if (isUserLoading)
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <LoadingSpinner />
-      </div>
-    );
   if (!code) return <div>인증 코드가 없습니다</div>;
 
-  return (
-    <div className="flex items-center justify-center h-screen">
-      <LoadingSpinner />
-    </div>
-  );
+  return <LoadingPage />;
 }
