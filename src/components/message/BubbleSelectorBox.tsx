@@ -23,11 +23,11 @@ export const BubbleSelectorBox = ({
   inputNickName,
 }: BubbleSelectorBoxProps) => {
   const bubblePositions = [
-    new Vector3(-1.4, -1.7, 0), // far left
-    new Vector3(-0.7, -1.7, 0), // left
-    new Vector3(0, -1.7, 0), // center
-    new Vector3(0.7, -1.7, 0), // right
-    new Vector3(1.4, -1.7, 0), // far right
+    new Vector3(-1.4, -2.5, 0), // far left
+    new Vector3(-0.7, -2.5, 0), // left
+    new Vector3(0, -2.5, 0), // center
+    new Vector3(0.7, -2.5, 0), // right
+    new Vector3(1.4, -2.5, 0), // far right
   ];
 
   const bubbleTypes: BubbleComponentType[] = [

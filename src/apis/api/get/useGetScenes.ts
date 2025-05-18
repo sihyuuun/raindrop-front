@@ -16,7 +16,6 @@ export const useGetScenes = () => {
       const { data } = await authClient.get("/scenes");
       return data;
     },
-    placeholderData: "",
     enabled: !!isAuthenticated,
   });
 };

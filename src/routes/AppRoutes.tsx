@@ -4,10 +4,12 @@ import KakaoAuthCallback from "@/pages/KakaoAuthCallback.tsx";
 import { MessagePage } from "@/pages/MessagePage";
 import ErrorPage from "@/pages/ErrorPage";
 import NotFoundPage from "@/pages/NotFounePage";
+import { Suspense } from "react";
+import { LoadingPage } from "@/pages/LoadingPage";
 
 const AppRoutes = () => {
   return (
-    <>
+    <Suspense fallback={<LoadingPage />}>
       <Routes>
         <Route path="/:encryptedSceneId" element={<ScenePage />} />
         <Route path="/auth/login/kakao" element={<KakaoAuthCallback />} />
@@ -15,7 +17,7 @@ const AppRoutes = () => {
         <Route path="/500" element={<ErrorPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
-    </>
+    </Suspense>
   );
 };
 

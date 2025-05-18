@@ -13,13 +13,15 @@ import { EnvironmentPreset } from "@/lib/constants";
 import { useSceneStore } from "@/store/sceneStore";
 import { SceneMessages } from "@/components/scene/SceneMessages";
 import { useDeleteMessage } from "@/apis/api/delete/useDeleteMessage";
-import { LoadingSpinner } from "@/components/common/LoadingSpinner";
+import { LoadingPage } from "./LoadingPage";
 
 export const ScenePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { encryptedSceneId } = useParams<{ encryptedSceneId: string }>();
   const navigate = useNavigate();
-  const { isSuccess, data, isError, isLoading } = useGetEncryptedSceneIds(encryptedSceneId ?? "");
+  const { isSuccess, data, isError, isLoading } = useGetEncryptedSceneIds(
+    encryptedSceneId ?? ""
+  );
   const { user, isAuthenticated } = useAuthStore();
   const shareToLink = useWebShare();
   const [isOwner, setIsOwner] = useState(false);
@@ -91,11 +93,7 @@ export const ScenePage = () => {
   if (!encryptedSceneId) return null;
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <LoadingSpinner />
-      </div>
-    );
+    return <LoadingPage />;
   }
 
   if (isError) {
@@ -122,13 +120,13 @@ export const ScenePage = () => {
         // 2D UI 요소 (PostButton)를 일반 children으로 전달
         children={
           <>
-            <div className="pointer-events-auto fixed top-6 right-2 z-50">
+            <div className="pointer-events-auto fixed top-7 right-2 z-50 sm:absolute">
               {/* shareIntroModal */}
               <Modal
                 modalKey="shareIntroModal"
                 onConfirm={handleShareIntroConfirm}
               />
-              <Modal modalKey="loginModal"/>
+              <Modal modalKey="loginModal" />
 
               <Modal
                 modalKey="modalMessageDelete"
@@ -136,7 +134,7 @@ export const ScenePage = () => {
               />
 
               {isOwner && (
-                <Button onClick={handleOpenThemeModal}>
+                <Button onClick={handleOpenThemeModal} className="shadow-none">
                   <img
                     src="/images/themeButton.png"
                     alt="테마 변경"
@@ -144,9 +142,9 @@ export const ScenePage = () => {
                   />
                 </Button>
               )}
-              <Modal modalKey="themeModal" onSave={handleSaveTheme}/>
+              <Modal modalKey="themeModal" onSave={handleSaveTheme} />
             </div>
-            <div className="pointer-events-auto fixed bottom-6 left-0 w-full flex justify-center">
+            <div className="pointer-events-auto fixed bottom-[1%] left-0 w-full flex justify-center sm:absolute">
               <ButtonLg
                 isOwner={isOwner}
                 onClick={isOwner ? shareToLink : handleLeaveMessage}
