@@ -21,8 +21,8 @@ export const ModalMessageDelete = ({ onClose, animateIn, onConfirm }: ModalMessa
           <div className="flex items-center justify-center gap-4">
             <Lottie animationData={trashcanAnimation} style={{ width: 80, height: 80 }} />
             <div className="text-left">
-              <p className="text-[#575757] text-xs mb-2">버블 삭제 시 복구는 불가능해요</p>
-              <h2 className="text-lg font-semibold leading-snug">버블을 삭제할까요?</h2>
+              <p className="text-[#575757] text-xs mb-2">빗속말 삭제 시 복구는 불가능해요</p>
+              <h2 className="text-lg font-semibold leading-snug">빗속말을 삭제할까요?</h2>
             </div>
           </div>
 

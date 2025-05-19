@@ -28,9 +28,7 @@ export const ModalLoginPrompt = ({
               style={{ width: 100, height: 100 }}
             />
             <div className="text-left flex flex-col items-center pr-2 space-y-2">
-              <p className="text-[#575757] text-sm whitespace-nowrap">
-                나만의 페이지를 만들게요
-              </p>
+              <p className="text-[#575757] text-sm whitespace-nowrap">나만의 구름을 만들게요</p>
               <h2 className="text-lg font-semibold leading-snug whitespace-nowrap">
                 우선 로그인 해주세요
               </h2>

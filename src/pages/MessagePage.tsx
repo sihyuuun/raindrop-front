@@ -28,7 +28,7 @@ export const MessagePage: React.FC = () => {
       isSuccess &&
       user?.email === data.data.ownerSocialId
     ) {
-      alert("스스로에게 메세지를 남길 수 없어요!");
+      alert("스스로에게 빗속말을 남길 수 없어요!");
       setIsOwner(true);
       navigate(-1);
     }

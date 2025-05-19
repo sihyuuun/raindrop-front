@@ -40,13 +40,11 @@ export const ModalShareIntro = ({
               style={{ width: 80, height: 80 }}
             />
             <div className="text-left">
-              <p className="text-[#575757] text-sm mb-2">
-                ‘{nickName}’님께 버블을 전달했어요
-              </p>
+              <p className="text-[#575757] text-sm mb-2">‘{nickName}’님께 빗속말을 전달했어요</p>
               <h2 className="text-lg font-semibold leading-snug">
-                나만의 페이지를 만들어
+                나만의 구름을 만들어
                 <br />
-                버블을 받을까요?
+                빗속말을 받을까요?
               </h2>
             </div>
           </div>
