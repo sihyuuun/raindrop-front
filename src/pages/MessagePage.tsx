@@ -46,6 +46,17 @@ export const MessagePage: React.FC = () => {
     openModal("confirmBubble");
   };
 
+  const handleContentChange = (value: string) => {
+    const trimmed = value.slice(0, 50); // 50자까지만 잘라냄
+    console.log("handleContentChange.......trimmed:", trimmed);
+    setInputContent(trimmed);
+  };
+
+  const handleNickNameChange = (value: string) => {
+    const trimmed = value.slice(0, 7); // 7자까지만 잘라냄
+    setInputNickName(trimmed);
+  };
+
   if (isOwner || !isSuccess) return null;
 
   return (
@@ -67,8 +78,8 @@ export const MessagePage: React.FC = () => {
               <MessageInputBox
                 content={inputContent}
                 nickName={inputNickName}
-                onContentChange={setInputContent}
-                onNickNameChange={setInputNickName}
+                onContentChange={handleContentChange}
+                onNickNameChange={handleNickNameChange}
               />
             </div>
 
