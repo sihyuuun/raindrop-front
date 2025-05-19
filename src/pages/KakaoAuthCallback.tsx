@@ -19,7 +19,9 @@ export default function KakaoAuthCallback() {
   const { setUser, isAuthenticated } = useAuthStore();
 
   const { data: userInfo, isLoading: isUserLoading } = useGetUserInfo();
-  const { data: scenes, isSuccess: isScenesSuccess } = useGetScenes();
+  const { data: scenes, isSuccess: isScenesSuccess } = useGetScenes({
+    enabled: isAuthenticated && !!userInfo && !userInfo.newUser,
+  });
 
   // 코드 post 실행
   useEffect(() => {

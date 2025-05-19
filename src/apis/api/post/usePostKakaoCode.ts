@@ -18,6 +18,7 @@ export const usePostKakaoCode = () => {
   const mutation = useMutation<KakaoAuthResponse, Error, string>({
     mutationKey: ["login"],
     mutationFn: async (kakaoCode: string) => {
+      console.log("code post");
       const { data } = await client.post<KakaoAuthResponse>("/user/login", {
         code: kakaoCode,
       });
