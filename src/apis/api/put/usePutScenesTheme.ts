@@ -12,8 +12,5 @@ export const usePutScenesTheme = () => {
     onError: (error) => {
       console.error("테마 수정 실패", error);
     },
-    onSuccess: (data) => {
-      console.log("테마 수정 성공", data);
-    },
   });
 };

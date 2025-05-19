@@ -24,7 +24,6 @@ export const usePostScenes = () => {
       console.error("Scene 생성 실패", error);
     },
     onSuccess: (data) => {
-      console.log("Scene 생성 성공", data);
       navigate(`/${data.data}`, { replace: true });
     },
   });

@@ -10,7 +10,7 @@ interface ConfirmErrorModalProps {
 export const ConfirmErrorModal: React.FC<ConfirmErrorModalProps> = ({
   animateIn,
   onClose,
-  message = "메시지 전송에 실패했습니다. 다시 시도해주세요.",
+  message = "빗속말 전송에 실패했습니다. 다시 시도해주세요.",
 }) => (
   <div
     className="fixed inset-0 bg-black/40 z-50 flex items-start justify-center"

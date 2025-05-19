@@ -70,7 +70,7 @@ export const MessageConfirmModal: React.FC<MessageConfirmModalProps> = ({
         >
           <div className="bg-white rounded-3xl p-6 shadow-xl w-[330px]">
             <h2 className="text-lg font-semibold text-center mb-2">
-              버블 작성을 완료하시겠습니까?
+              빗속말 작성을 완료하시겠습니까?
             </h2>
             <p className="text-sm text-gray-600 text-center mb-6">
               작성 후 수정 및 삭제가 불가능합니다.

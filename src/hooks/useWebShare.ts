@@ -5,10 +5,7 @@ export const useWebShare = () => {
 
   const share = () => {
     if (navigator.share) {
-      navigator
-        .share(shareData)
-        .then(() => console.log("공유 성공"))
-        .catch(() => console.log("공유 실패"));
+      navigator.share(shareData).catch(() => console.log("공유 실패"));
     }
   };
 

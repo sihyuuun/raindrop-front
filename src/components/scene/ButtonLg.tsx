@@ -7,7 +7,7 @@ interface ButtonLgProps {
 }
 
 export function ButtonLg({ isOwner, onClick, disabled }: ButtonLgProps) {
-  const BUTTON_TEXT = isOwner ? "🫧 버블 공유하기" : "🫧 버블 남기기";
+  const BUTTON_TEXT = isOwner ? "🫧 구름 공유하기" : "🫧 빗속말 남기기";
 
   return (
     <Button

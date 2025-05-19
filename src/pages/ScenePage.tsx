@@ -13,14 +13,13 @@ import { EnvironmentPreset } from "@/lib/constants";
 import { useSceneStore } from "@/store/sceneStore";
 import { SceneMessages } from "@/components/scene/SceneMessages";
 import { useDeleteMessage } from "@/apis/api/delete/useDeleteMessage";
-import { LoadingPage } from "./LoadingPage";
 
 export const ScenePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { encryptedSceneId } = useParams<{ encryptedSceneId: string }>();
   const navigate = useNavigate();
-  const { isSuccess, data, isError, isLoading } = useGetEncryptedSceneIds(
-    encryptedSceneId ?? ""
+  const { isSuccess, data, isError } = useGetEncryptedSceneIds(
+    encryptedSceneId as string
   );
   const { user, isAuthenticated } = useAuthStore();
   const shareToLink = useWebShare();
@@ -55,7 +54,6 @@ export const ScenePage = () => {
       if (!isAuthenticated) {
         openModal("shareIntroModal");
       }
-      console.log("shareIntro 모달 띄웠음");
     }
 
     //owner, guest 신분 분기 처리
@@ -75,14 +73,12 @@ export const ScenePage = () => {
 
   // 메시지 길게 누르기 핸들러
   const handleMessageLongPress = (messageId: number) => {
-    // console.log(`메시지 ID: ${messageId} 길게 누름 - 삭제 모달 열기`);
     setSelectedMessageToDelete(messageId);
     openModal("modalMessageDelete");
   };
   // 삭제 확인 핸들러
   const handleDeleteConfirm = () => {
     if (selectedMessageToDelete) {
-      // console.log(`메시지 ID: ${selectedMessageToDelete} 삭제 실행`);
       deleteMessage(selectedMessageToDelete);
       setSelectedMessageToDelete(null);
       closeModal("modalMessageDelete");
@@ -91,10 +87,6 @@ export const ScenePage = () => {
 
   // 에러 처리
   if (!encryptedSceneId) return null;
-
-  if (isLoading) {
-    return <LoadingPage />;
-  }
 
   if (isError) {
     navigate("/500");
