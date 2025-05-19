@@ -72,7 +72,6 @@ export const SceneMessages = ({
 
   // 길게 누르기 핸들러 - 부모 컴포넌트에 전달된 콜백 사용
   const handleLongPress = (messageId: number) => {
-    // console.log(`메시지 ID: ${messageId} 길게 누름 이벤트 발생`);
     if (onLongPress) {
       onLongPress(messageId);
     }

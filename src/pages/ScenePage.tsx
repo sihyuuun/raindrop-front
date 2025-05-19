@@ -54,7 +54,6 @@ export const ScenePage = () => {
       if (!isAuthenticated) {
         openModal("shareIntroModal");
       }
-      console.log("shareIntro 모달 띄웠음");
     }
 
     //owner, guest 신분 분기 처리
@@ -74,14 +73,12 @@ export const ScenePage = () => {
 
   // 메시지 길게 누르기 핸들러
   const handleMessageLongPress = (messageId: number) => {
-    // console.log(`메시지 ID: ${messageId} 길게 누름 - 삭제 모달 열기`);
     setSelectedMessageToDelete(messageId);
     openModal("modalMessageDelete");
   };
   // 삭제 확인 핸들러
   const handleDeleteConfirm = () => {
     if (selectedMessageToDelete) {
-      // console.log(`메시지 ID: ${selectedMessageToDelete} 삭제 실행`);
       deleteMessage(selectedMessageToDelete);
       setSelectedMessageToDelete(null);
       closeModal("modalMessageDelete");

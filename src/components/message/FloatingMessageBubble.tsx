@@ -36,7 +36,6 @@ export const FloatingMessageBubble = ({
   const longPressHandlers = useLongPress(() => {
     if (onLongPress && isPopAble) {
       onLongPress();
-      console.log("길게 누르기 훅 활성화");
     }
   }, 800);
 
