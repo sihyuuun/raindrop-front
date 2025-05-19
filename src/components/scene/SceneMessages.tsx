@@ -94,7 +94,6 @@ export const SceneMessages = ({
             position={position}
             isPopAble={isOwner && !isLoading && isRainy(weather!.id)}
             mainText={msg.nickname}
-            subText={isOwner ? msg.content : ""}
             scale={2.3}
             onLongPress={() => handleLongPress(msg.messageId)}
           />
