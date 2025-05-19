@@ -30,18 +30,6 @@ export const redirectToErrorPage = (
 };
 
 /**
- * 404 페이지로 리다이렉트하는 함수
- *
- * @param errorMessage 에러 메시지 (기본값: 요청한 리소스를 찾을 수 없습니다.)
- */
-export const redirectToNotFoundPage = (
-  errorMessage: string = "요청한 리소스를 찾을 수 없습니다."
-) => {
-  const encodedMessage = encodeURIComponent(errorMessage);
-  window.location.href = `/not-found?message=${encodedMessage}`;
-};
-
-/**
  * 기본 클라이언트 인스턴스
  * 인증이 필요하지 않은 요청에 사용됩니다.
  */
@@ -121,18 +109,6 @@ authClient.interceptors.response.use(
         500
       );
     }
-    // 그 외 에러 처리
-    else {
-      const statusCode = error.response?.status || 500;
-      // 타입 에러 해결
-      const data = error.response?.data;
-      const errorMessage =
-        (typeof data === "object" && data !== null && "message" in data
-          ? (data.message as string)
-          : error.message) || "알 수 없는 오류가 발생했습니다.";
-
-      redirectToErrorPage(errorMessage, statusCode);
-    }
 
     // 기타 오류는 그대로 전달
     return Promise.reject(error);
@@ -153,18 +129,7 @@ client.interceptors.response.use(
         500
       );
     }
-    // 그 외 에러 처리
-    else {
-      const statusCode = error.response?.status || 500;
-      // 타입 에러 해결
-      const data = error.response?.data;
-      const errorMessage =
-        (typeof data === "object" && data !== null && "message" in data
-          ? (data.message as string)
-          : error.message) || "알 수 없는 오류가 발생했습니다.";
 
-      redirectToErrorPage(errorMessage, statusCode);
-    }
 
     return Promise.reject(error);
   }
