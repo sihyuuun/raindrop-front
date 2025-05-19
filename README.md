@@ -104,12 +104,6 @@
     <td align="center"><a href="https://github.com/jihoi0615">@jihoi0615</a></td>
     <td align="center"><a href="https://github.com/silverain02">@silverain02</a></td>
   </tr>
-  <tr>
-    <td align="center">인증/메시지 기능</td>
-    <td align="center">UI/UX 디자인</td>
-    <td align="center">날씨 API 연동</td>
-    <td align="center">라우팅/상태관리</td>
-  </tr>
 </table>
 
 ## ⭐ 사용자 경험 개선 포인트
