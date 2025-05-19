@@ -28,7 +28,7 @@ export const MessagePage: React.FC = () => {
       isSuccess &&
       user?.email === data.data.ownerSocialId
     ) {
-      alert("스스로에게 메세지를 남길 수 없어요!");
+      alert("스스로에게 빗속말을 남길 수 없어요!");
       setIsOwner(true);
       navigate(-1);
     }
@@ -44,6 +44,16 @@ export const MessagePage: React.FC = () => {
 
   const handleSubmit = () => {
     openModal("confirmBubble");
+  };
+
+  const handleContentChange = (value: string) => {
+    const trimmed = value.slice(0, 50); // 50자까지만 잘라냄
+    setInputContent(trimmed);
+  };
+
+  const handleNickNameChange = (value: string) => {
+    const trimmed = value.slice(0, 7); // 7자까지만 잘라냄
+    setInputNickName(trimmed);
   };
 
   if (isOwner || !isSuccess) return null;
@@ -67,8 +77,8 @@ export const MessagePage: React.FC = () => {
               <MessageInputBox
                 content={inputContent}
                 nickName={inputNickName}
-                onContentChange={setInputContent}
-                onNickNameChange={setInputNickName}
+                onContentChange={handleContentChange}
+                onNickNameChange={handleNickNameChange}
               />
             </div>
 

@@ -11,8 +11,5 @@ export const usePutScenesVisibility = () => {
     onError: (error) => {
       console.error("공개 상태 수정 실패", error);
     },
-    onSuccess: () => {
-      console.log("공개 상태 수정 성공");
-    },
   });
 };

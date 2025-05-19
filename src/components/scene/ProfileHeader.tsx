@@ -33,7 +33,7 @@ export function ProfileHeader({
           <AvatarImage src={userData.profileImage} alt="userProfile" />
           <AvatarFallback>KO</AvatarFallback>
         </Avatar>
-        <span>{userData.nickName}님의 버블</span>
+        <span>{userData.nickName}님의 구름</span>
       </div>
     </Card>
   );
