@@ -1,27 +1,22 @@
-import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 export default function NotFoundPage() {
-  const [errorMessage, setErrorMessage] =
-    useState("페이지를 찾을 수 없어요...😢");
+  const [searchParams] = useSearchParams();
 
-  useEffect(() => {
-    // URL 쿼리 파라미터에서 에러 메시지 추출
-    const params = new URLSearchParams(window.location.search);
-    const message = params.get("message");
+  // URL 쿼리 파라미터에서 에러 메시지 추출
+  const message = searchParams.get("message");
 
-    if (message) {
-      // HTML 디코딩 (인코딩된 문자열 처리)
-      const decodedMessage = decodeHTMLEntities(message);
-      setErrorMessage(decodedMessage);
-    }
-  }, []);
+  // 메시지가 있으면 디코딩, 없으면 기본 메시지 사용
+  const errorMessage = message
+    ? decodeHTMLEntities(message)
+    : "페이지를 찾을 수 없어요...😢";
 
   // HTML 엔티티 디코딩 함수
-  const decodeHTMLEntities = (text: string) => {
+  function decodeHTMLEntities(text: string) {
     const textarea = document.createElement("textarea");
     textarea.innerHTML = text;
     return textarea.value;
-  };
+  }
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-gradient-to-b from-[#f7d9aa] to-[#a8c0ff] text-center px-6 relative overflow-hidden">
