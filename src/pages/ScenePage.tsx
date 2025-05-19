@@ -13,14 +13,13 @@ import { EnvironmentPreset } from "@/lib/constants";
 import { useSceneStore } from "@/store/sceneStore";
 import { SceneMessages } from "@/components/scene/SceneMessages";
 import { useDeleteMessage } from "@/apis/api/delete/useDeleteMessage";
-import { LoadingPage } from "./LoadingPage";
 
 export const ScenePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { encryptedSceneId } = useParams<{ encryptedSceneId: string }>();
   const navigate = useNavigate();
-  const { isSuccess, data, isError, isLoading } = useGetEncryptedSceneIds(
-    encryptedSceneId ?? ""
+  const { isSuccess, data, isError } = useGetEncryptedSceneIds(
+    encryptedSceneId as string
   );
   const { user, isAuthenticated } = useAuthStore();
   const shareToLink = useWebShare();
@@ -91,10 +90,6 @@ export const ScenePage = () => {
 
   // 에러 처리
   if (!encryptedSceneId) return null;
-
-  if (isLoading) {
-    return <LoadingPage />;
-  }
 
   if (isError) {
     navigate("/500");
