@@ -22,23 +22,11 @@ const BE_URL = "https://raindrop-back.onrender.com/api";
  */
 export const redirectToErrorPage = (
   errorMessage: string,
-  statusCode: number = 500,
+  statusCode: number = 500
 ) => {
   // encodeURIComponent로 에러 메시지를 안전하게 인코딩
   const encodedMessage = encodeURIComponent(errorMessage);
   window.location.href = `/500?message=${encodedMessage}&status=${statusCode}`;
-};
-
-/**
- * 404 페이지로 리다이렉트하는 함수
- *
- * @param errorMessage 에러 메시지 (기본값: 요청한 리소스를 찾을 수 없습니다.)
- */
-export const redirectToNotFoundPage = (
-  errorMessage: string = "요청한 리소스를 찾을 수 없습니다.",
-) => {
-  const encodedMessage = encodeURIComponent(errorMessage);
-  window.location.href = `/not-found?message=${encodedMessage}`;
 };
 
 /**
@@ -94,7 +82,7 @@ authClient.interceptors.request.use(
 
     return config;
   },
-  (error: AxiosError) => Promise.reject(error),
+  (error: AxiosError) => Promise.reject(error)
 );
 /**
  * 응답 인터셉터 - 인증 클라이언트
@@ -111,36 +99,20 @@ authClient.interceptors.response.use(
       // 401 에러 시 리다이렉트
       redirectToErrorPage(
         "인증이 필요하거나 만료되었습니다. 다시 로그인해 주세요.",
-        401,
+        401
       );
     }
     // 500 서버 에러 처리
     else if (error.response?.status === 500) {
       redirectToErrorPage(
         "서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.",
-        500,
+        500
       );
-    }
-    // 404 Not Found 처리
-    else if (error.response?.status === 404) {
-      redirectToNotFoundPage();
-    }
-    // 그 외 에러 처리
-    else {
-      const statusCode = error.response?.status || 500;
-      // 타입 에러 해결
-      const data = error.response?.data;
-      const errorMessage =
-        (typeof data === "object" && data !== null && "message" in data
-          ? (data.message as string)
-          : error.message) || "알 수 없는 오류가 발생했습니다.";
-
-      redirectToErrorPage(errorMessage, statusCode);
     }
 
     // 기타 오류는 그대로 전달
     return Promise.reject(error);
-  },
+  }
 );
 
 /**
@@ -154,28 +126,13 @@ client.interceptors.response.use(
     if (error.response?.status === 500) {
       redirectToErrorPage(
         "서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.",
-        500,
+        500
       );
     }
-    // 404 Not Found 처리
-    else if (error.response?.status === 404) {
-      redirectToNotFoundPage("요청한 리소스를 찾을 수 없습니다.");
-    }
-    // 그 외 에러 처리
-    else {
-      const statusCode = error.response?.status || 500;
-      // 타입 에러 해결
-      const data = error.response?.data;
-      const errorMessage =
-        (typeof data === "object" && data !== null && "message" in data
-          ? (data.message as string)
-          : error.message) || "알 수 없는 오류가 발생했습니다.";
 
-      redirectToErrorPage(errorMessage, statusCode);
-    }
 
     return Promise.reject(error);
-  },
+  }
 );
 
 /**
@@ -197,7 +154,7 @@ weatherClient.interceptors.response.use(
     redirectToErrorPage(errorMessage, statusCode);
 
     return Promise.reject(error);
-  },
+  }
 );
 
 /**

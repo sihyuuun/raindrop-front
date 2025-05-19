@@ -17,7 +17,6 @@ const AppRoutes = () => {
         <Route path="/auth/login/kakao" element={<KakaoAuthCallback />} />
         <Route path="/message" element={<MessagePage />} />
         <Route path="/500" element={<ErrorPage />} />
-        <Route path="/not-found" element={<NotFoundPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Suspense>
