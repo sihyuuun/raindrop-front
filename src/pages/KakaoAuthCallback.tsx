@@ -51,7 +51,8 @@ export default function KakaoAuthCallback() {
   useEffect(() => {
     if (isSceneLoaded) {
       console.log("scene 호출, 이동");
-      navigate(`/${sceneId}`);
+      console.log(sceneId);
+      navigate(`/${sceneId.data}`);
     }
   }, [isSceneLoaded]);
 
