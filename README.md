@@ -2,6 +2,7 @@
 
 **빗속말은 비오는 날에만 익명 메시지를 확인할 수 있는 모바일 웹 서비스입니다. 소중한 마음이 담긴 메시지를 받고, 비가 내리는 특별한 날에만 확인할 수 있는 설렘을 선사합니다.**
 
+### [배포 링크](https://raindrop-front.vercel.app/)
 
 <p align="center">🏡 LG U+ 유레카 2기 프론트엔드반 6조 미니 프로젝트</p>
 <p align="center"><img src=https://avatars.githubusercontent.com/u/202894428?s=200&v=4 /></p>
@@ -145,6 +146,3 @@
 
 ## 📄 라이센스
 MIT License
-
-## 📬 문의하기
-프로젝트에 관한 문의나 피드백은 [이슈](https://github.com/your-username/raindrop-front/issues)를 통해 남겨주세요.
