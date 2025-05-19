@@ -345,9 +345,9 @@ export const TeardropShape = ({
   const shapePoints = useMemo(() => {
     const curve = new CubicBezierCurve(
       new Vector2(0, 0.4), // 꼭짓점
-      new Vector2(0.04, 0.35), // 위쪽 완만한 곡선
-      new Vector2(0.2, 0.1), // 중간 통통한 부분
-      new Vector2(0.08, 0.0) // 바닥
+      new Vector2(0.03, 0.35), // 위쪽 완만한 곡선
+      new Vector2(0.25, 0.02), // 중간 통통한 부분
+      new Vector2(0.0, 0.0) // 바닥
     );
 
     return curve.getPoints(48);
@@ -355,16 +355,16 @@ export const TeardropShape = ({
 
   return (
     <group ref={teardropRef} position={position} onClick={onClick}>
-      <mesh position={[0,-0.1, 0]}>
+      <mesh position={[0,-0.2, 0]}>
         <latheGeometry args={[shapePoints, 64]} />
         <meshPhysicalMaterial {...getBaseMaterial(color, 0.6)} />
       </mesh>
 
       {/* 메인 텍스트 */}
-      <DropText text={mainText} position={[0, 0.08, 0.15]} fontSize={0.025} />
+      <DropText text={mainText} position={[0, 0, 0.15]} fontSize={0.025} />
       {/* 서브 텍스트 */}
       {subText && (
-        <DropText text={subText} position={[0, -0.02, 0.15]} fontSize={0.02} color="#666" />
+        <DropText text={subText} position={[0, -0.05, 0.15]} fontSize={0.02} color="#666" />
       )}
     </group>
   );
