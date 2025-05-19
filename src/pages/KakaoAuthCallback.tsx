@@ -37,10 +37,8 @@ export default function KakaoAuthCallback() {
 
     // 신규 유저면 scene 생성
     if (userInfo.newUser) {
-      console.log("새 유저입니다");
       postScene({ theme: DEFAULT_ENVIRONMENT_PRESET });
     } else if (isScenesSuccess) {
-      console.log("기존 유저입니다");
       navigate(`/${scenes.data}`, { replace: true });
     }
   }, [userInfo, isUserLoading, isAuthenticated, isScenesSuccess]);

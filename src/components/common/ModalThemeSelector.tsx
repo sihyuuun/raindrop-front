@@ -18,8 +18,9 @@ export const ModalThemeSelector = ({
   onSave,
   onPreview,
 }: ModalThemeSelectProps) => {
-  const { setPreset } = useSceneStore(); // hook 사용
-  const [themeIndex, setThemeIndex] = useState(0);
+  //scene theme 가져오기
+  const { setPreset, preset } = useSceneStore(); // hook 사용
+  const [themeIndex, setThemeIndex] = useState(themeKeys.indexOf(preset));
   const selectedKey = themeKeys[themeIndex]; // key로 sceneTheme 선택
   const selectedTheme = THEME_ICONS[selectedKey]; // key 기반 테마 정보 가져오기
 
@@ -73,7 +74,10 @@ export const ModalThemeSelector = ({
         <div className="bg-white rounded-3xl p-6 shadow-xl w-[330px]">
           <div className="flex items-center justify-center gap-4">
             <div className="flex items-center gap-1 text-5xl">
-              <button onClick={handlePrev} className="text-gray-400 hover:text-gray-600 text-2xl">
+              <button
+                onClick={handlePrev}
+                className="text-gray-400 hover:text-gray-600 text-2xl"
+              >
                 ❮
               </button>
               {/* 이미지 경로를 public/images/{imgUrl}.png 로 변경 */}
@@ -82,7 +86,10 @@ export const ModalThemeSelector = ({
                 alt={selectedTheme.name}
                 className="w-17 h-17 rounded-md object-cover"
               />
-              <button onClick={handleNext} className="text-gray-400 hover:text-gray-600 text-2xl">
+              <button
+                onClick={handleNext}
+                className="text-gray-400 hover:text-gray-600 text-2xl"
+              >
                 ❯
               </button>
             </div>

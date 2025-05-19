@@ -84,7 +84,7 @@ authClient.interceptors.response.use(
 
       // 또는 자동 로그아웃 처리
       // await logout();
-      console.log("401 error");
+      console.error("401 error");
     }
 
     // 기타 오류는 그대로 전달
