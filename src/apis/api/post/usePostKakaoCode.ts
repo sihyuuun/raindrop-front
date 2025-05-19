@@ -3,6 +3,7 @@
  */
 import { useMutation } from "@tanstack/react-query";
 import { client } from "../../client";
+import { useAuthStore } from "@/store/authStore";
 import { useEffect } from "react";
 
 // 응답 타입 정의
@@ -15,15 +16,18 @@ interface KakaoAuthResponse {
  * 카카오 인가 코드를 사용하여 로그인 처리를 수행하는 Mutation 훅
  */
 export const usePostKakaoCode = () => {
+  const { setAuthenticated } = useAuthStore();
   const mutation = useMutation<KakaoAuthResponse, Error, string>({
     mutationKey: ["login"],
     mutationFn: async (kakaoCode: string) => {
-      console.log("code post");
       const { data } = await client.post<KakaoAuthResponse>("/user/login", {
         code: kakaoCode,
       });
 
       return data;
+    },
+    onSuccess: () => {
+      setAuthenticated(true);
     },
   });
 
