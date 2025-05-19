@@ -48,7 +48,6 @@ export const MessagePage: React.FC = () => {
 
   const handleContentChange = (value: string) => {
     const trimmed = value.slice(0, 50); // 50자까지만 잘라냄
-    console.log("handleContentChange.......trimmed:", trimmed);
     setInputContent(trimmed);
   };
 
