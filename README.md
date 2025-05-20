@@ -53,11 +53,7 @@
 
 ## 🎬 시연 영상
 
-<p align="center">
-  <a href="https://www.youtube.com">
-    <img src="https://placehold.co/600x400/9DEEFB/333333?text=시연+영상+썸네일" alt="시연 영상 썸네일">
-  </a>
-</p>
+[![시연 영상 썸네일](https://img.youtube.com/vi/e1xyIYaqXM8/0.jpg)](https://www.youtube.com/shorts/e1xyIYaqXM8)
 
 ## 🛠️ 기술 스택
 
