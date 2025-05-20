@@ -92,7 +92,14 @@ export const SceneMessages = ({
             BubbleComponent={BubbleComponent}
             position={position}
             isPopAble={isOwner && !isLoading && isRainy(weather!.id)}
-            mainText={msg.nickname}
+            mainText={
+              isOwner && !isLoading && isRainy(weather!.id)
+                ? msg.content
+                : msg.nickname
+            }
+            subText={
+              isOwner && !isLoading && isRainy(weather!.id) ? msg.nickname : ""
+            }
             scale={2.3}
             onLongPress={() => handleLongPress(msg.messageId)}
           />
